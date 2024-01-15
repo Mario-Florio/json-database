@@ -15,13 +15,13 @@ it('Returns appropriate obj', () => {
             this.prop = prop;
         }
     }
-    const model1 = new ModelType('model 1')
+    const model1 = new ModelType('model 1');
     model1.save();
-    const model2 = new ModelType('model 2')
+    const model2 = new ModelType('model 2');
     model2.save();
-    const model3 = new ModelType('model 3')
+    const model3 = new ModelType('model 3');
     model3.save();
-    const model4 = new ModelType('model 4')
+    const model4 = new ModelType('model 4');
     model4.save();
 
     // _id
@@ -46,13 +46,13 @@ it('Returns all data if no arguments are passed', () => {
             this.prop = prop;
         }
     }
-    const model1 = new ModelType('model 1')
+    const model1 = new ModelType('model 1');
     model1.save();
-    const model2 = new ModelType('model 2')
+    const model2 = new ModelType('model 2');
     model2.save();
-    const model3 = new ModelType('model 3')
+    const model3 = new ModelType('model 3');
     model3.save();
-    const model4 = new ModelType('model 4')
+    const model4 = new ModelType('model 4');
     model4.save();
 
     const models = ModelType.find();
@@ -73,13 +73,13 @@ it('Returns null if classKeys are passed and no object is found', () => {
             this.prop = prop;
         }
     }
-    const model1 = new ModelType('model 1')
+    const model1 = new ModelType('model 1');
     model1.save();
-    const model2 = new ModelType('model 2')
+    const model2 = new ModelType('model 2');
     model2.save();
-    const model3 = new ModelType('model 3')
+    const model3 = new ModelType('model 3');
     model3.save();
-    const model4 = new ModelType('model 4')
+    const model4 = new ModelType('model 4');
     model4.save();
 
     const res = ModelType.find({ _id: 'sldkjvb' });

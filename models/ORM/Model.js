@@ -9,6 +9,52 @@ function createModel(dbName) {
             this.createdAt = new Date().toString();
         }
         static DB = db;
+        // SETUP
+        static queryMethodMap = {
+            //method: parameters
+            find: ['classKeys'],
+            findById: ['_id'],
+            findByIdAndUpdate: ['_id', 'updatedKeys'],
+            findByIdAndDelete: ['_id'],
+            findOne: ['classKeys'],
+            findOneAndUpdate: ['classKeys', 'updatedKeys'],
+            findOneAndDelete: ['classKeys'],
+        }
+        static setupModel(ModelType) {
+            for (const method in ModelType.queryMethodMap) {
+                ModelType[method] = function(...args) {
+                    if (Model.queryMethodMap[method].length === 1) {
+                        const res = Model[method](args[0]);
+                        return instantiateRes(res);
+                    }
+                    if (Model.queryMethodMap[method].length === 2) {
+                        const res = Model[method](args[0], args[1]);
+                        return instantiateRes(res);
+                    }
+                    function instantiateRes(res) {
+                        if (Array.isArray(res)) {
+                            for (let i = 0; i < res.length; i++) {
+                                const model = new ModelType().fromJson(res[i]);
+                                res[i] = model;
+                            }
+                            return res;
+                        }
+                        if (res) {
+                            const model = new ModelType().fromJson(res[i]);
+                            res = model;
+                            return res;
+                        }
+                        return res;
+                    }
+                }
+            }
+        }
+        fromJson(data) {
+            for (let key in data) {
+                this[key] = data[key];
+            }
+            return this;
+        }
         // READ
         static findById(_id) {
             if (!_id) return null;
