@@ -1,10 +1,14 @@
 const createModel = require('../Model.js');
 const fs = require('fs');
-const { it, assert, arraysEqual } = require('./utils.js');
+const { dbName, it, assert, arraysEqual } = require('./utils.js');
+
+if (fs.existsSync(dbName)) {
+    fs.unlinkSync(dbName);
+}
 
 console.log('------FIND_BY_ID_AND_UPDATE------');
 it('Update appropriate item with proper values', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(dbName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -32,7 +36,7 @@ it('Update appropriate item with proper values', () => {
     fs.unlinkSync(ModelType.DB.dbName);
 });
 it('Does not update _id & createdAt fields', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(dbName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -54,7 +58,7 @@ it('Does not update _id & createdAt fields', () => {
     fs.unlinkSync(ModelType.DB.dbName);
 });
 it('Returns null if no object is found', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(dbName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -74,7 +78,7 @@ it('Returns null if no object is found', () => {
     fs.unlinkSync(ModelType.DB.dbName);
 });
 it('Returns null if no arguments are passed', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(dbName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -93,7 +97,7 @@ it('Returns null if no arguments are passed', () => {
     fs.unlinkSync(ModelType.DB.dbName);
 });
 it('Returns null if database does not exist', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(dbName);
     class ModelType extends Model {
         constructor(prop) {
             super();

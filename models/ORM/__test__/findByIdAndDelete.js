@@ -1,10 +1,14 @@
 const createModel = require('../Model.js');
 const fs = require('fs');
-const { it, assert, arraysEqual } = require('./utils.js');
+const { dbName, it, assert, arraysEqual } = require('./utils.js');
+
+if (fs.existsSync(dbName)) {
+    fs.unlinkSync(dbName);
+}
 
 console.log('------FIND_BY_ID_AND_DELETE------');
 it('Deletes appropriate object', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(dbName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -30,7 +34,7 @@ it('Deletes appropriate object', () => {
     fs.unlinkSync(ModelType.DB.dbName);
 });
 it('Returns "Deletion successful" if deletion is successful', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(dbName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -47,7 +51,7 @@ it('Returns "Deletion successful" if deletion is successful', () => {
     fs.unlinkSync(ModelType.DB.dbName);
 });
 it('Returns "Item was not found" if no object is found', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(dbName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -70,7 +74,7 @@ it('Returns "Item was not found" if no object is found', () => {
     fs.unlinkSync(ModelType.DB.dbName);
 });
 it('Returns "Database does not exist" if database file does not exist', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(dbName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -83,7 +87,7 @@ it('Returns "Database does not exist" if database file does not exist', () => {
     assert(res === 'Database does not exist');
 });
 it('Returns "No item id was supplied" if no object _id is given', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(dbName);
     class ModelType extends Model {
         constructor(prop) {
             super();

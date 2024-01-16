@@ -1,4 +1,6 @@
 
+const dbName = './models/ORM/__test__/db-test';
+
 function it(desc, fn) {
     try {
         fn();
@@ -27,6 +29,7 @@ function arraysEqual(a, b) {
 }
 
 module.exports = {
+    dbName,
     it,
     assert,
     arraysEqual

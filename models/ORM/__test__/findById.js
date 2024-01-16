@@ -1,10 +1,14 @@
 const createModel = require('../Model.js');
 const fs = require('fs');
-const { it, assert, arraysEqual } = require('./utils.js');
+const { dbName, it, assert, arraysEqual } = require('./utils.js');
+
+if (fs.existsSync(dbName)) {
+    fs.unlinkSync(dbName);
+}
 
 console.log('------FIND_BY_ID------');
 it('Returns appropriate obj', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(dbName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -27,7 +31,7 @@ it('Returns appropriate obj', () => {
     fs.unlinkSync(ModelType.DB.dbName);
 });
 it('Returns null if no _id is passed', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(dbName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -40,7 +44,7 @@ it('Returns null if no _id is passed', () => {
     assert(res === null);
 });
 it('Returns null if no object is found', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(dbName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -63,7 +67,7 @@ it('Returns null if no object is found', () => {
     fs.unlinkSync(ModelType.DB.dbName);
 });
 it('Returns null if database does not exist', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(dbName);
     class ModelType extends Model {
         constructor(prop) {
             super();
