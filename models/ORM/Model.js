@@ -106,7 +106,6 @@ function createModel(dbName) {
 
             });
 
-            // if (classKeys && filteredData.length === 0) return null;
             return filteredData;
         }
         static findOne(classKeys) {
