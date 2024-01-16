@@ -65,7 +65,7 @@ it('Returns all data if no arguments are passed', () => {
 
     fs.unlinkSync(ModelType.DB.dbName);
 });
-it('Returns null if classKeys are passed and no object is found', () => {
+it('Returns empty array if classKeys are passed and no object is found', () => {
     const Model = createModel('./models/ORM/__test__/db-test');
     class ModelType extends Model {
         constructor(prop) {
@@ -84,11 +84,12 @@ it('Returns null if classKeys are passed and no object is found', () => {
 
     const res = ModelType.find({ _id: 'sldkjvb' });
 
-    // assert(res === null);
+    assert(Array.isArray(res));
+    assert(res.length === 0);
 
     fs.unlinkSync(ModelType.DB.dbName);
 });
-it('Returns empty array if database is empty (and no classKeys are passed)', () => {
+it('Returns empty array if database is empty', () => {
     const Model = createModel('./models/ORM/__test__/db-test');
     class ModelType extends Model {
         constructor(prop) {
@@ -101,7 +102,12 @@ it('Returns empty array if database is empty (and no classKeys are passed)', () 
     model1.save();
     Model.findByIdAndDelete(model1._id);
 
-    const res = ModelType.find();
+    let res = ModelType.find();
+    
+    assert(Array.isArray(res));
+    assert(res.length === 0);
+
+    res = ModelType.find({ _id: 'kldsjvb' });
     
     assert(Array.isArray(res));
     assert(res.length === 0);

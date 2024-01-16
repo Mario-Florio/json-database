@@ -106,13 +106,14 @@ function createModel(dbName) {
 
             });
 
-            if (classKeys && filteredData.length === 0) return null;
+            // if (classKeys && filteredData.length === 0) return null;
             return filteredData;
         }
         static findOne(classKeys) {
             const data = Model.find(classKeys);
-            if (data && data.length > 0) return data[0]; 
-            return data;
+            if (!data) return data;
+            if (data.length > 0) return data[0];
+            if (data.length === 0) return null;
         }
         // UPDATE
         static findByIdAndUpdate(_id, updatedKeys) {
