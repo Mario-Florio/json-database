@@ -26,18 +26,18 @@ it('Virtuals work', () => {
 
     fs.unlinkSync(Model.DB.dbName);
 });
-it('Virtuals work on queried data', () => {
+it('Virtuals work on queried data: find', () => {
     const Model = createModel('./models/ORM/__test__/db-test');
     class ModelType extends Model {
         constructor(prop) {
             super();
             this.prop = prop;
-            ModelType.setupModel(ModelType);
         }
         get virtualProp() {
             return `This is a virtual prop from ${this.prop}.`;
         }
     }
+    ModelType.setupModel(ModelType);
 
     const model1 = new ModelType('model 1');
     model1.save();
@@ -48,6 +48,54 @@ it('Virtuals work on queried data', () => {
 
     assert(models[0].virtualProp === "This is a virtual prop from model 1.");
     assert(models[1].virtualProp === "This is a virtual prop from model 2.");
+
+    const model = ModelType.find(model1);
+
+    assert(model[0].virtualProp === "This is a virtual prop from model 1.");
+
+    fs.unlinkSync(Model.DB.dbName);
+});
+it('Virtuals work on queried data: findById', () => {
+    const Model = createModel('./models/ORM/__test__/db-test');
+    class ModelType extends Model {
+        constructor(prop) {
+            super();
+            this.prop = prop;
+        }
+        get virtualProp() {
+            return `This is a virtual prop from ${this.prop}.`;
+        }
+    }
+    ModelType.setupModel(ModelType);
+
+    const model1 = new ModelType('model 1');
+    model1.save();
+
+    const model = ModelType.findById(model1._id);
+
+    assert(model.virtualProp === "This is a virtual prop from model 1.");
+
+    fs.unlinkSync(Model.DB.dbName);
+});
+it('Virtuals work on queried data: findOne', () => {
+    const Model = createModel('./models/ORM/__test__/db-test');
+    class ModelType extends Model {
+        constructor(prop) {
+            super();
+            this.prop = prop;
+        }
+        get virtualProp() {
+            return `This is a virtual prop from ${this.prop}.`;
+        }
+    }
+    ModelType.setupModel(ModelType);
+
+    const model1 = new ModelType('model 1');
+    model1.save();
+
+    const model = ModelType.findOne(model1);
+
+    assert(model.virtualProp === "This is a virtual prop from model 1.");
 
     fs.unlinkSync(Model.DB.dbName);
 });

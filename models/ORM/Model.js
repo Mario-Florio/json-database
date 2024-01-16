@@ -40,7 +40,7 @@ function createModel(dbName) {
                             return res;
                         }
                         if (res) {
-                            const model = new ModelType().fromJson(res[i]);
+                            const model = new ModelType().fromJson(res);
                             res = model;
                             return res;
                         }
