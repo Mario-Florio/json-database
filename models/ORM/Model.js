@@ -9,7 +9,7 @@ function createModel(dbName) {
             this.createdAt = new Date().toString();
         }
         static DB = db;
-        // SETUP
+        // SETUP QUERY RETURNS
         static queryMethodMap = {
             //method: parameters
             find: ['classKeys'],
@@ -119,9 +119,7 @@ function createModel(dbName) {
             const data = Model.findById(_id);
             if (data === null) return null;
             for (let key in updatedKeys) {
-                if (key === '_id' || key === 'createdAt') {
-                    // do nothing
-                } else {
+                if (!(key === '_id' || key === 'createdAt')) {
                     data[key] = updatedKeys[key];
                 }
             }
@@ -132,9 +130,7 @@ function createModel(dbName) {
             const data = Model.findOne(classKeys);
             if (data === null) return null;
             for (let key in updatedKeys) {
-                if (key === '_id' || key === 'createdAt') {
-                    // do nothing
-                } else {
+                if (!(key === '_id' || key === 'createdAt')) {
                     data[key] = updatedKeys[key];
                 }
             }
@@ -150,7 +146,7 @@ function createModel(dbName) {
             if (data === null) return Model.DB.delete('null');
             return Model.DB.delete(data._id);
         } 
-        // Create
+        // CREATE
         save() {
             return Model.DB.create(this);
         }
