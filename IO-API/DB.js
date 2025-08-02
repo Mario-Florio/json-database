@@ -1,11 +1,13 @@
 const IO_SERVICE = require("./IO-Service.js");
 
+const dbPath = process.env.DBPATH || './database/collections/';
+
 class DB {
     #dbFile;
     #IO_SERVICE;
 
-    constructor(dbFile) {
-        this.#dbFile = dbFile+'.json';
+    constructor(collectionName) {
+        this.#dbFile = dbPath+collectionName+'.json';
         this.#IO_SERVICE = IO_SERVICE;
     }
     instantiate() {

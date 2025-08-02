@@ -1,12 +1,12 @@
 const fs = require('fs');
 
-const dbPath = './database/collections/';
-const collectionName = `${dbPath}db-test`;
-const collectionPath = `${collectionName}.json`;
+const dbPath = process.env.DBPATH || './database/collections/';
+const collectionName = 'db-test';
+const collectionDbPath = `${dbPath}${collectionName}.json`;
 
 function cleanDatabase() {
-    if (fs.existsSync(collectionPath)) {
-        fs.unlinkSync(collectionPath);
+    if (fs.existsSync(collectionDbPath)) {
+        fs.unlinkSync(collectionDbPath);
     }
 }
 
