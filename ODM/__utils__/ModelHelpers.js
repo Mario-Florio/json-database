@@ -16,13 +16,6 @@ function mergeKeys(doc, updatedKeys) {
     return doc;
 }
 
-function filterCondition(doc, keys) {
-    for (const key in keys) {
-        if (doc[key] !== keys[key]) return false;
-    }
-    return true;
-}
-
 function lateConstructor(model, data) {
     for (const key in data) {
         model[key] = data[key];
@@ -43,6 +36,5 @@ function instantiateRes(response, SubModel) {
 module.exports = {
     uid,
     mergeKeys,
-    filterCondition,
     instantiateRes
 }

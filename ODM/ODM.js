@@ -1,5 +1,4 @@
 const documentController = require('../adapters/controllers/DocumentController.js');
-const { filterCondition } = require('./__utils__/ModelHelpers.js');
 const {
     uid,
     mergeKeys,
@@ -40,7 +39,12 @@ function createModel(collectionName) {
         static findById(_id) {
             if (!idIsValid(_id)) return null;
 
-            return Model.findOne({ _id });
+            const document = documentController.getOneDocument({
+                collectionId, 
+                keys: { _id: _id }
+            });
+
+            return document;
         }
         static find(classKeys) {
             const documents = documentController.getDocuments({
@@ -48,21 +52,17 @@ function createModel(collectionName) {
                 keys: classKeys
             });
 
-            const filtered = documents.filter(doc => filterCondition(doc, classKeys));
-
-            return filtered ?? null;
+            return documents;
         }
         static findOne(classKeys) {
             if (!keysAreValid(classKeys)) return null;
 
-            const documents = documentController.getDocuments({
-                collectionId,
+            const document = documentController.getOneDocument({
+                collectionId, 
                 keys: classKeys
-            });
+            });;
 
-            const doc = documents.find(doc => filterCondition(doc, classKeys));
-
-            return doc ?? null;
+            return document;
         }
         // UPDATE
         static findByIdAndUpdate(_id, updatedKeys) {
@@ -85,14 +85,14 @@ function createModel(collectionName) {
             if (!keysAreValid(classKeys)) return null;
             if (!keysAreValid(updatedKeys)) return null;
 
-            const doc = Model.findOne(classKeys);
+            const document = Model.findOne(classKeys);
 
-            if (!doc) return null;
-            const updatedDoc = mergeKeys(doc, updatedKeys);
+            if (!document) return null;
+            const updatedDoc = mergeKeys(document, updatedKeys);
 
             const response = documentController.updateDocument({
                 collectionId,
-                _id: doc._id,
+                _id: document._id,
                 updatedKeys: updatedDoc
             });
 
@@ -103,7 +103,7 @@ function createModel(collectionName) {
             if (!idIsValid(_id)) return null;
 
             const response = documentController.deleteDocument({ collectionId, _id });
-
+            
             return response;
         }
         static findOneAndDelete(classKeys) {
