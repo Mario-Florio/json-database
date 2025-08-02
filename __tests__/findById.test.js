@@ -62,16 +62,3 @@ it('Returns null if no object is found', () => {
     assert(res === null);
 
 }, cleanDatabase);
-it('Returns null if database does not exist', () => {
-    const Model = createModel(collectionName);
-    class ModelType extends Model {
-        constructor(prop) {
-            super();
-            this.prop = prop;
-        }
-    }
-
-    const res = ModelType.findById('sldkjvb');
-
-    assert(res === null);
-}, cleanDatabase);

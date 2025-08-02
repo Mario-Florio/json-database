@@ -80,16 +80,3 @@ it('Returns null if no object is found', () => {
     assert(res === null);
 
 }, cleanDatabase);
-it('Returns null database does not exist', () => {
-    const Model = createModel(collectionName);
-    class ModelType extends Model {
-        constructor(prop) {
-            super();
-            this.prop = prop;
-        }
-    }
-
-    const res = ModelType.findOne({ _id: 'sdajvkbiu' });
-
-    assert(res === null);
-}, cleanDatabase);

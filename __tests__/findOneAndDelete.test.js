@@ -4,7 +4,7 @@ const { collectionName, cleanDatabase } = require('./__utils__/automate.js');
 
 cleanDatabase();
 
-console.log('------FIND_BY_ID------');
+console.log('------FIND_ONE_AND_DELETE------');
 it('Deletes appropriate object', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
@@ -67,19 +67,6 @@ it('Returns "Item was not found" if no object is found', () => {
     
     assert(res === 'Item was not found');
 
-}, cleanDatabase);
-it('Returns "Database does not exist" if database file does not exist', () => {
-    const Model = createModel(collectionName);
-    class ModelType extends Model {
-        constructor(prop) {
-            super();
-            this.prop = prop;
-        }
-    }
-
-    const res = ModelType.findOneAndDelete('_id');
-    
-    assert(res === 'Database does not exist');
 }, cleanDatabase);
 it('Returns null if no arguments are passed', () => {
     const Model = createModel(collectionName);

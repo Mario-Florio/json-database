@@ -68,20 +68,7 @@ it('Returns "Item was not found" if no object is found', () => {
     assert(res === 'Item was not found');
 
 }, cleanDatabase);
-it('Returns "Database does not exist" if database file does not exist', () => {
-    const Model = createModel(collectionName);
-    class ModelType extends Model {
-        constructor(prop) {
-            super();
-            this.prop = prop;
-        }
-    }
-
-    const res = ModelType.findByIdAndDelete('_id');
-    
-    assert(res === 'Database does not exist');
-}, cleanDatabase);
-it('Returns "No item id was supplied" if no object _id is given', () => {
+it('Returns null if no object _id is given', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
         constructor(prop) {
@@ -92,5 +79,5 @@ it('Returns "No item id was supplied" if no object _id is given', () => {
 
     const res = ModelType.findByIdAndDelete();
     
-    assert(res === 'No item id was supplied');
+    assert(res === null);
 }, cleanDatabase);

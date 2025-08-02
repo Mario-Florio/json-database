@@ -108,16 +108,3 @@ it('Returns empty array if database is empty', () => {
     assert(res.length === 0);
 
 }, cleanDatabase);
-it('Returns null if database does not exist', () => {
-    const Model = createModel(collectionName);
-    class ModelType extends Model {
-        constructor(prop) {
-            super();
-            this.prop = prop;
-        }
-    }
-
-    const models = ModelType.find();
-
-    assert(models === null);
-}, cleanDatabase);

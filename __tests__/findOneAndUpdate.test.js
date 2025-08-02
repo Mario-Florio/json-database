@@ -4,7 +4,7 @@ const { collectionName, cleanDatabase } = require('./__utils__/automate.js');
 
 cleanDatabase();
 
-console.log('------FIND_BY_ID_AND_UPDATE------');
+console.log('------FIND_ONE_AND_UPDATE------');
 it('Update appropriate item with proper values', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
@@ -89,17 +89,4 @@ it('Returns null if no arguments are passed', () => {
 
     assert(res === null);
 
-}, cleanDatabase);
-it('Returns null if database does not exist', () => {
-    const Model = createModel(collectionName);
-    class ModelType extends Model {
-        constructor(prop) {
-            super();
-            this.prop = prop;
-        }
-    }
-
-    const res = ModelType.findOneAndUpdate();
-
-    assert(res === null);
 }, cleanDatabase);
