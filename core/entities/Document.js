@@ -1,4 +1,5 @@
 const isObject = require('../__utils__/isObject.js');
+const typeCheckMap = require('../__utils__/typeCheckMap.js');
 const CoreError = require('../__utils__/CoreError.js');
 
 const constKeys = ['_id', 'createdAt'];
@@ -18,7 +19,7 @@ class Document {
 
         return document;
     }
-        validateDoc(schema) {
+    validateDoc(schema) {
         if (typeof schema !== 'object' || typeof schema.constructor !== 'function' || schema.constructor.name !== 'Schema') {
             throw new CoreError('Invalid Type: schema must be an instance of Schema');
         }
