@@ -34,8 +34,7 @@ it('Returns appropriate obj', () => {
     model = ModelType.findOne({ _id: model3._id, prop: model3.prop });
     assert(model.prop === model3.prop);
 
-    cleanDatabase();
-});
+}, cleanDatabase);
 it('Returns first obj which meets criteria (in order of created first)', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
@@ -58,8 +57,7 @@ it('Returns first obj which meets criteria (in order of created first)', () => {
     assert(!model.length);
     assert(model._id === model1._id);
 
-    cleanDatabase();
-});
+}, cleanDatabase);
 it('Returns null if no object is found', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
@@ -81,8 +79,7 @@ it('Returns null if no object is found', () => {
 
     assert(res === null);
 
-    cleanDatabase();
-});
+}, cleanDatabase);
 it('Returns null database does not exist', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
@@ -95,4 +92,4 @@ it('Returns null database does not exist', () => {
     const res = ModelType.findOne({ _id: 'sdajvkbiu' });
 
     assert(res === null);
-});
+}, cleanDatabase);

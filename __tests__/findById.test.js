@@ -26,8 +26,7 @@ it('Returns appropriate obj', () => {
 
     assert(model.prop === 'model 3');
 
-    cleanDatabase();
-});
+}, cleanDatabase);
 it('Returns null if no _id is passed', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
@@ -40,7 +39,7 @@ it('Returns null if no _id is passed', () => {
     const res = ModelType.findById();
 
     assert(res === null);
-});
+}, cleanDatabase);
 it('Returns null if no object is found', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
@@ -62,8 +61,7 @@ it('Returns null if no object is found', () => {
 
     assert(res === null);
 
-    cleanDatabase();
-});
+}, cleanDatabase);
 it('Returns null if database does not exist', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
@@ -76,4 +74,4 @@ it('Returns null if database does not exist', () => {
     const res = ModelType.findById('sldkjvb');
 
     assert(res === null);
-});
+}, cleanDatabase);

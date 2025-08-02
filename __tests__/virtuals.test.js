@@ -22,8 +22,7 @@ it('Virtuals work', () => {
 
     assert(model.virtualProp === "This is a virtual prop from model.")
 
-    cleanDatabase();
-});
+}, cleanDatabase);
 it('Virtuals work on queried data: find', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
@@ -51,8 +50,7 @@ it('Virtuals work on queried data: find', () => {
 
     assert(model[0].virtualProp === "This is a virtual prop from model 1.");
 
-    cleanDatabase();
-});
+}, cleanDatabase);
 it('Virtuals work on queried data: findById', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
@@ -73,8 +71,7 @@ it('Virtuals work on queried data: findById', () => {
 
     assert(model.virtualProp === "This is a virtual prop from model 1.");
 
-    cleanDatabase();
-});
+}, cleanDatabase);
 it('Virtuals work on queried data: findOne', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
@@ -95,5 +92,4 @@ it('Virtuals work on queried data: findOne', () => {
 
     assert(model.virtualProp === "This is a virtual prop from model 1.");
 
-    cleanDatabase();
-});
+}, cleanDatabase);

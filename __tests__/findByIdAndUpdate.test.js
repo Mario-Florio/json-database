@@ -25,8 +25,7 @@ it('Update appropriate item with proper values', () => {
 
     assert(updatedModel2.prop === updatedProp);
 
-    cleanDatabase();
-});
+}, cleanDatabase);
 it('Does not update _id & createdAt fields', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
@@ -47,8 +46,7 @@ it('Does not update _id & createdAt fields', () => {
     assert(updatedModel._id === model._id);
     assert(updatedModel.createdAt === model.createdAt);
 
-    cleanDatabase();
-});
+}, cleanDatabase);
 it('Returns null if no object is found', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
@@ -67,8 +65,7 @@ it('Returns null if no object is found', () => {
 
     assert(res === null);
 
-    cleanDatabase();
-});
+}, cleanDatabase);
 it('Returns null if no arguments are passed', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
@@ -86,8 +83,7 @@ it('Returns null if no arguments are passed', () => {
 
     assert(res === null);
 
-    cleanDatabase();
-});
+}, cleanDatabase);
 it('Returns null if database does not exist', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
@@ -100,4 +96,4 @@ it('Returns null if database does not exist', () => {
     const res = ModelType.findByIdAndUpdate();
 
     assert(res === null);
-});
+}, cleanDatabase);

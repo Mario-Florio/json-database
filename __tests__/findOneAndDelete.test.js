@@ -29,8 +29,7 @@ it('Deletes appropriate object', () => {
     assert(models.length === 3);
     assert(models[2].prop !== model3.prop);
 
-    cleanDatabase();
-});
+}, cleanDatabase);
 it('Returns "Deletion successful" if deletion is successful', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
@@ -46,8 +45,7 @@ it('Returns "Deletion successful" if deletion is successful', () => {
     
     assert(res === 'Deletion successful');
 
-    cleanDatabase();
-});
+}, cleanDatabase);
 it('Returns "Item was not found" if no object is found', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
@@ -69,8 +67,7 @@ it('Returns "Item was not found" if no object is found', () => {
     
     assert(res === 'Item was not found');
 
-    cleanDatabase();
-});
+}, cleanDatabase);
 it('Returns "Database does not exist" if database file does not exist', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
@@ -83,7 +80,7 @@ it('Returns "Database does not exist" if database file does not exist', () => {
     const res = ModelType.findOneAndDelete('_id');
     
     assert(res === 'Database does not exist');
-});
+}, cleanDatabase);
 it('Returns null if no arguments are passed', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
@@ -96,4 +93,4 @@ it('Returns null if no arguments are passed', () => {
     const res = ModelType.findOneAndDelete();
     
     assert(res === null);
-});
+}, cleanDatabase);

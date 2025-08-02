@@ -34,8 +34,7 @@ it('Returns appropriate obj', () => {
     model = ModelType.find({ _id: model3._id, prop: model3.prop });
     assert(model[0].prop === model3.prop);
 
-    cleanDatabase();
-});
+}, cleanDatabase);
 it('Returns all data if no arguments are passed', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
@@ -61,8 +60,7 @@ it('Returns all data if no arguments are passed', () => {
     assert(models[2].prop === model3.prop);
     assert(models[3].prop === model4.prop);
 
-    cleanDatabase();
-});
+}, cleanDatabase);
 it('Returns empty array if classKeys are passed and no object is found', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
@@ -85,8 +83,7 @@ it('Returns empty array if classKeys are passed and no object is found', () => {
     assert(Array.isArray(res));
     assert(res.length === 0);
 
-    cleanDatabase();
-});
+}, cleanDatabase);
 it('Returns empty array if database is empty', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
@@ -110,8 +107,7 @@ it('Returns empty array if database is empty', () => {
     assert(Array.isArray(res));
     assert(res.length === 0);
 
-    cleanDatabase();
-});
+}, cleanDatabase);
 it('Returns null if database does not exist', () => {
     const Model = createModel(collectionName);
     class ModelType extends Model {
@@ -124,4 +120,4 @@ it('Returns null if database does not exist', () => {
     const models = ModelType.find();
 
     assert(models === null);
-});
+}, cleanDatabase);
