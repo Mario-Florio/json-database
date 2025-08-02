@@ -90,7 +90,7 @@ function createModel(collectionName) {
             if (!keysAreValid(classKeys)) return null;
 
             const data = Model.findOne(classKeys);
-            if (data === null) return 'Item was not found';
+            if (data === null) return { message: 'Item was not found' };
 
             return db.delete(data._id);
         } 

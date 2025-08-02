@@ -9,62 +9,65 @@ class DB {
         this.#IO_SERVICE = IO_SERVICE;
     }
     instantiate() {
-        if (!this.#dbFileExists()) {
+        try {
+            if (this.#dbFileExists()) throw new Error('Datebase already exists');
+
             this.#IO_SERVICE.writeFileSync({ path: this.#dbFile, data: JSON.stringify([]) });
-            return 'Instantiation successful';
-        } else {
-            return 'Datebase already exists';
+            return { message: 'Instantiation successful' };
+        } catch (err) {
+            return { message: err.message };
         }
     }
     create(obj) {
         try {
-            if (!obj) return 'Please provide data to save';
+            if (!obj) throw new Error('Please provide data to save');
+            if (!this.#dbFileExists()) throw new Error('Database does not exist');
 
             const data = this.read();
             data.push(obj);
             this.#IO_SERVICE.writeFileSync({ path: this.#dbFile, data: JSON.stringify(data) });
 
-            return 'Save successful';
+            return { message: 'Save successful' };
         } catch (err) {
-            return 'Save failed';
+            return { message: err.message };
         }
     }
     read() {
         try {
-            if (!this.#dbFileExists()) return 'Database does not exist';
+            if (!this.#dbFileExists()) throw new Error('Database does not exist');
 
             const json = this.#IO_SERVICE.readFileSync({ path: this.#dbFile, encoding: 'utf-8' });
             return JSON.parse(json);
         } catch(err) {
-            return 'Fetch failed';
+            return { message: err.message };
         }
     }
     update(_id, updatedObj) {
         try {
-            if (!_id) return 'No item id was supplied';
+            if (!_id) throw new Error('No item id was supplied');
 
             this.delete(_id);
             this.create(updatedObj);
-            return 'Update successful';
+            return { message: 'Update successful' };
         } catch(err) {
-            return 'Update failed';
+            return { message: err.message };
         }
     }
     delete(_id) {
         try {
-            if (!_id) return 'No item id was supplied';
-            if (!this.#dbFileExists()) return 'Database does not exist';
+            if (!_id) throw new Error('No item id was supplied');
+            if (!this.#dbFileExists()) throw new Error('Database does not exist');
 
             const data = this.read(this.#dbFile);
             const filteredData = data.filter(item => item._id !== _id);
 
-            if (data.length === filteredData.length) return 'Item was not found';
+            if (data.length === filteredData.length) throw new Error('Item was not found');
 
             this.#IO_SERVICE.writeFileSync({ path: this.#dbFile, data: JSON.stringify(filteredData) });
             
-            return 'Deletion successful';
+            return { message: 'Deletion successful' };
         } catch(err) {
-            return 'Deletion failed';
+            return { message: err.message };
         }
     }
     #dbFileExists() {

@@ -43,7 +43,7 @@ it('Returns "Deletion successful" if deletion is successful', () => {
 
     const res = ModelType.findByIdAndDelete(model._id);
     
-    assert(res === 'Deletion successful');
+    assert(res.message === 'Deletion successful');
 
 }, cleanDatabase);
 it('Returns "Item was not found" if no object is found', () => {
@@ -65,7 +65,7 @@ it('Returns "Item was not found" if no object is found', () => {
 
     const res = ModelType.findByIdAndDelete('sldkjvb');
     
-    assert(res === 'Item was not found');
+    assert(res.message === 'Item was not found');
 
 }, cleanDatabase);
 it('Returns null if no object _id is given', () => {
