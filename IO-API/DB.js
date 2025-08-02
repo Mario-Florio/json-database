@@ -70,6 +70,12 @@ class DB {
     #dbFileExists() {
         return this.#IO_SERVICE.existsSync({ path: this.#dbFile });
     }
+    setIO_SERVICE(stubIOService) {
+        if (typeof stubIOService !== 'object' || typeof stubIOService.constructor !== 'function' || stubIOService.constructor.name !== 'STUB_IO_SERVICE')
+            throw new Error('Invalid Type: schema must be an instance of Schema');
+
+        this.#IO_SERVICE = stubIOService;
+    }
 }
 
 module.exports = DB;
