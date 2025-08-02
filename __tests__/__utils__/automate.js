@@ -1,4 +1,4 @@
-const createModel = require('../../ODM/ODM.js');
+const ODM = require('../../ODM/ODM.js');
 const fs = require('fs');
 
 const dbPath = process.env.DBPATH || './database/collections/';
@@ -6,7 +6,13 @@ const collectionName = 'db-test';
 const collectionDbPath = `${dbPath}${collectionName}.json`;
 
 function setupSchema() {
-    const Model = createModel(collectionName);
+    const Schema = ODM.Schema;
+
+    const SchemaType = new Schema({
+        prop: { type: 'string', required: true }
+    });
+
+    const Model = ODM.model(collectionName, SchemaType);
     class ModelType extends Model {
         constructor(prop) {
             super();

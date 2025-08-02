@@ -1,3 +1,4 @@
+const Schema = require('../core/entities/Schema.js');
 const documentController = require('../adapters/controllers/DocumentController.js');
 const { uid, instantiateRes } = require('./__utils__/ModelHelpers.js');
 
@@ -12,7 +13,7 @@ const queryMethodMap = {
      findOneAndDelete: ['classKeys']
 };
 
-function createModel(collectionName) {
+function model(collectionName, schema) {
     const collectionId = collectionName;
 
     documentController.instantiateCollection({ collectionId });
@@ -71,6 +72,7 @@ function createModel(collectionName) {
             const response = documentController.updateDocument({
                 collectionId,
                 _id,
+                schema,
                 document,
                 updatedKeys
             });
@@ -88,6 +90,7 @@ function createModel(collectionName) {
             const response = documentController.updateDocument({
                 collectionId,
                 _id: document._id,
+                schema,
                 document,
                 updatedKeys
             });
@@ -119,6 +122,7 @@ function createModel(collectionName) {
         save() {
             const response = documentController.createDocument({
                 collectionId,
+                schema,
                 data: this
             });
 
@@ -140,4 +144,7 @@ function keysAreValid(keys) {
     return true;
 }
 
-module.exports = createModel;
+module.exports = {
+    Schema,
+    model
+};

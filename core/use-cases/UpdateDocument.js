@@ -8,6 +8,7 @@ class UpdateDocument extends DocumentRepositoryUseCase {
 
     execute(paramObj) {
         const updatedDoc = Document.mergeUpdate(paramObj.document, paramObj.updatedData);
+        updatedDoc.validateDoc(paramObj.schema);
 
         const response = this.repo.update(paramObj._id, updatedDoc);
         return response ?? null;
