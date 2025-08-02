@@ -1,4 +1,4 @@
-const DB = require('../IO-API/DB.js');
+const documentController = require('../adapters/controllers/DocumentController.js');
 const { filterCondition } = require('./__utils__/ModelHelpers.js');
 const {
     uid,
@@ -18,9 +18,9 @@ const queryMethodMap = {
 };
 
 function createModel(collectionName) {
-    const db = new DB(collectionName);
+    const collectionId = collectionName;
 
-    db.instantiate();
+    documentController.instantiateCollection({ collectionId });
 
     class Model {
         constructor() {
@@ -43,60 +43,90 @@ function createModel(collectionName) {
             return Model.findOne({ _id });
         }
         static find(classKeys) {
-            const dataCollection = db.read();
+            const documents = documentController.getDocuments({
+                collectionId,
+                keys: classKeys
+            });
 
-            const filteredData = dataCollection.filter(doc => filterCondition(doc, classKeys));
+            const filtered = documents.filter(doc => filterCondition(doc, classKeys));
 
-            return filteredData ?? null;
+            return filtered ?? null;
         }
         static findOne(classKeys) {
             if (!keysAreValid(classKeys)) return null;
 
-            const dataCollection = db.read();
+            const documents = documentController.getDocuments({
+                collectionId,
+                keys: classKeys
+            });
 
-            const data = dataCollection.find(doc => filterCondition(doc, classKeys));
+            const doc = documents.find(doc => filterCondition(doc, classKeys));
 
-            return data ?? null;
+            return doc ?? null;
         }
         // UPDATE
         static findByIdAndUpdate(_id, updatedKeys) {
             if (!keysAreValid(updatedKeys)) return null;
 
-            const data = Model.findById(_id);
+            const doc = Model.findById(_id);
 
-            if (!data) return null;
-            const updatedData = mergeKeys(data, updatedKeys);
+            if (!doc) return null;
+            const updatedDoc = mergeKeys(doc, updatedKeys);
 
-            return db.update(_id, updatedData);
+            const response = documentController.updateDocument({
+                collectionId,
+                _id,
+                updatedKeys: updatedDoc
+            });
+
+            return response;
         }
         static findOneAndUpdate(classKeys, updatedKeys) {
             if (!keysAreValid(classKeys)) return null;
             if (!keysAreValid(updatedKeys)) return null;
 
-            const data = Model.findOne(classKeys);
+            const doc = Model.findOne(classKeys);
 
-            if (data === null) return null;
-            const updatedData = mergeKeys(data, updatedKeys);
+            if (!doc) return null;
+            const updatedDoc = mergeKeys(doc, updatedKeys);
 
-            return db.update(data._id, updatedData);
+            const response = documentController.updateDocument({
+                collectionId,
+                _id: doc._id,
+                updatedKeys: updatedDoc
+            });
+
+            return response;
         }
         // DELETE
         static findByIdAndDelete(_id) {
             if (!idIsValid(_id)) return null;
 
-            return db.delete(_id);
+            const response = documentController.deleteDocument({ collectionId, _id });
+
+            return response;
         }
         static findOneAndDelete(classKeys) {
             if (!keysAreValid(classKeys)) return null;
 
-            const data = Model.findOne(classKeys);
-            if (data === null) return { message: 'Item was not found' };
+            const doc = Model.findOne(classKeys);
+            if (!doc) return { message: 'Item was not found' };
 
-            return db.delete(data._id);
+            const response = documentController.deleteDocument({
+                collectionId,
+                _id: doc._id
+            })
+
+            return response;
         } 
         // CREATE
         save() {
-            return db.create(this);
+            const response = documentController.createDocument({
+                collectionId,
+                data: this
+            });
+
+            return response;
         }
     }
     return Model;
