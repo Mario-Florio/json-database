@@ -1,12 +1,12 @@
 # JSON Database
 
-A lightweight JSON file–based database wrapper providing a simple ORM-like interface for Node.js projects.
+A lightweight JSON file–based database wrapper providing a simple ODM-like interface for Node.js projects.
 
 **This library is intended for local hobby projects, prototyping, or educational purposes to mock simple Mongoose/MongoDB-like methods. It is not designed for production use or serious data handling.**
 
 ## Overview
 
-This project exposes a `Model` class which acts as an API for CRUD operations on a JSON file. The low-level file operations are handled by the `DB` class internally; users interact only with the `Model` class and its subclasses.
+This project exposes a `Model` class which acts as an API for CRUD operations on a JSON file. The low-level file operations are handled by the `DB` class internally; users interact only with the `Model` class through its subclasses (which allow for customization of properties).
 
 ## Features
 
@@ -23,10 +23,16 @@ Copy the `database/DB.js` and `models/ORM/Model.js` files into your project or i
 ## Usage
 
 ```javascript
-const createModel = require('./models/ORM/Model.js');
+const ODM = require('json-database/ODM/ODM.js');
+
+// Create Schema for Model
+const Schema = ODM.Schema;
+const SchemaType = new Schema({
+    prop: { type: 'string', required: true }
+});
 
 // Create base Model class bound to a JSON file
-const Model = createModel('./path/to/db-file');
+const Model = ODM.model('user', SchemaType);
 
 // Define your model by extending the base class
 class User extends Model {
@@ -37,6 +43,9 @@ class User extends Model {
     this.email = email;
   }
 }
+
+// Setup model to instantiate query results
+Model.setupModel(User);
 
 // Create new instance and save it
 const user = new User('username', 'password', 'email@domain.com');
@@ -73,4 +82,4 @@ Notes and Limitations
 
 Testing
 
-Unit tests are included for both DB and Model classes under respective __test__ folders.
+End-to-end tests are provided and can be ran via shell script `e2e.test.sh`.
