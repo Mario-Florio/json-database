@@ -6,16 +6,6 @@ function uid() {
     return uid;
 }
 
-function mergeKeys(doc, updatedKeys) {
-    const constKeys = ['_id', 'createdAt'];
-
-    for (const key in updatedKeys) {
-        if (constKeys.includes(key)) continue;
-        doc[key] = updatedKeys[key];
-    }
-    return doc;
-}
-
 function lateConstructor(model, data) {
     for (const key in data) {
         model[key] = data[key];
@@ -35,6 +25,5 @@ function instantiateRes(response, SubModel) {
 
 module.exports = {
     uid,
-    mergeKeys,
     instantiateRes
 }

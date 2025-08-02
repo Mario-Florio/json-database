@@ -1,9 +1,5 @@
 const documentController = require('../adapters/controllers/DocumentController.js');
-const {
-    uid,
-    mergeKeys,
-    instantiateRes
-} = require('./__utils__/ModelHelpers.js');
+const { uid, instantiateRes } = require('./__utils__/ModelHelpers.js');
 
 const queryMethodMap = {
              //method: parameters
@@ -68,15 +64,15 @@ function createModel(collectionName) {
         static findByIdAndUpdate(_id, updatedKeys) {
             if (!keysAreValid(updatedKeys)) return null;
 
-            const doc = Model.findById(_id);
+            const document = Model.findById(_id);
 
-            if (!doc) return null;
-            const updatedDoc = mergeKeys(doc, updatedKeys);
+            if (!document) return null;
 
             const response = documentController.updateDocument({
                 collectionId,
                 _id,
-                updatedKeys: updatedDoc
+                document,
+                updatedKeys
             });
 
             return response;
@@ -88,12 +84,12 @@ function createModel(collectionName) {
             const document = Model.findOne(classKeys);
 
             if (!document) return null;
-            const updatedDoc = mergeKeys(document, updatedKeys);
 
             const response = documentController.updateDocument({
                 collectionId,
                 _id: document._id,
-                updatedKeys: updatedDoc
+                document,
+                updatedKeys
             });
 
             return response;

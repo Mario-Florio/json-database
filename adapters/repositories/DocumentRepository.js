@@ -1,3 +1,4 @@
+const Document = require('../../core/entities/Document.js');
 const DB = require('../../IO-API/DB.js');
 
 class DocumentRepository {
@@ -14,7 +15,7 @@ class DocumentRepository {
     }
     read() {
         const docs = this.#db.read();
-        return docs;
+        return docs.map(doc => new Document(doc));
     }
     update(_id, updatedObj) {
         return this.#db.update(_id, updatedObj);
