@@ -7,14 +7,19 @@ const UpdateDocument = require('../../core/use-cases/UpdateDocument.js');
 const DeleteDocument = require('../../core/use-cases/DeleteDocument.js');
 
 function instantiateCollection(paramObj) {
+    try {
         const repo = new DocumentRepository(paramObj.collectionId);
         const useCase = new InstantiateCollection(repo);
 
         const response = useCase.execute();
         return response;
+    } catch (err) {
+        return errorHandler(err);
+    }
 }
 
 function createDocument(paramObj) {
+    try {
         const repo = new DocumentRepository(paramObj.collectionId);
         const useCase = new SaveDocument(repo);
 
@@ -22,9 +27,13 @@ function createDocument(paramObj) {
 
         const response = useCase.execute({ data, schema });
         return response;
+    } catch (err) {
+        return errorHandler(err);
+    }
 }
 
 function getDocuments(paramObj) {
+    try {
         const repo = new DocumentRepository(paramObj.collectionId);
         const useCase = new FindDocuments(repo);
 
@@ -32,9 +41,13 @@ function getDocuments(paramObj) {
 
         const doc = useCase.execute({ keys });
         return doc;
+    } catch (err) {
+        return errorHandler(err);
+    }
 }
 
 function getOneDocument(paramObj) {
+    try {
         const repo = new DocumentRepository(paramObj.collectionId);
         const useCase = new FindOneDocument(repo);
 
@@ -42,9 +55,13 @@ function getOneDocument(paramObj) {
 
         const doc = useCase.execute({ keys });
         return doc;
+    } catch (err) {
+        return errorHandler(err);
+    }
 }
 
 function updateDocument(paramObj) {
+    try {
         const repo = new DocumentRepository(paramObj.collectionId);
         const useCase = new UpdateDocument(repo);
 
@@ -58,9 +75,13 @@ function updateDocument(paramObj) {
         });
 
         return response;
+    } catch (err) {
+        return errorHandler(err);
+    }
 }
 
 function deleteDocument(paramObj) {
+    try {
         const repo = new DocumentRepository(paramObj.collectionId);
         const useCase = new DeleteDocument(repo);
 
@@ -68,6 +89,15 @@ function deleteDocument(paramObj) {
 
         const response = useCase.execute({ _id });
         return response;
+    } catch (err) {
+        return errorHandler(err);
+    }
+}
+
+// UTILS
+function errorHandler(err) {
+    if (err.severity && err.isSevere()) throw new Error(err.message);
+    return { message: err.message };
 }
 
 module.exports = {
