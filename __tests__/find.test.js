@@ -1,25 +1,26 @@
-const createModel = require('../ODM/ODM.js');
+const {
+    setupSchema,
+    getModelInstances,
+    getPropsArr,
+    cleanDatabase
+} = require('./__utils__/automate.js');
 const { it, assert } = require('./__utils__/test-tools.js');
-const { collectionName, cleanDatabase } = require('./__utils__/automate.js');
-
-cleanDatabase();
 
 console.log('------FIND------');
 it('Returns appropriate obj', () => {
-    const Model = createModel(collectionName);
-    class ModelType extends Model {
-        constructor(prop) {
-            super();
-            this.prop = prop;
-        }
-    }
-    const model1 = new ModelType('model 1');
+    const ModelType = setupSchema();
+    const propsArr = getPropsArr(4);
+
+    const [
+        model1,
+        model2,
+        model3,
+        model4
+    ] = getModelInstances(4, ModelType, propsArr);
+
     model1.save();
-    const model2 = new ModelType('model 2');
     model2.save();
-    const model3 = new ModelType('model 3');
     model3.save();
-    const model4 = new ModelType('model 4');
     model4.save();
 
     // _id
@@ -36,20 +37,19 @@ it('Returns appropriate obj', () => {
 
 }, cleanDatabase);
 it('Returns all data if no arguments are passed', () => {
-    const Model = createModel(collectionName);
-    class ModelType extends Model {
-        constructor(prop) {
-            super();
-            this.prop = prop;
-        }
-    }
-    const model1 = new ModelType('model 1');
+    const ModelType = setupSchema();
+    const propsArr = getPropsArr(4);
+
+    const [
+        model1,
+        model2,
+        model3,
+        model4
+    ] = getModelInstances(4, ModelType, propsArr);
+
     model1.save();
-    const model2 = new ModelType('model 2');
     model2.save();
-    const model3 = new ModelType('model 3');
     model3.save();
-    const model4 = new ModelType('model 4');
     model4.save();
 
     const models = ModelType.find();
@@ -62,20 +62,19 @@ it('Returns all data if no arguments are passed', () => {
 
 }, cleanDatabase);
 it('Returns empty array if classKeys are passed and no object is found', () => {
-    const Model = createModel(collectionName);
-    class ModelType extends Model {
-        constructor(prop) {
-            super();
-            this.prop = prop;
-        }
-    }
-    const model1 = new ModelType('model 1');
+    const ModelType = setupSchema();
+    const propsArr = getPropsArr(4);
+
+    const [
+        model1,
+        model2,
+        model3,
+        model4
+    ] = getModelInstances(4, ModelType, propsArr);
+
     model1.save();
-    const model2 = new ModelType('model 2');
     model2.save();
-    const model3 = new ModelType('model 3');
     model3.save();
-    const model4 = new ModelType('model 4');
     model4.save();
 
     const res = ModelType.find({ _id: 'sldkjvb' });
@@ -85,17 +84,13 @@ it('Returns empty array if classKeys are passed and no object is found', () => {
 
 }, cleanDatabase);
 it('Returns empty array if database is empty', () => {
-    const Model = createModel(collectionName);
-    class ModelType extends Model {
-        constructor(prop) {
-            super();
-            this.prop = prop;
-        }
-    }
+    const ModelType = setupSchema();
+    const propsArr = getPropsArr(1);
 
-    const model1 = new ModelType('model 1');
+    const [ model1 ] = getModelInstances(1, ModelType, propsArr);
+    
     model1.save();
-    Model.findByIdAndDelete(model1._id);
+    ModelType.findByIdAndDelete(model1._id);
 
     let res = ModelType.find();
     

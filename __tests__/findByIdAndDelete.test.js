@@ -1,25 +1,26 @@
-const createModel = require('../ODM/ODM.js');
+const {
+    setupSchema,
+    cleanDatabase,
+    getPropsArr,
+    getModelInstances
+} = require('./__utils__/automate.js');
 const { it, assert } = require('./__utils__/test-tools.js');
-const { collectionName, cleanDatabase } = require('./__utils__/automate.js');
-
-cleanDatabase();
 
 console.log('------FIND_BY_ID_AND_DELETE------');
 it('Deletes appropriate object', () => {
-    const Model = createModel(collectionName);
-    class ModelType extends Model {
-        constructor(prop) {
-            super();
-            this.prop = prop;
-        }
-    }
-    const model1 = new ModelType('model 1')
+    const ModelType = setupSchema();
+    const propsArr = getPropsArr(4);
+
+    const [
+        model1,
+        model2,
+        model3,
+        model4
+    ] = getModelInstances(4, ModelType, propsArr);
+
     model1.save();
-    const model2 = new ModelType('model 2')
     model2.save();
-    const model3 = new ModelType('model 3')
     model3.save();
-    const model4 = new ModelType('model 4')
     model4.save();
 
     ModelType.findByIdAndDelete(model3._id);
@@ -30,54 +31,42 @@ it('Deletes appropriate object', () => {
     assert(models[2].prop !== model3.prop);
 
 }, cleanDatabase);
-it('Returns "Deletion successful" if deletion is successful', () => {
-    const Model = createModel(collectionName);
-    class ModelType extends Model {
-        constructor(prop) {
-            super();
-            this.prop = prop;
-        }
-    }
-    const model = new ModelType('model')
-    model.save();
+it('Returns "Deletion successful" message if deletion is successful', () => {
+    const ModelType = setupSchema();
+    const propsArr = getPropsArr(1);
 
-    const res = ModelType.findByIdAndDelete(model._id);
-    
+    const [ model1 ] = getModelInstances(1, ModelType, propsArr);
+    model1.save();
+
+    const res = ModelType.findByIdAndDelete(model1._id);
+
     assert(res.message === 'Deletion successful');
 
 }, cleanDatabase);
-it('Returns "Item was not found" if no object is found', () => {
-    const Model = createModel(collectionName);
-    class ModelType extends Model {
-        constructor(prop) {
-            super();
-            this.prop = prop;
-        }
-    }
-    const model1 = new ModelType('model 1')
+it('Returns "Item was not found" message if no object is found', () => {
+    const ModelType = setupSchema();
+    const propsArr = getPropsArr(4);
+
+    const [
+        model1,
+        model2,
+        model3,
+        model4
+    ] = getModelInstances(4, ModelType, propsArr);
+
     model1.save();
-    const model2 = new ModelType('model 2')
     model2.save();
-    const model3 = new ModelType('model 3')
     model3.save();
-    const model4 = new ModelType('model 4')
     model4.save();
 
     const res = ModelType.findByIdAndDelete('sldkjvb');
-    
-    assert(res.message === 'Item was not found');
 
+    assert(res.message === 'Item was not found');
 }, cleanDatabase);
-it('Returns null if no object _id is given', () => {
-    const Model = createModel(collectionName);
-    class ModelType extends Model {
-        constructor(prop) {
-            super();
-            this.prop = prop;
-        }
-    }
+it('Returns null message if no object _id is given', () => {
+    const ModelType = setupSchema();
 
     const res = ModelType.findByIdAndDelete();
     
     assert(res === null);
-}, cleanDatabase);
+});
