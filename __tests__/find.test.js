@@ -1,14 +1,12 @@
-const createModel = require('../Model.js');
-const fs = require('fs');
-const { it, assert, arraysEqual } = require('./utils.js');
+const createModel = require('../ODM/ODM.js');
+const { it, assert } = require('./__utils__/test-tools.js');
+const { collectionName, cleanDatabase } = require('./__utils__/automate.js');
 
-if (fs.existsSync('./models/ORM/__test__/db-test')) {
-    fs.unlinkSync('./models/ORM/__test__/db-test');
-}
+cleanDatabase();
 
 console.log('------FIND------');
 it('Returns appropriate obj', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(collectionName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -36,10 +34,10 @@ it('Returns appropriate obj', () => {
     model = ModelType.find({ _id: model3._id, prop: model3.prop });
     assert(model[0].prop === model3.prop);
 
-    fs.unlinkSync(ModelType.DB.dbName);
+    cleanDatabase();
 });
 it('Returns all data if no arguments are passed', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(collectionName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -63,10 +61,10 @@ it('Returns all data if no arguments are passed', () => {
     assert(models[2].prop === model3.prop);
     assert(models[3].prop === model4.prop);
 
-    fs.unlinkSync(ModelType.DB.dbName);
+    cleanDatabase();
 });
 it('Returns empty array if classKeys are passed and no object is found', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(collectionName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -87,10 +85,10 @@ it('Returns empty array if classKeys are passed and no object is found', () => {
     assert(Array.isArray(res));
     assert(res.length === 0);
 
-    fs.unlinkSync(ModelType.DB.dbName);
+    cleanDatabase();
 });
 it('Returns empty array if database is empty', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(collectionName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -112,10 +110,10 @@ it('Returns empty array if database is empty', () => {
     assert(Array.isArray(res));
     assert(res.length === 0);
 
-    fs.unlinkSync(ModelType.DB.dbName);
+    cleanDatabase();
 });
 it('Returns null if database does not exist', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(collectionName);
     class ModelType extends Model {
         constructor(prop) {
             super();

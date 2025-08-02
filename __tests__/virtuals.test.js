@@ -1,14 +1,12 @@
-const createModel = require('../Model.js');
-const fs = require('fs');
-const { it, assert, arraysEqual } = require('./utils.js');
+const createModel = require('../ODM/ODM.js');
+const { it, assert } = require('./__utils__/test-tools.js');
+const { collectionName, cleanDatabase } = require('./__utils__/automate.js');
 
-if (fs.existsSync('./models/ORM/__test__/db-test')) {
-    fs.unlinkSync('./models/ORM/__test__/db-test');
-}
+cleanDatabase();
 
 console.log('------VIRTUALS------');
 it('Virtuals work', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(collectionName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -24,10 +22,10 @@ it('Virtuals work', () => {
 
     assert(model.virtualProp === "This is a virtual prop from model.")
 
-    fs.unlinkSync(Model.DB.dbName);
+    cleanDatabase();
 });
 it('Virtuals work on queried data: find', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(collectionName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -53,10 +51,10 @@ it('Virtuals work on queried data: find', () => {
 
     assert(model[0].virtualProp === "This is a virtual prop from model 1.");
 
-    fs.unlinkSync(Model.DB.dbName);
+    cleanDatabase();
 });
 it('Virtuals work on queried data: findById', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(collectionName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -75,10 +73,10 @@ it('Virtuals work on queried data: findById', () => {
 
     assert(model.virtualProp === "This is a virtual prop from model 1.");
 
-    fs.unlinkSync(Model.DB.dbName);
+    cleanDatabase();
 });
 it('Virtuals work on queried data: findOne', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(collectionName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -97,5 +95,5 @@ it('Virtuals work on queried data: findOne', () => {
 
     assert(model.virtualProp === "This is a virtual prop from model 1.");
 
-    fs.unlinkSync(Model.DB.dbName);
+    cleanDatabase();
 });

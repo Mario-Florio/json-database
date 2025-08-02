@@ -1,4 +1,4 @@
-const DB = require('../../database/DB.js');
+const DB = require('../IO-API/DB.js');
 
 function createModel(dbName) {
     const db = new DB(dbName);

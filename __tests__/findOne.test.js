@@ -1,14 +1,12 @@
-const createModel = require('../Model.js');
-const fs = require('fs');
-const { dbName, it, assert, arraysEqual } = require('./utils.js');
+const createModel = require('../ODM/ODM.js');
+const { it, assert } = require('./__utils__/test-tools.js');
+const { collectionName, cleanDatabase } = require('./__utils__/automate.js');
 
-if (fs.existsSync(dbName)) {
-    fs.unlinkSync(dbName);
-}
+cleanDatabase();
 
 console.log('------FIND_ONE------');
 it('Returns appropriate obj', () => {
-    const Model = createModel(dbName);
+    const Model = createModel(collectionName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -36,10 +34,10 @@ it('Returns appropriate obj', () => {
     model = ModelType.findOne({ _id: model3._id, prop: model3.prop });
     assert(model.prop === model3.prop);
 
-    fs.unlinkSync(ModelType.DB.dbName);
+    cleanDatabase();
 });
 it('Returns first obj which meets criteria (in order of created first)', () => {
-    const Model = createModel(dbName);
+    const Model = createModel(collectionName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -60,10 +58,10 @@ it('Returns first obj which meets criteria (in order of created first)', () => {
     assert(!model.length);
     assert(model._id === model1._id);
 
-    fs.unlinkSync(ModelType.DB.dbName);
+    cleanDatabase();
 });
 it('Returns null if no object is found', () => {
-    const Model = createModel(dbName);
+    const Model = createModel(collectionName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -83,10 +81,10 @@ it('Returns null if no object is found', () => {
 
     assert(res === null);
 
-    fs.unlinkSync(ModelType.DB.dbName);
+    cleanDatabase();
 });
 it('Returns null database does not exist', () => {
-    const Model = createModel(dbName);
+    const Model = createModel(collectionName);
     class ModelType extends Model {
         constructor(prop) {
             super();

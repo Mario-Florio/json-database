@@ -1,14 +1,12 @@
-const createModel = require('../Model.js');
-const fs = require('fs');
-const { it, assert, arraysEqual } = require('./utils.js');
+const createModel = require('../ODM/ODM.js');
+const { it, assert } = require('./__utils__/test-tools.js');
+const { collectionName, cleanDatabase } = require('./__utils__/automate.js');
 
-if (fs.existsSync('./models/ORM/__test__/db-test')) {
-    fs.unlinkSync('./models/ORM/__test__/db-test');
-}
+cleanDatabase();
 
-console.log('------FIND_BY_ID------');
+console.log('------FIND_BY_ID_AND_DELETE------');
 it('Deletes appropriate object', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(collectionName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -24,17 +22,17 @@ it('Deletes appropriate object', () => {
     const model4 = new ModelType('model 4')
     model4.save();
 
-    ModelType.findOneAndDelete({ _id: model3._id });
+    ModelType.findByIdAndDelete(model3._id);
     
     const models = ModelType.find();
 
     assert(models.length === 3);
     assert(models[2].prop !== model3.prop);
 
-    fs.unlinkSync(ModelType.DB.dbName);
+    cleanDatabase()
 });
 it('Returns "Deletion successful" if deletion is successful', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(collectionName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -44,14 +42,14 @@ it('Returns "Deletion successful" if deletion is successful', () => {
     const model = new ModelType('model')
     model.save();
 
-    const res = ModelType.findOneAndDelete({ _id: model._id });
+    const res = ModelType.findByIdAndDelete(model._id);
     
     assert(res === 'Deletion successful');
 
-    fs.unlinkSync(ModelType.DB.dbName);
+    cleanDatabase()
 });
 it('Returns "Item was not found" if no object is found', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(collectionName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -67,14 +65,14 @@ it('Returns "Item was not found" if no object is found', () => {
     const model4 = new ModelType('model 4')
     model4.save();
 
-    const res = ModelType.findOneAndDelete({ _id: 'sldkjvb' });
+    const res = ModelType.findByIdAndDelete('sldkjvb');
     
     assert(res === 'Item was not found');
 
-    fs.unlinkSync(ModelType.DB.dbName);
+    cleanDatabase()
 });
 it('Returns "Database does not exist" if database file does not exist', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+    const Model = createModel(collectionName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -82,12 +80,12 @@ it('Returns "Database does not exist" if database file does not exist', () => {
         }
     }
 
-    const res = ModelType.findOneAndDelete('_id');
+    const res = ModelType.findByIdAndDelete('_id');
     
     assert(res === 'Database does not exist');
 });
-it('Returns null if no arguments are passed', () => {
-    const Model = createModel('./models/ORM/__test__/db-test');
+it('Returns "No item id was supplied" if no object _id is given', () => {
+    const Model = createModel(collectionName);
     class ModelType extends Model {
         constructor(prop) {
             super();
@@ -95,7 +93,7 @@ it('Returns null if no arguments are passed', () => {
         }
     }
 
-    const res = ModelType.findOneAndDelete();
+    const res = ModelType.findByIdAndDelete();
     
-    assert(res === null);
+    assert(res === 'No item id was supplied');
 });
