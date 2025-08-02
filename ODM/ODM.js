@@ -1,6 +1,9 @@
 const Schema = require('../core/entities/Schema.js');
 const documentController = require('../adapters/controllers/DocumentController.js');
+const getStubController = require('./__utils__/StubController.js');
 const { uid, instantiateRes } = require('./__utils__/ModelHelpers.js');
+
+const stubController = getStubController();
 
 const queryMethodMap = {
              //method: parameters
@@ -13,8 +16,9 @@ const queryMethodMap = {
      findOneAndDelete: ['classKeys']
 };
 
-function model(collectionName, schema) {
+function model(collectionName, schema, stub = false) {
     const collectionId = collectionName;
+    const controller = stub ? stubController : documentController;
 
     documentController.instantiateCollection({ collectionId });
 
@@ -36,7 +40,7 @@ function model(collectionName, schema) {
         static findById(_id) {
             if (!idIsValid(_id)) return null;
 
-            const document = documentController.getOneDocument({
+            const document = controller.getOneDocument({
                 collectionId, 
                 keys: { _id: _id }
             });
@@ -44,7 +48,7 @@ function model(collectionName, schema) {
             return document;
         }
         static find(classKeys) {
-            const documents = documentController.getDocuments({
+            const documents = controller.getDocuments({
                 collectionId,
                 keys: classKeys
             });
@@ -54,7 +58,7 @@ function model(collectionName, schema) {
         static findOne(classKeys) {
             if (!keysAreValid(classKeys)) return null;
 
-            const document = documentController.getOneDocument({
+            const document = controller.getOneDocument({
                 collectionId, 
                 keys: classKeys
             });;
@@ -69,7 +73,7 @@ function model(collectionName, schema) {
 
             if (!document) return null;
 
-            const response = documentController.updateDocument({
+            const response = controller.updateDocument({
                 collectionId,
                 _id,
                 schema,
@@ -87,7 +91,7 @@ function model(collectionName, schema) {
 
             if (!document) return null;
 
-            const response = documentController.updateDocument({
+            const response = controller.updateDocument({
                 collectionId,
                 _id: document._id,
                 schema,
@@ -101,7 +105,7 @@ function model(collectionName, schema) {
         static findByIdAndDelete(_id) {
             if (!idIsValid(_id)) return null;
 
-            const response = documentController.deleteDocument({ collectionId, _id });
+            const response = controller.deleteDocument({ collectionId, _id });
             
             return response;
         }
@@ -111,7 +115,7 @@ function model(collectionName, schema) {
             const doc = Model.findOne(classKeys);
             if (!doc) return { message: 'Item was not found' };
 
-            const response = documentController.deleteDocument({
+            const response = controller.deleteDocument({
                 collectionId,
                 _id: doc._id
             })
@@ -120,7 +124,7 @@ function model(collectionName, schema) {
         } 
         // CREATE
         save() {
-            const response = documentController.createDocument({
+            const response = controller.createDocument({
                 collectionId,
                 schema,
                 data: this
