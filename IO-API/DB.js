@@ -1,50 +1,48 @@
-const fs = require('fs');
+const IO_SERVICE = require("./IO-Service.js");
 
 class DB {
-    constructor(dbName) {
-        this.dbName = dbName+'.json';
+    #dbFile;
+    #IO_SERVICE;
+
+    constructor(dbFile) {
+        this.#dbFile = dbFile+'.json';
+        this.#IO_SERVICE = IO_SERVICE;
     }
     instantiate() {
-        if (!fs.existsSync(this.dbName)) {
-            fs.writeFileSync(this.dbName, JSON.stringify([]));
+        if (!this.#dbFileExists()) {
+            this.#IO_SERVICE.writeFileSync({ path: this.#dbFile, data: JSON.stringify([]) });
             return 'Instantiation successful';
         } else {
             return 'Datebase already exists';
         }
     }
     create(obj) {
-        if (!obj) {
-            return 'Please provide data to save';
-        }
         try {
-            if (fs.existsSync(this.dbName)) {
-                const data = this.read(this.dbName);
-                data.push(obj);
-                fs.writeFileSync(this.dbName, JSON.stringify(data));
-                return 'Save successful';
-            } else {
-                fs.writeFileSync(this.dbName, JSON.stringify([obj]));
-                return 'Save successful';
-            }
+            if (!obj) return 'Please provide data to save';
+
+            const data = this.read();
+            data.push(obj);
+            this.#IO_SERVICE.writeFileSync({ path: this.#dbFile, data: JSON.stringify(data) });
+
+            return 'Save successful';
         } catch (err) {
             return 'Save failed';
         }
     }
     read() {
         try {
-            if (!fs.existsSync(this.dbName)) {
-                return 'Database does not exist';
-            } else {
-                const data = fs.readFileSync(this.dbName, 'utf-8');
-                return JSON.parse(data);
-            }
+            if (!this.#dbFileExists()) return 'Database does not exist';
+
+            const json = this.#IO_SERVICE.readFileSync({ path: this.#dbFile, encoding: 'utf-8' });
+            return JSON.parse(json);
         } catch(err) {
             return 'Fetch failed';
         }
     }
     update(_id, updatedObj) {
-        if (!_id) return 'No item id was supplied';
         try {
+            if (!_id) return 'No item id was supplied';
+
             this.delete(_id);
             this.create(updatedObj);
             return 'Update successful';
@@ -53,23 +51,24 @@ class DB {
         }
     }
     delete(_id) {
-        if (!_id) return 'No item id was supplied';
         try {
-            if (!fs.existsSync(this.dbName)) {
-                return 'Database does not exist';
-            } else {
-                const data = this.read(this.dbName);
-                const filteredData = data.filter(item => item._id !== _id);
-                if (data.length === filteredData.length) {
-                    return 'Item was not found';
-                } else {
-                    fs.writeFileSync(this.dbName, JSON.stringify(filteredData));
-                    return 'Deletion successful';
-                }
-            }
+            if (!_id) return 'No item id was supplied';
+            if (!this.#dbFileExists()) return 'Database does not exist';
+
+            const data = this.read(this.#dbFile);
+            const filteredData = data.filter(item => item._id !== _id);
+
+            if (data.length === filteredData.length) return 'Item was not found';
+
+            this.#IO_SERVICE.writeFileSync({ path: this.#dbFile, data: JSON.stringify(filteredData) });
+            
+            return 'Deletion successful';
         } catch(err) {
             return 'Deletion failed';
         }
+    }
+    #dbFileExists() {
+        return this.#IO_SERVICE.existsSync({ path: this.#dbFile });
     }
 }
 
