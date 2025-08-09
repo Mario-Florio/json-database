@@ -5,6 +5,7 @@ const FindDocuments = require('../../core/use-cases/FindDocuments.js');
 const SaveDocument = require('../../core/use-cases/SaveDocument.js');
 const UpdateDocument = require('../../core/use-cases/UpdateDocument.js');
 const DeleteDocument = require('../../core/use-cases/DeleteDocument.js');
+const ContractError = require('../../shared/contracts/__utils__/ContractError.js');
 
 function instantiateCollection(paramObj) {
     try {
@@ -98,7 +99,7 @@ function deleteDocument(paramObj) {
 
 // UTILS
 function errorHandler(err) {
-    if (err.severity && err.isSevere()) throw new Error(err.message);
+    if (err instanceof ContractError) throw new ContractError(err.message);
     return { message: err.message };
 }
 

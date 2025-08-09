@@ -1,4 +1,6 @@
 const DocumentRepositoryUseCase = require('./UseCase.js');
+const Document = require('../entities/Document.js');
+const { uphold } = require('../../shared/contracts/contracts.js');
 
 class FindOneDocument extends DocumentRepositoryUseCase {
     constructor(repo) {
@@ -9,6 +11,7 @@ class FindOneDocument extends DocumentRepositoryUseCase {
         const { keys } = paramObj;
 
         const documents = this.repo.read();
+        uphold(documents.every(document => document instanceof Document), 'DocumentRepository must only return Document instances');
         const document = documents.find(document => document.hasKeys(keys));
 
         return document ?? null;

@@ -1,21 +1,22 @@
-const isObject = require('./__utils__/isObject.js');
+const validateKeyMetaData = require('./__utils__/validateKeyMetaData.js');
 const constKeys = require('./__utils__/constKeys.js');
 const typeCheckMap = require('./__utils__/typeCheckMap.js');
 const Document = require('./Document.js');
-const CoreError = require('./__utils__/CoreError.js');
+const { guarantee } = require('../../shared/contracts/contracts.js');
 
 class Schema {
     constructor(keyMetaData) {
-        if (!isObject(keyMetaData)) throw new CoreError('Invalid Type: content must be object');
-        for (const key in keyMetaData) {
-            if (!isObject(keyMetaData[key])) throw new CoreError('Invalid Type: content must be object');
-            this[key] = keyMetaData[key];
+        validateKeyMetaData(keyMetaData);
+        for (const field of Object.keys(keyMetaData)) {
+            this[field] = keyMetaData[field];
         }
+        guarantee(
+            Object.keys(this).length === Object.keys(keyMetaData).length,
+            'Schema must have same amount of keys as keyMetaData'
+        );
     }
     validateDoc(document) {
-        if (!(document instanceof Document)) {
-            throw new CoreError('Invalid Type: document must be an instance of document');
-        }
+        if (!(document instanceof Document)) return false;
 
         // Check all required document fields are present and valid
         for (const key of Object.keys(this)) {
@@ -23,15 +24,15 @@ class Schema {
             const value = document[key];
 
             if (required && value === undefined) {
-                throw new CoreError(`Missing required field: '${key}'`);
+                return false;
             }
 
             if (value !== undefined) {
                 if (!typeCheckMap[type]) {
-                    throw new CoreError(`Unsupported type '${type}' in document for key '${key}'`);
+                    return false;
                 }
                 if (!typeCheckMap[type](value)) {
-                    throw new CoreError(`Type mismatch on key '${key}': expected '${type}'`);
+                    return false;
                 }
             }
         }
@@ -40,7 +41,7 @@ class Schema {
         for (const key of Object.keys(this)) {
             if (constKeys.includes(key)) continue;
             if (!this.hasOwnProperty(key)) {
-                throw new CoreError(`Unexpected field '${key}' not defined in document`);
+                return false;
             }
         }
 
