@@ -27,28 +27,42 @@ const ODM = require('json-database/ODM/ODM.js');
 
 // Create Schema for Model
 const Schema = ODM.Schema;
-const SchemaType = new Schema({
-    prop: { type: 'string', required: true }
+const UserSchema = new Schema({
+    username: { type: 'string', required: true },
+    password: { type: 'string', required: true },
+    email: { type: 'string' },
+    firstName: { type: 'string', required: true },
+    lastName: { type: 'string', required: true }
 });
 
 // Create base Model class bound to a JSON file
-const Model = ODM.model('user', SchemaType);
+const UserModel = ODM.model('user', UserSchema);
 
 // Define your model by extending the base class
-class User extends Model {
-  constructor(username, password, email) {
-    super();
-    this.username = username;
-    this.password = password;
-    this.email = email;
-  }
+class User extends UserModel {
+    constructor({ username, password, email, firstName, lastName }) {
+        super();
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+    get fullName = function() {
+        return `${this.firstName} ${this.lastName}`;
+    }
 }
 
 // Setup model to instantiate query results
-Model.setupModel(User);
+UserModel.setupModel(User);
 
 // Create new instance and save it
-const user = new User('username', 'password', 'email@domain.com');
+const user = new User({
+    username: 'username',
+    password: 'password',
+    firstName: 'firstName',
+    lastName: 'lastName'
+});
 user.save();
 
 // Query by keys
@@ -61,6 +75,8 @@ const userFoundByID = User.findById(user._id);
 User.findByIdAndUpdate(user._id, { password: 'password1234' });
 User.findByIdAndDelete(user._id);
 ```
+
+**Disclaimer: *Base models (e.g. `UserModel`) create a closure-scoped, JSON file singletons. Each base model should only have one sub class (e.g. `User`), used for customizing properties. Multiple model extensions will cause data mutation.***
 
 ## API Reference
 
