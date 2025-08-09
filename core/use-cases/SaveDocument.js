@@ -1,5 +1,5 @@
 const Document = require('../entities/Document.js');
-const DocumentRepositoryUseCase = require('./__utils__/UseCase.js');
+const DocumentRepositoryUseCase = require('./UseCase.js');
 
 class SaveDocument extends DocumentRepositoryUseCase {
     constructor(repo) {
@@ -7,10 +7,12 @@ class SaveDocument extends DocumentRepositoryUseCase {
     }
 
     execute(paramObj) {
-        const document = new Document(paramObj.data);
-        document.validateDoc(paramObj.schema);
+        const { schema, data } = paramObj;
+
+        const document = new Document(data);
+        schema.validateDoc(document);
         
-        const response = this.repo.create(paramObj.data);
+        const response = this.repo.create(document);
         return response ?? null;
     }
 }

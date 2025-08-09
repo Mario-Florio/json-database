@@ -1,11 +1,13 @@
-const DocumentRepositoryUseCase = require('./__utils__/UseCase.js');
+const DocumentRepositoryUseCase = require('./UseCase.js');
 
 class DeleteDocument extends DocumentRepositoryUseCase {
     constructor(repo) {
         super(repo);
     }
     execute(paramObj) {
-        const response = this.repo.delete(paramObj._id);
+        const { _id } = paramObj;
+
+        const response = this.repo.delete(_id);
         return response ?? null;
     }
 }

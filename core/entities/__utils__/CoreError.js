@@ -1,4 +1,4 @@
-const ErrorEntity = require('../entities/ErrorEntity.js');
+const ErrorEntity = require('../ErrorEntity.js');
 
 const severity = 1;
 

@@ -1,6 +1,7 @@
 const IO_SERVICE = require("./IO-Service.js");
+const config = require('../config.js');
 
-const dbPath = process.env.DBPATH || './database/collections/';
+const dbPath = process.env.DBPATH || config.DBPATH;
 
 class DB {
     #dbFile;

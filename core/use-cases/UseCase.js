@@ -1,5 +1,5 @@
-const implementsInterface = require('./implementsInterface.js');
-const IDocumentRepository = require('../../ports/IDocumentRepository.js');
+const implementsInterface = require('./__utils__/implementsInterface.js');
+const IDocumentRepository = require('../ports/IDocumentRepository.js');
 
 class DocumentRepoUseCase {
     #repo;

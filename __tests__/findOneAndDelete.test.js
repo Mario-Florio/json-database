@@ -4,7 +4,7 @@ const {
     getPropsArr,
     cleanDatabase
 } = require('./__utils__/automate.js');
-const { it, assert } = require('./__utils__/test-tools.js');
+const { it, assert } = require('../shared/testing/test-tools.js');
 
 console.log('------FIND_ONE_AND_DELETE------');
 it('Deletes appropriate object', () => {

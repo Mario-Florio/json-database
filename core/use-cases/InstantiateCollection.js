@@ -1,4 +1,4 @@
-const DocumentRepositoryUseCase = require('./__utils__/UseCase.js');
+const DocumentRepositoryUseCase = require('./UseCase.js');
 
 class InstantiateCollection extends DocumentRepositoryUseCase {
     constructor(repo) {

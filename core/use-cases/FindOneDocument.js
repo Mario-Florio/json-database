@@ -1,5 +1,4 @@
-const DocumentRepositoryUseCase = require('./__utils__/UseCase.js');
-const filterCondition = require('./__utils__/filterCondition.js');
+const DocumentRepositoryUseCase = require('./UseCase.js');
 
 class FindOneDocument extends DocumentRepositoryUseCase {
     constructor(repo) {
@@ -7,10 +6,12 @@ class FindOneDocument extends DocumentRepositoryUseCase {
     }
 
     execute(paramObj) {
-        const documents = this.repo.read();
-        const doc = documents.find(doc => filterCondition(doc, paramObj.keys));
+        const { keys } = paramObj;
 
-        return doc ?? null;
+        const documents = this.repo.read();
+        const document = documents.find(document => document.hasKeys(keys));
+
+        return document ?? null;
     }
 }
 

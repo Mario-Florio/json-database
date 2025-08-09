@@ -8,7 +8,9 @@ const DeleteDocument = require('../../core/use-cases/DeleteDocument.js');
 
 function instantiateCollection(paramObj) {
     try {
-        const repo = new DocumentRepository(paramObj.collectionId);
+        const { collectionId } = paramObj;
+
+        const repo = new DocumentRepository(collectionId);
         const useCase = new InstantiateCollection(repo);
 
         const response = useCase.execute();
@@ -20,10 +22,10 @@ function instantiateCollection(paramObj) {
 
 function createDocument(paramObj) {
     try {
-        const repo = new DocumentRepository(paramObj.collectionId);
-        const useCase = new SaveDocument(repo);
+        const { collectionId, data, schema } = paramObj;
 
-        const { data, schema } = paramObj;
+        const repo = new DocumentRepository(collectionId);
+        const useCase = new SaveDocument(repo);
 
         const response = useCase.execute({ data, schema });
         return response;
@@ -34,13 +36,13 @@ function createDocument(paramObj) {
 
 function getDocuments(paramObj) {
     try {
-        const repo = new DocumentRepository(paramObj.collectionId);
+        const { collectionId, keys } = paramObj;
+
+        const repo = new DocumentRepository(collectionId);
         const useCase = new FindDocuments(repo);
 
-        const { keys } = paramObj;
-
-        const doc = useCase.execute({ keys });
-        return doc;
+        const document = useCase.execute({ keys });
+        return document;
     } catch (err) {
         return errorHandler(err);
     }
@@ -48,13 +50,13 @@ function getDocuments(paramObj) {
 
 function getOneDocument(paramObj) {
     try {
-        const repo = new DocumentRepository(paramObj.collectionId);
+        const { collectionId, keys } = paramObj;
+
+        const repo = new DocumentRepository(collectionId);
         const useCase = new FindOneDocument(repo);
 
-        const { keys } = paramObj;
-
-        const doc = useCase.execute({ keys });
-        return doc;
+        const document = useCase.execute({ keys });
+        return document;
     } catch (err) {
         return errorHandler(err);
     }
@@ -62,16 +64,16 @@ function getOneDocument(paramObj) {
 
 function updateDocument(paramObj) {
     try {
-        const repo = new DocumentRepository(paramObj.collectionId);
-        const useCase = new UpdateDocument(repo);
+        const { collectionId, _id, schema, data, updatedKeys } = paramObj;
 
-        const { _id, schema, document, updatedKeys } = paramObj;
+        const repo = new DocumentRepository(collectionId);
+        const useCase = new UpdateDocument(repo);
 
         const response = useCase.execute({
             _id,
             schema,
-            document,
-            updatedData: updatedKeys
+            data,
+            updatedKeys
         });
 
         return response;
@@ -82,10 +84,10 @@ function updateDocument(paramObj) {
 
 function deleteDocument(paramObj) {
     try {
-        const repo = new DocumentRepository(paramObj.collectionId);
-        const useCase = new DeleteDocument(repo);
+        const { collectionId, _id } = paramObj;
 
-        const { _id } = paramObj;
+        const repo = new DocumentRepository(collectionId);
+        const useCase = new DeleteDocument(repo);
 
         const response = useCase.execute({ _id });
         return response;

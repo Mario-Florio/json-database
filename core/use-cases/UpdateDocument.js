@@ -1,5 +1,5 @@
 const Document = require('../entities/Document.js');
-const DocumentRepositoryUseCase = require('./__utils__/UseCase.js');
+const DocumentRepositoryUseCase = require('./UseCase.js');
 
 class UpdateDocument extends DocumentRepositoryUseCase {
     constructor(repo) {
@@ -7,10 +7,12 @@ class UpdateDocument extends DocumentRepositoryUseCase {
     }
 
     execute(paramObj) {
-        const updatedDoc = Document.mergeUpdate(paramObj.document, paramObj.updatedData);
-        updatedDoc.validateDoc(paramObj.schema);
+        const { schema, _id, data, updatedKeys } = paramObj;
 
-        const response = this.repo.update(paramObj._id, updatedDoc);
+        const updatedDoc = new Document(data).mergeKeys(updatedKeys);
+        schema.validateDoc(updatedDoc);
+
+        const response = this.repo.update(_id, updatedDoc);
         return response ?? null;
     }
 }

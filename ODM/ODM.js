@@ -77,7 +77,7 @@ function model(collectionName, schema, stub = false) {
                 collectionId,
                 _id,
                 schema,
-                document,
+                data: document,
                 updatedKeys
             });
 
@@ -95,7 +95,7 @@ function model(collectionName, schema, stub = false) {
                 collectionId,
                 _id: document._id,
                 schema,
-                document,
+                data: document,
                 updatedKeys
             });
 
@@ -112,12 +112,12 @@ function model(collectionName, schema, stub = false) {
         static findOneAndDelete(classKeys) {
             if (!keysAreValid(classKeys)) return null;
 
-            const doc = Model.findOne(classKeys);
-            if (!doc) return { message: 'Item was not found' };
+            const document = Model.findOne(classKeys);
+            if (!document) return { message: 'Item was not found' };
 
             const response = controller.deleteDocument({
                 collectionId,
-                _id: doc._id
+                _id: document._id
             })
 
             return response;
