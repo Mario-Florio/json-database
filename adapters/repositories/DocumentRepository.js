@@ -1,5 +1,6 @@
 const Document = require('../../core/entities/Document.js');
 const DB = require('../../IO-API/DB.js');
+const { uphold } = require('../../shared/contracts/contracts.js');
 
 class DocumentRepository {
     #db;
@@ -10,15 +11,20 @@ class DocumentRepository {
     instantiate() {
         return this.#db.instantiate();
     }
-    create(obj) {
-        return this.#db.create(obj);
+    create(document) {
+        uphold(document instanceof Document, 'DocumentRepositoryUseCases must only input Document instances');
+        return this.#db.create(document);
     }
     read() {
-        const docs = this.#db.read();
-        return docs.map(doc => new Document(doc));
+        const result = this.#db.read();
+
+        if (!result.success) return [];
+
+        return result.data.map(doc => new Document(doc));
     }
-    update(_id, updatedObj) {
-        return this.#db.update(_id, updatedObj);
+    update(_id, updatedDoc) {
+        uphold(updatedDoc instanceof Document, 'DocumentRepositoryUseCases must only input Document instances');
+        return this.#db.update(_id, updatedDoc);
     }
     delete(_id) {
         return this.#db.delete(_id);
