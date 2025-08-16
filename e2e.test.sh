@@ -1,9 +1,9 @@
 
-node ./__tests__/find.test.js
-node ./__tests__/findById.test.js
-node ./__tests__/findByIdAndDelete.test.js
-node ./__tests__/findByIdAndUpdate.test.js
-node ./__tests__/findOne.test.js
-node ./__tests__/findOneAndDelete.test.js
-node ./__tests__/findOneAndUpdate.test.js
-node ./__tests__/virtuals.test.js
+node ./__tests__/e2e/find.test.js
+node ./__tests__/e2e/findById.test.js
+node ./__tests__/e2e/findByIdAndDelete.test.js
+node ./__tests__/e2e/findByIdAndUpdate.test.js
+node ./__tests__/e2e/findOne.test.js
+node ./__tests__/e2e/findOneAndDelete.test.js
+node ./__tests__/e2e/findOneAndUpdate.test.js
+node ./__tests__/e2e/virtuals.test.js
