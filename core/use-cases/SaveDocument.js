@@ -10,7 +10,9 @@ class SaveDocument extends DocumentRepositoryUseCase {
         const { schema, data } = paramObj;
 
         const document = new Document(data);
-        schema.validateDoc(document);
+        const isValid = schema.validateDoc(document);
+
+        if (!isValid) return { message: DOC_IS_INVALID, success: false };
         
         const response = this.repo.create(document);
         return response;
