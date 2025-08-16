@@ -14,7 +14,7 @@ class FindDocuments extends DocumentRepositoryUseCase {
         uphold(documents.every(document => document instanceof Document), 'DocumentRepository must only return Document instances');
         const filtered = documents.filter(document => document.hasKeys(keys));
 
-        return filtered ?? null;
+        return filtered;
     }
 }
 

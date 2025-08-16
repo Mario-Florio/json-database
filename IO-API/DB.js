@@ -70,7 +70,7 @@ class DB {
     }
     setIO_SERVICE(stubIOService) {
         if (typeof stubIOService !== 'object' || typeof stubIOService.constructor !== 'function' || stubIOService.constructor.name !== 'STUB_IO_SERVICE')
-            throw new Error('Invalid Type: schema must be an instance of Schema');
+            throw new TypeError('stubIOService must be instance of STUB_IO_SERVICE');
 
         this.#IO_SERVICE = stubIOService;
     }

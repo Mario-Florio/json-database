@@ -13,7 +13,7 @@ class SaveDocument extends DocumentRepositoryUseCase {
         schema.validateDoc(document);
         
         const response = this.repo.create(document);
-        return response ?? null;
+        return response;
     }
 }
 

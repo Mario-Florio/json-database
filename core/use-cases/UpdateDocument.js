@@ -13,7 +13,7 @@ class UpdateDocument extends DocumentRepositoryUseCase {
         schema.validateDoc(updatedDoc);
 
         const response = this.repo.update(_id, updatedDoc);
-        return response ?? null;
+        return response;
     }
 }
 

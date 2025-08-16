@@ -6,14 +6,10 @@ const { uid, instantiateRes } = require('./__utils__/ModelHelpers.js');
 const stubController = getStubController();
 
 const queryMethodMap = {
-             //method: parameters
-                 find: ['classKeys'],
-             findById: ['_id'],
-              findOne: ['classKeys'],
-    findByIdAndUpdate: ['_id', 'updatedKeys'],
-    findByIdAndDelete: ['_id'],
-     findOneAndUpdate: ['classKeys', 'updatedKeys'],
-     findOneAndDelete: ['classKeys']
+    //method: parameters
+        find: ['classKeys'],
+    findById: ['_id'],
+     findOne: ['classKeys']
 };
 
 function model(collectionName, schema, stub = false) {

@@ -8,7 +8,7 @@ class DeleteDocument extends DocumentRepositoryUseCase {
         const { _id } = paramObj;
 
         const response = this.repo.delete(_id);
-        return response ?? null;
+        return response;
     }
 }
 
