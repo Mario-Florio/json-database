@@ -1,7 +1,9 @@
-const Document = require('../Document.js');
-const constKeys = require('../__utils__/constKeys.js');
-const isObject = require('../__utils__/isObject.js');
-const { it, assert } = require('../../../shared/testing/test-tools.js');
+const {
+    Document,
+    constKeys,
+    isObject,
+    it, assert
+} = require('./imports.js');
 
 console.log('-----DOCUMENT-----');
 

@@ -1,6 +1,6 @@
 const DocumentRepositoryUseCase = require('./UseCase.js');
 const Document = require('../entities/Document.js');
-const { uphold } = require('../../shared/contracts/contracts.js');
+const { uphold } = require('./imports.js');
 
 class FindDocuments extends DocumentRepositoryUseCase {
     constructor(repo) {

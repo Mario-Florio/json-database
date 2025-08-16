@@ -4,7 +4,7 @@ const {
     getPropsArr,
     cleanDatabase
 } = require('./__utils__/automate.js');
-const { it, assert } = require('../shared/testing/test-tools.js');
+const { it, assert } = require('./imports.js');
 
 console.log('------FIND------');
 it('Returns appropriate obj', () => {

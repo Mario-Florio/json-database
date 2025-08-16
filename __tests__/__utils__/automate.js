@@ -1,7 +1,7 @@
-const ODM = require('../../ODM/ODM.js');
+const { ODM, config } = require('../imports.js');
 const fs = require('fs');
 
-const dbPath = process.env.DBPATH || './database/collections/';
+const dbPath = process.env.DBPATH || config.DBPATH;
 const collectionName = 'db-test';
 const collectionDbPath = `${dbPath}${collectionName}.json`;
 

@@ -1,9 +1,10 @@
-const Schema = require('../Schema.js');
-const constKeys = require('../__utils__/constKeys.js');
-const typeCheckMap = require('../__utils__/typeCheckMap.js');
-const Document = require('../Document.js');
-const isObject = require('../__utils__/isObject.js');
-const { it, assert } = require('../../../shared/testing/test-tools.js');
+const {
+    Schema,
+    Document,
+    typeCheckMap,
+    isObject,
+    it, assert
+} = require('./imports.js');
 
 const TYPE = 'type';
 const requiredProps = [TYPE];

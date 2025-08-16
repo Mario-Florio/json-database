@@ -4,7 +4,11 @@ const {
     getPropsArr,
     getModelInstances
 } = require('./__utils__/automate.js');
-const { it, assert } = require('../shared/testing/test-tools.js');
+const {
+    it, assert,
+    DELETE_SUCCESSFUL,
+    ITEM_NOT_FOUND
+} = require('./imports.js');
 
 console.log('------FIND_BY_ID_AND_DELETE------');
 it('Deletes appropriate object', () => {
@@ -40,7 +44,7 @@ it('Returns "Deletion successful" message if deletion is successful', () => {
 
     const res = ModelType.findByIdAndDelete(model1._id);
 
-    assert(res.message === 'Deletion successful');
+    assert(res.message === DELETE_SUCCESSFUL);
 
 }, cleanDatabase);
 it('Returns "Item was not found" message if no object is found', () => {
@@ -61,7 +65,7 @@ it('Returns "Item was not found" message if no object is found', () => {
 
     const res = ModelType.findByIdAndDelete('sldkjvb');
 
-    assert(res.message === 'Item was not found');
+    assert(res.message === ITEM_NOT_FOUND);
 }, cleanDatabase);
 it('Returns null message if no object _id is given', () => {
     const ModelType = setupSchema();

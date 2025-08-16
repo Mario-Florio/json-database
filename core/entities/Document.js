@@ -1,6 +1,5 @@
-const isObject = require('./__utils__/isObject.js');
 const constKeys = require('./__utils__/constKeys.js');
-const { must } = require('../../shared/contracts/contracts.js');
+const { isObject, must } = require('./imports.js');
 
 class Document {
     constructor(content) {

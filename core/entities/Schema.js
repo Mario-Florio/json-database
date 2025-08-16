@@ -2,7 +2,7 @@ const validateKeyMetaData = require('./__utils__/validateKeyMetaData.js');
 const constKeys = require('./__utils__/constKeys.js');
 const typeCheckMap = require('./__utils__/typeCheckMap.js');
 const Document = require('./Document.js');
-const { guarantee } = require('../../shared/contracts/contracts.js');
+const { guarantee } = require('./imports.js');
 
 class Schema {
     constructor(keyMetaData) {

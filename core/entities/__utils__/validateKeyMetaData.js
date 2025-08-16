@@ -1,4 +1,4 @@
-const isObject = require('./isObject.js');
+const { isObject } = require('../imports.js');
 const typeCheckMap = require('./typeCheckMap.js');
 
 const TYPE = 'type';
