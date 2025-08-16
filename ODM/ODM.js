@@ -36,28 +36,37 @@ function model(collectionName, schema, stub = false) {
         static findById(_id) {
             if (!idIsValid(_id)) return null;
 
-            const document = controller.getOneDocument({
+            const response = controller.getOneDocument({
                 collectionId, 
                 keys: { _id: _id }
             });
 
+            if (response.success === false) return null;
+            const document = response.data;
+
             return document;
         }
         static find(classKeys) {
-            const documents = controller.getDocuments({
+            const response = controller.getDocuments({
                 collectionId,
-                keys: classKeys
+                keys: classKeys || {}
             });
+
+            if (response.success === false) return null;
+            const documents = response.data;
 
             return documents;
         }
         static findOne(classKeys) {
             if (!keysAreValid(classKeys)) return null;
 
-            const document = controller.getOneDocument({
+            const response = controller.getOneDocument({
                 collectionId, 
                 keys: classKeys
-            });;
+            });
+
+            if (response.success === false) return null;
+            const document = response.data;
 
             return document;
         }

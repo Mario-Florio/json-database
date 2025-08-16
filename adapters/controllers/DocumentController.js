@@ -5,10 +5,17 @@ const FindDocuments = require('../../core/use-cases/FindDocuments.js');
 const SaveDocument = require('../../core/use-cases/SaveDocument.js');
 const UpdateDocument = require('../../core/use-cases/UpdateDocument.js');
 const DeleteDocument = require('../../core/use-cases/DeleteDocument.js');
+const Schema = require('../../core/entities/Schema.js');
+const Result = require('../../core/entities/Result.js');
+const isObject = require('../../shared/__utils__/isObject.js');
 const ContractError = require('../../shared/contracts/__utils__/ContractError.js');
+
+const INPUT_IS_INVALID = 'Input is invalid';
 
 function instantiateCollection(paramObj) {
     try {
+        if (!inputIsValid(paramObj)) return new Result({ message: INPUT_IS_INVALID, success: false });
+
         const { collectionId } = paramObj;
 
         const repo = new DocumentRepository(collectionId);
@@ -23,6 +30,8 @@ function instantiateCollection(paramObj) {
 
 function createDocument(paramObj) {
     try {
+        if (!inputIsValid(paramObj)) return new Result({ message: INPUT_IS_INVALID, success: false });
+
         const { collectionId, data, schema } = paramObj;
 
         const repo = new DocumentRepository(collectionId);
@@ -37,13 +46,17 @@ function createDocument(paramObj) {
 
 function getDocuments(paramObj) {
     try {
+        if (!inputIsValid(paramObj)) return new Result({ message: INPUT_IS_INVALID, success: false });
+
         const { collectionId, keys } = paramObj;
 
         const repo = new DocumentRepository(collectionId);
         const useCase = new FindDocuments(repo);
 
-        const document = useCase.execute({ keys });
-        return document;
+        const documents = useCase.execute({ keys });
+
+        return new Result({ message: 'Documents can be found in this.data', success: true })
+                    .addData(documents);
     } catch (err) {
         return errorHandler(err);
     }
@@ -51,13 +64,16 @@ function getDocuments(paramObj) {
 
 function getOneDocument(paramObj) {
     try {
+        if (!inputIsValid(paramObj)) return new Result({ message: INPUT_IS_INVALID, success: false });
+
         const { collectionId, keys } = paramObj;
 
         const repo = new DocumentRepository(collectionId);
         const useCase = new FindOneDocument(repo);
 
         const document = useCase.execute({ keys });
-        return document;
+        return new Result({ message: 'Document can be found in this.data', success: true })
+                    .addData(document);
     } catch (err) {
         return errorHandler(err);
     }
@@ -65,6 +81,8 @@ function getOneDocument(paramObj) {
 
 function updateDocument(paramObj) {
     try {
+        if (!inputIsValid(paramObj)) return new Result({ message: INPUT_IS_INVALID, success: false });
+
         const { collectionId, _id, schema, data, updatedKeys } = paramObj;
 
         const repo = new DocumentRepository(collectionId);
@@ -85,6 +103,8 @@ function updateDocument(paramObj) {
 
 function deleteDocument(paramObj) {
     try {
+        if (!inputIsValid(paramObj)) return new Result({ message: INPUT_IS_INVALID, success: false });
+
         const { collectionId, _id } = paramObj;
 
         const repo = new DocumentRepository(collectionId);
@@ -98,9 +118,31 @@ function deleteDocument(paramObj) {
 }
 
 // UTILS
+function inputIsValid(paramObj) {
+    const isValid = [];
+    for (const key of Object.keys(paramObj)) {
+        if (key === 'collectionId') {
+            isValid.push(typeof paramObj[key] === 'string');
+        }
+        if (key === 'schema') {
+            isValid.push(paramObj[key] instanceof Schema);
+        }
+        if (key === 'data') {
+            isValid.push(isObject(paramObj[key]));
+        }
+        if (key === '_id') {
+            isValid.push(typeof paramObj[key] === 'string');
+        }
+        if (key.toLowerCase().includes('keys')) {
+            isValid.push(isObject(paramObj[key]));
+        }
+    }
+    return isValid.every(check => check === true);
+}
+
 function errorHandler(err) {
     if (err instanceof ContractError) throw new ContractError(err.message);
-    return { message: err.message };
+    return new Result({ message: err.message, success: false });
 }
 
 module.exports = {
