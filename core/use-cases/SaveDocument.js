@@ -1,6 +1,8 @@
 const Document = require('../entities/Document.js');
 const DocumentRepositoryUseCase = require('./UseCase.js');
 
+const DOC_IS_INVALID = 'Document is invalid representation of schema';
+
 class SaveDocument extends DocumentRepositoryUseCase {
     constructor(repo) {
         super(repo);
