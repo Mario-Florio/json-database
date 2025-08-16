@@ -1,6 +1,4 @@
-# JSON Database Specifications
-
-## Function Index
+# Entities
 
 * [Document](#class-document)
     * [constructor](#new-documentcontent)
@@ -9,15 +7,12 @@
 * [Schema](#class-schema)
     * [constructor](#new-schemakeymetadata)
     * [validateDoc](#thisvalidatedocdocument)
-* [DocumentRepoUseCase](#class-documentrepousecase)
-    * [constructor](#new-documentrepousecasedocumentrepository)
-    * [implementsInterface](#implementsinterfaceinstance-interfaceclass)
 
 ----
 
 ## `class Document`
 
-### `new Document(content)`
+### <span id="document-constructor" name="document-constructor">`new Document(content)`</span>
 
 **Description:**
 Builds universal document structure.
@@ -166,91 +161,4 @@ None have been determined.
 
 ----
 
-### `this.validateDoc(document)`
-
-**Description:**
-Asserts if `document` is valid representation of schema (`this`).
-
-**Inputs (Constraints / Preconditions):**
-
-- `document` is instance of `Document`
-
-**Output (Postconditions):**
-
-- Returns type is boolean
-- If return is `true`:
-    - All fields marked `required` must be present in `document` <a href="#validateDoc-1" style="font-size: 0.8rem">1</a>
-    - All present fields in `document` match the expected `type` in schema <a href="#validateDoc-2" style="font-size: 0.8rem">2</a>
-
-**Invariants (Maintained System Properties):**
-None are explicity maintained by this method.
-
-**Edge Cases:**
-None are determined.
-
-**Refs:**
-
-- <span name="validateDoc-1" id="validateDoc-1">1</span> `for (const key of Object.keys(this)) this[key].required && document[key] !== undefined`
-
-- <span name="validateDoc-2" id="validateDoc-2">2</span> `for (const key of Object.keys(this)) this[key].required && this[key].type() === typeof document[key]`
-
-----
-
-## `class DocumentRepoUseCase`
-
-### `new DocumentRepoUseCase(documentRepository)`
-
-**Description:**
-Base class for document repository use cases.
-
-**Inputs (Constraints / Preconditions):**
-
-- Implements `IDocumentRepository` interface
-
-**Output (Postconditions):**
-
-- `this.#repo` is assigned to the provided `documentRepository` instance
-- `documentRepository` implements the `IDocumentRepository` interface
-
-**Invariants (Maintained System Properties):**
-
-- `this.#repo` always implements `IDocumentRepository` interface
-- `this.#repo.read` always returns array of `Document`s
-
-**Edge Cases:**
-None are determined.
-
-----
-
-### `implementsInterface(instance, InterfaceClass)`
-
-**Description:**
-Asserts if `instance` implements `InterfaceClass`.
-
-**Inputs (Constraints / Preconditions):**
-- `instance` properties must be recognized within its prototype chain
-    - Returns `false` if input fails above condition (even object does implement interface)
-
-**Output (Postconditions):**
-- Returns type is boolean
-- Returns `false` if:
-    - `instance` type is not a non-array object
-    - `InterfaceClass` type is not a non-array object
-    - for each *key* (except `constructor`) in `InterfaceClass.prototype`:
-        - `Object.getPrototypeOf(instance)` does not contian *key*
-        - if `InterfaceClass.prototype[key]` type is function and `Object.getPrototypeOf(instance)[key]` type is not function
-
-**Invariants (Maintained System Properties):**
-None are explicitly maintained by this function.
-
-**Edge Cases:**
-- `instance` does not implement arguments of `interfaceClass`s methods
-
-## Appendix: Common Expressions
-
-| Condition               | Expression |
-|------------------------|------------|
-| Boolean type           | `typeof val === 'boolean'` |
-| Number type            | `typeof val === 'number' && !Number.isNaN(val)` |
-| Whole number           | `Number.isInteger(val)` |
-| Non-array object       | `typeof obj === 'object' && obj !== null && !Array.isArray(obj)` |
+[Index](../../index.md)
