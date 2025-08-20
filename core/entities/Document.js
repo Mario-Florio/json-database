@@ -1,3 +1,4 @@
+const QueryBuilder = require('./QueryBuilder.js');
 const constKeys = require('./__utils__/constKeys.js');
 const { isObject, must } = require('./imports.js');
 
@@ -10,10 +11,8 @@ class Document {
     }
     hasKeys(keys) {
         must(isObject(keys) || keys === undefined, 'Invalid Type — provided keys must be a non-array object or undefined');
-        for (const key in keys) {
-            if (this[key] !== keys[key]) return false;
-        }
-        return true;
+        const qb = new QueryBuilder(keys);
+        return qb.matches(this);
     }
     mergeKeys(keys) {
         if (!isObject(keys)) throw new TypeError('keys must be a non-array object');
