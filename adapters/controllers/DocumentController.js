@@ -5,10 +5,9 @@ const FindDocuments = require('../../core/use-cases/FindDocuments.js');
 const SaveDocument = require('../../core/use-cases/SaveDocument.js');
 const UpdateDocument = require('../../core/use-cases/UpdateDocument.js');
 const DeleteDocument = require('../../core/use-cases/DeleteDocument.js');
-const Schema = require('../../core/entities/Schema.js');
 const Result = require('../../core/entities/Result.js');
-const isObject = require('../../shared/__utils__/isObject.js');
 const ContractError = require('../../shared/contracts/__utils__/ContractError.js');
+const inputIsValid = require('./__utils__/inputIsValid.js');
 
 const INPUT_IS_INVALID = 'Input is invalid';
 
@@ -118,30 +117,10 @@ function deleteDocument(paramObj) {
 }
 
 // UTILS
-function inputIsValid(paramObj) {
-    const isValid = [];
-    for (const key of Object.keys(paramObj)) {
-        if (key === 'collectionId') {
-            isValid.push(typeof paramObj[key] === 'string');
-        }
-        if (key === 'schema') {
-            isValid.push(paramObj[key] instanceof Schema);
-        }
-        if (key === 'data') {
-            isValid.push(isObject(paramObj[key]));
-        }
-        if (key === '_id') {
-            isValid.push(typeof paramObj[key] === 'string');
-        }
-        if (key.toLowerCase().includes('keys')) {
-            isValid.push(isObject(paramObj[key]));
-        }
-    }
-    return isValid.every(check => check === true);
-}
 
 function errorHandler(err) {
     if (err instanceof ContractError) throw new ContractError(err.message);
+    console.log(err);
     return new Result({ message: err.message, success: false });
 }
 
