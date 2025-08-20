@@ -12,7 +12,7 @@ const {
 } = require('../imports.js');
 const DocumentRepositoryDouble = require('./DocRepoDouble.js');
 
-function setupUseCase(type, options = { fill: { isTrue: true, amount: 10 } }) {
+function setupUseCase(type) {
     const repo = new DocumentRepositoryDouble();
     repo.instantiate();
     fillRepo(repo);
