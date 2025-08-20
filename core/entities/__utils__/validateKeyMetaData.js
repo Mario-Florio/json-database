@@ -1,26 +1,47 @@
 const { isObject } = require('../imports.js');
 const typeCheckMap = require('./typeCheckMap.js');
 
-const TYPE = 'type';
-const REQUIRED = 'required';
-const validProps = [TYPE, REQUIRED];
-const requiredProps = [TYPE];
-const validPropVals = {
-    [TYPE]: [...Object.keys(typeCheckMap)],
-    [REQUIRED]: [false, true]
+const rules = {
+    type: {
+        required: true,
+        valid: Object.keys(typeCheckMap),
+    },
+    required: {
+        required: false,
+        valid: [true, false],
+    }
 };
 
 function validateKeyMetaData(keyMetaData) {
+    validateShape(keyMetaData);
+    for (const [key, metaData] of Object.entries(keyMetaData)) {
+        validateMetaData(metaData);
+        validateRequired(key, metaData);
+    }
+}
+
+// UTILS
+function validateShape(keyMetaData) {
     if (!isObject(keyMetaData)) throw new TypeError('keyMetaData must be a non-array object');
-    for (const field of Object.keys(keyMetaData)) {
-        if (!isObject(keyMetaData[field])) throw new TypeError(`keyMetaData.${field} must be a non-array object`);
-        for (const prop of Object.keys(keyMetaData[field])) {
-            if (!validProps.includes(prop)) throw new Error(`${prop} is not a valid prop`);
-            if (!validPropVals[prop].includes(keyMetaData[field][prop])) throw new TypeError(`${keyMetaData[field][prop]} is not a valid ${prop}`);
-        }
-        for (const prop of requiredProps) {
-            if (!Object.keys(keyMetaData[field]).includes(prop)) throw new Error(`Missing required prop ${prop} in field ${field}`);
-        }
+    for (const [key, metaData] of Object.entries(keyMetaData)) {
+        if (!isObject(metaData)) throw new TypeError(`keyMetaData.${key} must be a non-array object`);
+    }
+}
+
+function validateMetaData(metaData) {
+    for (const [key, val] of Object.entries(metaData)) {
+        if (!rules[key])
+            throw new Error(`${key} is not a valid prop`);
+
+        if (!rules[key].valid.includes(val))
+            throw new TypeError(`${val} is not a valid ${key}`);
+    }
+}
+
+function validateRequired(key, metaData) {
+    for (const [k, rule] of Object.entries(rules)) {
+        if (rule.required && !(k in metaData))
+            throw new Error(`Missing required prop ${k} in field ${key}`);
     }
 }
 
