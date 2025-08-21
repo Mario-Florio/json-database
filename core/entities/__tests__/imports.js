@@ -1,11 +1,11 @@
-const Document = require('../Document.js');
-const Schema = require('../Schema.js');
-const typeCheckMap = require('../__utils__/typeCheckMap.js');
-const constKeys = require('../__utils__/constKeys.js');
-const isObject = require('../../../shared/__utils__/isObject.js');
-const { it, assert } = require('../../../shared/testing/test-tools.js');
+import Document from '../Document.js';
+import Schema from '../Schema.js';
+import typeCheckMap from '../__utils__/typeCheckMap.js';
+import constKeys from '../__utils__/constKeys.js';
+import isObject from '../../../shared/__utils__/isObject.js';
+import { it, assert } from '../../../shared/testing/test-tools.js';
 
-module.exports = {
+export {
     Document,
     Schema,
     typeCheckMap,

@@ -23,7 +23,7 @@ function instantiateRes(response, SubModel) {
     return response;
 }
 
-module.exports = {
+export {
     uid,
     instantiateRes
 }

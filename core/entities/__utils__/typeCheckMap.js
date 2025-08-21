@@ -8,4 +8,4 @@ const typeCheckMap = {
     array:   val => Array.isArray(val),
 };
 
-module.exports = typeCheckMap;
+export default typeCheckMap;

@@ -5,4 +5,4 @@ class ContractError extends Error {
     }
 }
 
-module.exports = ContractError
+export default ContractError;

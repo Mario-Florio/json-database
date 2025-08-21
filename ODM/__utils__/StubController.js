@@ -23,4 +23,4 @@ function getStubController() {
     return stubController;
 }
 
-module.exports = getStubController;
+export default getStubController;

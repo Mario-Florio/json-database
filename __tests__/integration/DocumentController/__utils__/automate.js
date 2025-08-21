@@ -1,4 +1,4 @@
-const {
+import {
     documentController,
     Document,
     config,
@@ -8,8 +8,8 @@ const {
     UPDATE,
     DELETE,
     isObject
-} = require('../imports.js');
-const fs = require('fs');
+} from '../imports.js';
+import fs from 'fs';
 
 const dbPath = process.env.DBPATH || config.DBPATH;
 const collectionName = 'controllers-db-test';
@@ -100,7 +100,7 @@ function getInvalidProp(type) {
     }
 }
 
-module.exports = {
+export {
     instantiateCollection,
     runInvalidProps,
     isValidResponse,

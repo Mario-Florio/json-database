@@ -1,9 +1,9 @@
-const {
+import {
     DocumentRepository,
     Document,
     deepEqual
-} = require('../imports.js');
-const fs = require('fs');
+} from '../imports.js';
+import fs from 'fs';
 
 const dbPath = process.env.DBPATH || './database/collections/';
 const collectionName = 'docrepo-db-test';
@@ -67,7 +67,7 @@ function cleanDatabase() {
     }
 }
 
-module.exports = {
+export {
     getDocRepo,
     getDoc,
     getTargetDoc,

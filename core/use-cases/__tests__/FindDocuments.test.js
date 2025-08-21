@@ -1,9 +1,9 @@
-const { setupUseCase, isDocument } = require('./__utils__/automate.js');
-const {
+import { setupUseCase, isDocument } from './__utils__/automate.js';
+import {
     it,
     assert,
     FIND
-} = require('./imports.js');
+} from './imports.js';
 
 console.log('----FIND_DOCUMENTS----');
 it('Returns an array of Documents', () => {

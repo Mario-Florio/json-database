@@ -1,10 +1,10 @@
-const {
+import {
     Schema,
     Document,
     typeCheckMap,
     isObject,
     it, assert
-} = require('./imports.js');
+} from './imports.js';
 
 const TYPE = 'type';
 const requiredProps = [TYPE];

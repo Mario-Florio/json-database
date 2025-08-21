@@ -1,4 +1,4 @@
-const DocumentRepositoryUseCase = require('./UseCase.js');
+import DocumentRepositoryUseCase from './UseCase.js';
 
 class InstantiateCollection extends DocumentRepositoryUseCase {
     constructor(repo) {
@@ -11,4 +11,4 @@ class InstantiateCollection extends DocumentRepositoryUseCase {
     }
 }
 
-module.exports = InstantiateCollection;
+export default InstantiateCollection;

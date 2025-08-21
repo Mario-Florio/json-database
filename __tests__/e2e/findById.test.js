@@ -1,10 +1,10 @@
-const {
+import {
     setupSchema,
     getModelInstances,
     getPropsArr,
     cleanDatabase
-} = require('./__utils__/automate.js');
-const { it, assert } = require('./imports.js');
+} from './__utils__/automate.js';
+import { it, assert } from './imports.js';
 
 console.log('------FIND_BY_ID------');
 it('Returns appropriate obj', () => {

@@ -1,7 +1,7 @@
-const Schema = require('../core/entities/Schema.js');
-const documentController = require('../adapters/controllers/DocumentController.js');
-const getStubController = require('./__utils__/StubController.js');
-const { uid, instantiateRes } = require('./__utils__/ModelHelpers.js');
+import Schema from '../core/entities/Schema.js';
+import documentController from '../adapters/controllers/DocumentController.js';
+import getStubController from './__utils__/StubController.js';
+import { uid, instantiateRes } from './__utils__/ModelHelpers.js';
 
 const stubController = getStubController();
 
@@ -153,7 +153,7 @@ function keysAreValid(keys) {
     return true;
 }
 
-module.exports = {
+export default {
     Schema,
     model
 };

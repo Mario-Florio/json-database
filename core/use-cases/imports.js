@@ -1,7 +1,7 @@
-const isObject = require('../../shared/__utils__/isObject.js');
-const { must, uphold } = require('../../shared/contracts/contracts.js');
+import isObject from '../../shared/__utils__/isObject.js';
+import { must, uphold } from '../../shared/contracts/contracts.js';
 
-module.exports = {
+export {
     isObject,
     must, uphold
 }

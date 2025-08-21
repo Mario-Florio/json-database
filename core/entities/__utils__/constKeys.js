@@ -4,4 +4,4 @@ const CREATED_AT = 'createdAt';
 
 const constKeys = [ID, CREATED_AT];
 
-module.exports = constKeys;
+export default constKeys;

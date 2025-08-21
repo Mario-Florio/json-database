@@ -1,17 +1,25 @@
-const DB = require('../DB.js');
-const fs = require('fs');
+import DB from '../DB.js';
+import fs from 'fs';
 
-const dbName = './database/__test__/instances/db-test';
+const dbPath = process.env.DBPATH || config.DBPATH;
+const collectionName = 'db-test';
+const collectionDbPath = `${dbPath}${collectionName}.json`;
+
+function cleanDatabase() {
+    if (fs.existsSync(collectionDbPath)) {
+        fs.unlinkSync(collectionDbPath);
+    }
+}
 
 console.log('-------CONSTRUCTOR--------');
 it('Adds ".json" suffix to constructor argument', () => {
-    const db = new DB(dbName);
+    const db = new DB(collectionName);
 
     assert(db.dbName === './database/__test__/instances/db-test.json');
-});
+}, cleanDatabase);
 console.log('-------INSTANTIATE--------');
 it('Creates json file with empty array', () => {
-    const db = new DB(dbName);
+    const db = new DB(collectionName);
     
     db.instantiate();
 
@@ -21,27 +29,25 @@ it('Creates json file with empty array', () => {
     assert(Array.isArray(res));
     assert(res.length === 0);
 
-    fs.unlinkSync(db.dbName);
-});
+}, cleanDatabase);
 console.log('-------CREATE--------');
 it('Returns "Please provide data to save" if no data is given', () => {
-    const db = new DB(dbName);
+    const db = new DB(collectionName);
 
     const res = db.create();
 
     assert(res === 'Please provide data to save');
-});
+}, cleanDatabase);
 it('Creates json file', () => {
-    const db = new DB(dbName);
+    const db = new DB(collectionName);
     const data = {};
     db.create(data);
 
     assert(fs.existsSync(db.dbName));
 
-    fs.unlinkSync(db.dbName);
-});
+}, cleanDatabase);
 it('Appends data to existing json file', () => {
-    const db = new DB(dbName);
+    const db = new DB(collectionName);
     const data = 'string data';
     db.create(data);
     const newData = 'new string data';
@@ -52,18 +58,17 @@ it('Appends data to existing json file', () => {
 
     assert(arraysEqual(jsonFileData, [data, newData]));
 
-    fs.unlinkSync(db.dbName);
-});
+}, cleanDatabase);
 
 console.log('-------READ--------');
 it('Returns "Database does not exist" if database file does not exist', () => {
-    const db = new DB(dbName);
+    const db = new DB(collectionName);
     const res = db.read();
 
     assert(res === 'Database does not exist');
-});
+}, cleanDatabase);
 it('Reads and returns database file', () => {
-    const db = new DB(dbName);
+    const db = new DB(collectionName);
     const data = 'data';
     db.create(data);
 
@@ -71,10 +76,9 @@ it('Reads and returns database file', () => {
 
     assert(res[0] === data);
 
-    fs.unlinkSync(db.dbName);
-});
+}, cleanDatabase);
 it('Reads and returns js data', () => {
-    const db = new DB(dbName);
+    const db = new DB(collectionName);
     const data = {};
     db.create(data);
 
@@ -82,19 +86,18 @@ it('Reads and returns js data', () => {
 
     assert(typeof res[0] === 'object');
 
-    fs.unlinkSync(db.dbName);
-});
+}, cleanDatabase);
 
 console.log('-------UPDATE--------');
 it('Returns "No item id was supplied" if no id is passed', () => {
-    const db = new DB(dbName);
+    const db = new DB(collectionName);
 
     const res = db.update();
 
     assert(res === 'No item id was supplied');
-});
+}, cleanDatabase);
 it('Returns "Update successful" if update is successful', () => {
-    const db = new DB(dbName);
+    const db = new DB(collectionName);
     const data = { _id: 1, text: 'Original data' };
     db.create(data);
     const updatedData = { _id: 1, text: 'Updated data' };
@@ -103,19 +106,18 @@ it('Returns "Update successful" if update is successful', () => {
 
     assert(res === 'Update successful');
 
-    fs.unlinkSync(db.dbName);
-});
+}, cleanDatabase);
 
 console.log('-------DELETE--------');
 it('Returns "No item id was supplied" if no id is passed', () => {
-    const db = new DB(dbName);
+    const db = new DB(collectionName);
 
     const res = db.delete();
 
     assert(res === 'No item id was supplied');
-});
+}, cleanDatabase);
 it('Returns "Deletion successful" if deletion is successful', () => {
-    const db = new DB(dbName);
+    const db = new DB(collectionName);
     const data = { _id: 1, text: 'Original data' };
     db.create(data);
 
@@ -123,17 +125,16 @@ it('Returns "Deletion successful" if deletion is successful', () => {
 
     assert(res === 'Deletion successful');
     
-    fs.unlinkSync(db.dbName);
-});
+}, cleanDatabase);
 it('Returns "Database does not exist" if database file does not exist', () => {
-    const db = new DB(dbName);
+    const db = new DB(collectionName);
 
     const res = db.delete(1);
 
     assert(res === 'Database does not exist');
-});
+}, cleanDatabase);
 it('Deletes data', () => {
-    const db = new DB(dbName);
+    const db = new DB(collectionName);
     const data = { _id: 1, text: 'Original data' };
     db.create(data);
     db.delete(1);
@@ -142,8 +143,7 @@ it('Deletes data', () => {
 
     assert(dataStore.length === 0);
 
-    fs.unlinkSync(db.dbName);
-});
+}, cleanDatabase);
 
 // UTILS
 function it(desc, fn) {

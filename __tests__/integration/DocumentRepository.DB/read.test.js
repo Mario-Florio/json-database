@@ -1,11 +1,11 @@
-const {
+import {
     getDocRepo,
     getAndSetupDocRepo,
     isDocument,
     dbHas,
     cleanDatabase
-} = require('./__utils__/automate.js');
-const { it, assert } = require('./imports.js');
+} from './__utils__/automate.js';
+import { it, assert } from './imports.js';
 
 console.log('----DOCUMENT_REPOSITORY_READ----');
 

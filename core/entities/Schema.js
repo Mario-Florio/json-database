@@ -1,8 +1,8 @@
-const validateKeyMetaData = require('./__utils__/validateKeyMetaData.js');
-const constKeys = require('./__utils__/constKeys.js');
-const typeCheckMap = require('./__utils__/typeCheckMap.js');
-const Document = require('./Document.js');
-const { guarantee } = require('./imports.js');
+import validateKeyMetaData from './__utils__/validateKeyMetaData.js';
+import constKeys from './__utils__/constKeys.js';
+import typeCheckMap from './__utils__/typeCheckMap.js';
+import Document from './Document.js';
+import { guarantee } from './imports.js';
 
 class Schema {
     constructor(keyMetaData) {
@@ -49,4 +49,4 @@ class Schema {
     }
 }
 
-module.exports = Schema;
+export default Schema;

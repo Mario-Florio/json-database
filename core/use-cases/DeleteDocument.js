@@ -1,4 +1,4 @@
-const DocumentRepositoryUseCase = require('./UseCase.js');
+import DocumentRepositoryUseCase from'./UseCase.js';
 
 class DeleteDocument extends DocumentRepositoryUseCase {
     constructor(repo) {
@@ -12,4 +12,4 @@ class DeleteDocument extends DocumentRepositoryUseCase {
     }
 }
 
-module.exports = DeleteDocument;
+export default DeleteDocument;

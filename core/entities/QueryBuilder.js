@@ -1,4 +1,4 @@
-const { isObject, deepEqual } = require('./imports.js');
+import { isObject, deepEqual } from './imports.js';
 
 const operatorRegistry = {
     $eq: (a, b) => deepEqual(a, b),
@@ -33,4 +33,4 @@ function applyFilter(op, a, b) {
     return fn(a, b);
 }
 
-module.exports = QueryBuilder;
+export default QueryBuilder;

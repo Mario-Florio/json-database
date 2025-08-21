@@ -56,6 +56,9 @@ JSON Databases architecture utilizes CA layers to abstract core logic (i.e. data
 ### Entities
   * `Document` — Core structure of individual data units; standardizes *cores* data handling
   * `Schema` — Responsible for determing data uniformity across collections of `Document`s; determines `Document` identity
+  * `QueryBuilder` — Responsible for data filtering
+  * `ChunkReader` — Responsible for data transimssion logic (I.e. data stream handling)
+  * `Result` — Standardizes response objects across project; changes are centralized
 
 ### Use Cases
 Use Cases handle core logic associated with data filtering and document handling:

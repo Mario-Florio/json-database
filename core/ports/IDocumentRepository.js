@@ -7,4 +7,4 @@ class IDocumentRepository {
     delete(id) {}
 }
 
-module.exports = IDocumentRepository;
+export default IDocumentRepository;

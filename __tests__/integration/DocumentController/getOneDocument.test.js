@@ -1,15 +1,15 @@
-const {
+import {
     instantiateCollection,
     isDocument,
     runInvalidProps,
     isValidResponse,
     cleanDatabase
-} = require('./__utils__/automate.js');
-const {
+} from './__utils__/automate.js';
+import {
     documentController,
     GETONE,
     it, assert
-} = require('./imports.js');
+} from './imports.js';
 
 console.log('----DOCUMENT_CONTROLLER-GET_ONE_DOCUMENT----');
 it('Returns single Document or null if paramObj props are valid', () => {

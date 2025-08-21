@@ -1,9 +1,9 @@
-const {
+import {
     DocumentRepoUseCase,
     IDocumentRepository,
     implementsInterface,
     it, assert
-} = require('./imports.js');
+} from './imports.js';
 
 console.log('---DOCUMENT_REPO_USE_CASE---');
 

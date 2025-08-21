@@ -1,12 +1,12 @@
-const { it, assert } = require('../../shared/testing/test-tools.js');
-const ODM = require('../../ODM/ODM.js');
-const config = require('../../config.js');
-const {
+import { it, assert } from '../../shared/testing/test-tools.js';
+import ODM from '../../ODM/ODM.js';
+import config from '../../config.js';
+import {
     DELETE_SUCCESSFUL,
     ITEM_NOT_FOUND
-} = require('../../IO-API/response-tokens.js');
+} from '../../IO-API/response-tokens.js';
 
-module.exports = {
+export {
     it, assert,
     ODM,
     config,

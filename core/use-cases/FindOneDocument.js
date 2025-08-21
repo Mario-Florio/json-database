@@ -1,9 +1,9 @@
-const DocumentRepositoryUseCase = require('./UseCase.js');
-const Document = require('../entities/Document.js');
-const {
+import DocumentRepositoryUseCase from './UseCase.js';
+import Document from '../entities/Document.js';
+import {
     must, uphold,
     isObject
-} = require('./imports.js');
+} from './imports.js';
 
 class FindOneDocument extends DocumentRepositoryUseCase {
     constructor(repo) {
@@ -25,4 +25,4 @@ class FindOneDocument extends DocumentRepositoryUseCase {
     }
 }
 
-module.exports = FindOneDocument;
+export default FindOneDocument;

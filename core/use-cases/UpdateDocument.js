@@ -1,10 +1,10 @@
-const Document = require('../entities/Document.js');
-const Schema = require('../entities/Schema.js');
-const DocumentRepositoryUseCase = require('./UseCase.js');
-const {
+import Document from '../entities/Document.js';
+import Schema from '../entities/Schema.js';
+import DocumentRepositoryUseCase from './UseCase.js';
+import {
     must, uphold,
     isObject
-} = require('./imports.js');
+} from './imports.js';
 
 const DOC_IS_INVALID = 'Document is invalid representation of schema';
 
@@ -32,4 +32,4 @@ class UpdateDocument extends DocumentRepositoryUseCase {
     }
 }
 
-module.exports = UpdateDocument;
+export default UpdateDocument;

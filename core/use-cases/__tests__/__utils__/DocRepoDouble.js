@@ -32,4 +32,4 @@ class DocumentRepositoryDouble {
     }
 }
 
-module.exports = DocumentRepositoryDouble;
+export default DocumentRepositoryDouble;

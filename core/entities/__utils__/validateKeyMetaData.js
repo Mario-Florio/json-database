@@ -1,5 +1,5 @@
-const { isObject } = require('../imports.js');
-const typeCheckMap = require('./typeCheckMap.js');
+import { isObject } from '../imports.js';
+import typeCheckMap from './typeCheckMap.js';
 
 const rules = {
     type: {
@@ -45,4 +45,4 @@ function validateRequired(key, metaData) {
     }
 }
 
-module.exports = validateKeyMetaData;
+export default validateKeyMetaData;

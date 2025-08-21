@@ -27,7 +27,7 @@ function arraysEqual(a, b) {
     return true;
 }
 
-module.exports = {
+export {
     it,
     assert,
     arraysEqual

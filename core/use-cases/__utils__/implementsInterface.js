@@ -31,4 +31,4 @@ function implementsInterface(instance, InterfaceClass) {
     return true;
 }
 
-module.exports = implementsInterface;
+export default implementsInterface;

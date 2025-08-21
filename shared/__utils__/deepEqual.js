@@ -28,4 +28,4 @@ function deepEqual(a, b) {
     return true;
 }
 
-module.exports = deepEqual;
+export default deepEqual;

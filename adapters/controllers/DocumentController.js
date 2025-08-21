@@ -1,13 +1,13 @@
-const DocumentRepository = require('../repositories/DocumentRepository.js');
-const InstantiateCollection = require('../../core/use-cases/InstantiateCollection.js');
-const FindOneDocument = require('../../core/use-cases/FindOneDocument.js');
-const FindDocuments = require('../../core/use-cases/FindDocuments.js');
-const SaveDocument = require('../../core/use-cases/SaveDocument.js');
-const UpdateDocument = require('../../core/use-cases/UpdateDocument.js');
-const DeleteDocument = require('../../core/use-cases/DeleteDocument.js');
-const Result = require('../../core/entities/Result.js');
-const ContractError = require('../../shared/contracts/__utils__/ContractError.js');
-const inputIsValid = require('./__utils__/inputIsValid.js');
+import DocumentRepository from '../repositories/DocumentRepository.js';
+import InstantiateCollection from '../../core/use-cases/InstantiateCollection.js';
+import FindOneDocument from '../../core/use-cases/FindOneDocument.js';
+import FindDocuments from '../../core/use-cases/FindDocuments.js';
+import SaveDocument from '../../core/use-cases/SaveDocument.js';
+import UpdateDocument from '../../core/use-cases/UpdateDocument.js';
+import DeleteDocument from '../../core/use-cases/DeleteDocument.js';
+import Result from '../../core/entities/Result.js';
+import ContractError from '../../shared/contracts/__utils__/ContractError.js';
+import inputIsValid from './__utils__/inputIsValid.js';
 
 const INPUT_IS_INVALID = 'Input is invalid';
 
@@ -124,7 +124,7 @@ function errorHandler(err) {
     return new Result({ message: err.message, success: false });
 }
 
-module.exports = {
+export default {
     instantiateCollection,
     createDocument,
     getDocuments,

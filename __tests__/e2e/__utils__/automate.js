@@ -1,5 +1,5 @@
-const { ODM, config } = require('../imports.js');
-const fs = require('fs');
+import { ODM, config } from '../imports.js';
+import fs from 'fs';
 
 const dbPath = process.env.DBPATH || config.DBPATH;
 const collectionName = 'db-test';
@@ -55,7 +55,7 @@ function cleanDatabase() {
     }
 }
 
-module.exports = {
+export {
     setupSchema,
     getModelInstances,
     getPropsArr,

@@ -1,10 +1,10 @@
-const { setupUseCase, getSchema } = require('./__utils__/automate.js');
-const {
+import { setupUseCase, getSchema } from './__utils__/automate.js';
+import {
     it,
     assert,
     SAVE,
     isObject
-} = require('./imports.js');
+} from './imports.js';
 
 console.log('----SAVE_DOCUMENTS----');
 it('Returns a non-array object with message and truthy success fields', () => {

@@ -1,6 +1,6 @@
-const QueryBuilder = require('./QueryBuilder.js');
-const constKeys = require('./__utils__/constKeys.js');
-const { isObject, must } = require('./imports.js');
+import QueryBuilder from './QueryBuilder.js';
+import constKeys from './__utils__/constKeys.js';
+import { isObject, must } from './imports.js';
 
 class Document {
     constructor(content) {
@@ -25,4 +25,4 @@ class Document {
     }
 }
 
-module.exports = Document;
+export default Document;

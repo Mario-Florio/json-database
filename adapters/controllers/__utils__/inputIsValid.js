@@ -1,5 +1,5 @@
-const Schema = require('../../../core/entities/Schema.js');
-const isObject = require('../../../shared/__utils__/isObject.js');
+import Schema from '../../../core/entities/Schema.js';
+import isObject from '../../../shared/__utils__/isObject.js';
 
 const strategyMap = {
     collectionId: (val) => typeof val === 'string',
@@ -22,4 +22,4 @@ function inputIsValid(paramObj) {
     return isValid.every(check => check === true);
 }
 
-module.exports = inputIsValid;
+export default inputIsValid;

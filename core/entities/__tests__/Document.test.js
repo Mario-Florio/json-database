@@ -1,9 +1,9 @@
-const {
+import {
     Document,
     constKeys,
     isObject,
     it, assert
-} = require('./imports.js');
+} from './imports.js';
 
 console.log('-----DOCUMENT-----');
 

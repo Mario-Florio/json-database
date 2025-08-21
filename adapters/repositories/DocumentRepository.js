@@ -1,6 +1,6 @@
-const Document = require('../../core/entities/Document.js');
-const DB = require('../../IO-API/DB.js');
-const { uphold } = require('../../shared/contracts/contracts.js');
+import Document from '../../core/entities/Document.js';
+import DB from '../../IO-API/DB.js';
+import { uphold } from '../../shared/contracts/contracts.js';
 
 class DocumentRepository {
     #db;
@@ -31,4 +31,4 @@ class DocumentRepository {
     }
 }
 
-module.exports = DocumentRepository;
+export default DocumentRepository;

@@ -1,5 +1,5 @@
-const config = require('../../config.js');
-const ContractError = require('./__utils__/ContractError.js');
+import config from '../../config.js';
+import ContractError from './__utils__/ContractError.js';
 
 const ENABLE_CONTRACTS =  process.env.ENABLE_CONTRACTS || config.ENABLE_CONTRACTS;
 
@@ -24,7 +24,7 @@ function guarantee(condition, message) {
     }
 }
 
-module.exports = {
+export {
     must,
     uphold,
     guarantee

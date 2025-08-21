@@ -1,7 +1,7 @@
-const IO_SERVICE = require("./IO-Service.js");
-const Result = require('../core/entities/Result.js');
-const config = require('../config.js');
-const {
+import IO_SERVICE from "./IO-Service.js";
+import Result from '../core/entities/Result.js';
+import config from '../config.js';
+import {
     DB_ALREADY_EXISTS,
     DB_DOESNT_EXIST,
     INSTANTIATION_SUCCESSFUL,
@@ -12,7 +12,7 @@ const {
     NO_DATA,
     NO_ID,
     ITEM_NOT_FOUND
-} = require('./response-tokens.js');
+} from './response-tokens.js';
 
 const dbPath = process.env.DBPATH || config.DBPATH;
 
@@ -87,4 +87,4 @@ class DB {
     }
 }
 
-module.exports = DB;
+export default DB;

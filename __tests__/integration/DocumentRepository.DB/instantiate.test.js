@@ -1,10 +1,10 @@
-const {
+import {
     getDocRepo,
     getAndSetupDocRepo,
     dbFileExists,
     cleanDatabase
-} = require('./__utils__/automate.js');
-const { it, assert } = require('./imports.js');
+} from './__utils__/automate.js';
+import { it, assert } from './imports.js';
 
 console.log('----DOCUMENT_REPOSITORY_INSTANTIATE----');
 

@@ -1,10 +1,10 @@
-const { setupUseCase, getSchema, getTargetDoc } = require('./__utils__/automate.js');
-const {
+import { setupUseCase, getSchema, getTargetDoc } from './__utils__/automate.js';
+import {
     it,
     assert,
     UPDATE,
     isObject
-} = require('./imports.js');
+} from './imports.js';
 
 console.log('----UPDATE_DOCUMENTS----');
 it('Returns a non-array object with message and success fields', () => {

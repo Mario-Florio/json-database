@@ -1,14 +1,14 @@
-const {
+import {
     setupSchema,
     getModelInstances,
     getPropsArr,
     cleanDatabase
-} = require('./__utils__/automate.js');
-const {
+} from './__utils__/automate.js';
+import {
     it, assert,
     DELETE_SUCCESSFUL,
     ITEM_NOT_FOUND
-} = require('./imports.js');
+} from './imports.js';
 
 console.log('------FIND_ONE_AND_DELETE------');
 it('Deletes appropriate object', () => {

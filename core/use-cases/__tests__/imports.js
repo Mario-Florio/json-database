@@ -1,21 +1,21 @@
-const IDocumentRepository = require('../../ports/IDocumentRepository.js');
-const DocumentRepoUseCase = require('../UseCase.js');
-const FindDocuments = require('../FindDocuments.js');
-const FindOneDocument = require('../FindOneDocument.js');
-const SaveDocument = require('../SaveDocument.js');
-const UpdateDocument = require('../UpdateDocument.js');
-const Document = require('../../entities/Document.js');
-const Schema = require('../../entities/Schema.js');
-const implementsInterface = require('../__utils__/implementsInterface.js');
-const isObject = require('../../../shared/__utils__/isObject.js');
-const { it, assert } = require('../../../shared/testing/test-tools.js');
+import IDocumentRepository from '../../ports/IDocumentRepository.js';
+import DocumentRepoUseCase from '../UseCase.js';
+import FindDocuments from '../FindDocuments.js';
+import FindOneDocument from '../FindOneDocument.js';
+import SaveDocument from '../SaveDocument.js';
+import UpdateDocument from '../UpdateDocument.js';
+import Document from '../../entities/Document.js';
+import Schema from '../../entities/Schema.js';
+import implementsInterface from '../__utils__/implementsInterface.js';
+import isObject from '../../../shared/__utils__/isObject.js';
+import { it, assert } from '../../../shared/testing/test-tools.js';
 
 const FIND = 'find';
 const FIND_ONE = 'findOne';
 const SAVE = 'save';
 const UPDATE = 'update';
 
-module.exports = {
+export {
     IDocumentRepository,
     DocumentRepoUseCase,
     FindDocuments,

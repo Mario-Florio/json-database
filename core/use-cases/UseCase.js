@@ -1,5 +1,5 @@
-const implementsInterface = require('./__utils__/implementsInterface.js');
-const IDocumentRepository = require('../ports/IDocumentRepository.js');
+import implementsInterface from './__utils__/implementsInterface.js';
+import IDocumentRepository from '../ports/IDocumentRepository.js';
 
 class DocumentRepoUseCase {
     #repo;
@@ -13,4 +13,4 @@ class DocumentRepoUseCase {
     }
 }
 
-module.exports = DocumentRepoUseCase;
+export default DocumentRepoUseCase;

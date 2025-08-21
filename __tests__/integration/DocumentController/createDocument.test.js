@@ -1,15 +1,15 @@
-const {
+import {
     instantiateCollection,
     runInvalidProps,
     isValidResponse,
     cleanDatabase
-} = require('./__utils__/automate.js');
-const {
+} from './__utils__/automate.js';
+import {
     documentController,
     Schema,
     CREATE,
     it, assert
-} = require('./imports.js');
+} from './imports.js';
 
 console.log('----DOCUMENT_CONTROLLER-CREATE_DOCUMENT----');
 it('Returns non-array object if paramObj props are valid', () => {

@@ -20,4 +20,4 @@ class STUB_IO_SERVICE {
     }
 }
 
-module.exports = STUB_IO_SERVICE;
+export default STUB_IO_SERVICE;

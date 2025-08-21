@@ -1,4 +1,4 @@
-const {
+import {
     FindDocuments,
     FindOneDocument,
     SaveDocument,
@@ -9,8 +9,8 @@ const {
     FIND_ONE,
     SAVE,
     UPDATE
-} = require('../imports.js');
-const DocumentRepositoryDouble = require('./DocRepoDouble.js');
+} from '../imports.js';
+import DocumentRepositoryDouble from './DocRepoDouble.js';
 
 function setupUseCase(type) {
     const repo = new DocumentRepositoryDouble();
@@ -68,7 +68,7 @@ function fillRepo(repo, amount = 10) {
     }
 }
 
-module.exports = {
+export {
     setupUseCase,
     getTargetDoc,
     isDocument,

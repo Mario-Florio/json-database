@@ -1,12 +1,12 @@
-const {
+import {
     getDocRepo,
     getDoc,
     getTargetDoc,
     getAndSetupDocRepo,
     dbHas,
     cleanDatabase
-} = require('./__utils__/automate.js');
-const { it, assert } = require('./imports.js');
+} from './__utils__/automate.js';
+import { it, assert } from './imports.js';
 
 const NON_EXISTENT_ID = 'non-existent id';
 
