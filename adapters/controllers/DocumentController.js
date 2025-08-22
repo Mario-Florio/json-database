@@ -8,8 +8,11 @@ import DeleteDocument from '../../core/use-cases/DeleteDocument.js';
 import Result from '../../core/entities/Result.js';
 import ContractError from '../../shared/contracts/__utils__/ContractError.js';
 import inputIsValid from './__utils__/inputIsValid.js';
-
-const INPUT_IS_INVALID = 'Input is invalid';
+import {
+    INPUT_IS_INVALID,
+    GET_DOCS_SUCCESS,
+    GET_ONE_DOC_SUCCESS
+} from './response-tokens.js';
 
 function instantiateCollection(paramObj) {
     try {
@@ -54,7 +57,7 @@ function getDocuments(paramObj) {
 
         const documents = useCase.execute({ keys });
 
-        return new Result({ message: 'Documents can be found in this.data', success: true })
+        return new Result({ message: GET_DOCS_SUCCESS, success: true })
                     .addData(documents);
     } catch (err) {
         return errorHandler(err);
@@ -71,7 +74,7 @@ function getOneDocument(paramObj) {
         const useCase = new FindOneDocument(repo);
 
         const document = useCase.execute({ keys });
-        return new Result({ message: 'Document can be found in this.data', success: true })
+        return new Result({ message: GET_ONE_DOC_SUCCESS, success: true })
                     .addData(document);
     } catch (err) {
         return errorHandler(err);

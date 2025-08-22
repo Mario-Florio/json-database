@@ -1,23 +1,17 @@
 #!/bin/bash
 
-find="./__tests__/e2e/find.test.js"
-findById="./__tests__/e2e/findById.test.js"
-findByIdAndDelete="./__tests__/e2e/findByIdAndDelete.test.js"
-findByIdAndUpdate="./__tests__/e2e/findByIdAndUpdate.test.js"
-findOne="./__tests__/e2e/findOne.test.js"
-findOneAndDelete="./__tests__/e2e/findOneAndDelete.test.js"
-findOneAndUpdate="./__tests__/e2e/findOneAndUpdate.test.js"
-virtuals="./__tests__/e2e/virtuals.test.js"
+create="./__tests__/e2e/create.test.js"
+get="./__tests__/e2e/get.test.js"
+getOne="./__tests__/e2e/getOne.test.js"
+update="./__tests__/e2e/update.test.js"
+delete="./__tests__/e2e/delete.test.js"
 
 files=(
-    "$find"
-    "$findById"
-    "$findByIdAndDelete"
-    "$findByIdAndUpdate"
-    "$findOne"
-    "$findOneAndDelete"
-    "$findOneAndUpdate"
-    "$virtuals"
+    "$create"
+    "$get"
+    "$getOne"
+    "$update"
+    "$delete"
 )
 
 if [ $# -eq 0  ]; then
@@ -32,29 +26,20 @@ fi
 test=$1
 
 case $test in
-    "find")
-        node "$find"
+    "create")
+        node "$create"
         ;;
-    "findById")
-        node "$findById"
+    "get")
+        node "$get"
         ;;
-    "findByIdAndDelete")
-        node "$findByIdAndDelete"
+    "getOne")
+        node "$getOne"
         ;;
-    "findByIdAndUpdate")
-        node "$findByIdAndUpdate"
+    "update")
+        node "$update"
         ;;
-    "findOne")
-        node "$findOne"
-        ;;
-    "findOneAndDelete")
-        node "$findOneAndDelete"
-        ;;
-    "findOneAndUpdate")
-        node "$findOneAndUpdate"
-        ;;
-    "virtuals")
-        node "$virtuals"
+    "delete")
+        node "$delete"
         ;;
     *)
         echo "Invalid option: $test is not a test"
