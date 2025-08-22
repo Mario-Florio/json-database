@@ -1,13 +1,14 @@
 
-function it(desc, fn, cleanupFn = false, logErr = false) {
+function it(desc, fn, cleanupFn = false, options = { logErr: false, devLog: false }) {
     try {
         fn();
         console.log('\x1b[32m%s\x1b[0m', '\u2714 ' + desc);
     } catch (error) {
         console.log('\x1b[31m%s\x1b[0m', '\u2718 ' + desc);
-        logErr && console.error(error);
+        options.logErr && console.error(error);
     } finally {
         cleanupFn && cleanupFn();
+        options.devLog && console.log(options.devLog);
     }
 }
 
