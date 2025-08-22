@@ -11,8 +11,8 @@ import {
     documentController,
     isObject,
     DB_DOESNT_EXIST,
+    READ_SUCCESSFUL,
     INPUT_IS_INVALID,
-    GET_DOCS_SUCCESS,
     it, assert
 } from './import.js';
 
@@ -38,8 +38,8 @@ console.log(`----GET----`);
     it('Returns successful Result object', () => {
         assert(isResultObject(res));
     });
-    it('Returns Result object with get successful message', () => {
-        assert(res.message === GET_DOCS_SUCCESS);
+    it('Returns Result object with read successful message', () => {
+        assert(res.message === READ_SUCCESSFUL);
     });
 
     it('Returns only accurate Documents if given keys', () => {
@@ -83,7 +83,4 @@ it('Returns database doesn\'t exist message if database file hasn\'t been instan
     assert(res.message === DB_DOESNT_EXIST);
     assert(res.success === false);
 
-}, cleanDatabase,
-{ devLog:
-    'Result object from DB gets left behind at DocRepo, thus error messages don\'t reach use case and above (in call flow)\nImplement rework in return flow at DocRep -> UseCase -> Controller'
-});
+}, cleanDatabase);

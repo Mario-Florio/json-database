@@ -8,11 +8,7 @@ import DeleteDocument from '../../core/use-cases/DeleteDocument.js';
 import Result from '../../core/entities/Result.js';
 import ContractError from '../../shared/contracts/__utils__/ContractError.js';
 import inputIsValid from './__utils__/inputIsValid.js';
-import {
-    INPUT_IS_INVALID,
-    GET_DOCS_SUCCESS,
-    GET_ONE_DOC_SUCCESS
-} from './response-tokens.js';
+import { INPUT_IS_INVALID } from './response-tokens.js';
 
 function instantiateCollection(paramObj) {
     try {
@@ -55,10 +51,8 @@ function getDocuments(paramObj) {
         const repo = new DocumentRepository(collectionId);
         const useCase = new FindDocuments(repo);
 
-        const documents = useCase.execute({ keys });
-
-        return new Result({ message: GET_DOCS_SUCCESS, success: true })
-                    .addData(documents);
+        const response = useCase.execute({ keys });
+        return response;
     } catch (err) {
         return errorHandler(err);
     }
@@ -73,9 +67,8 @@ function getOneDocument(paramObj) {
         const repo = new DocumentRepository(collectionId);
         const useCase = new FindOneDocument(repo);
 
-        const document = useCase.execute({ keys });
-        return new Result({ message: GET_ONE_DOC_SUCCESS, success: true })
-                    .addData(document);
+        const response = useCase.execute({ keys });
+        return response;
     } catch (err) {
         return errorHandler(err);
     }

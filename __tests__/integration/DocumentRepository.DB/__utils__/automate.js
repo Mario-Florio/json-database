@@ -1,6 +1,7 @@
 import {
     DocumentRepository,
     Document,
+    Result,
     deepEqual
 } from '../imports.js';
 import fs from 'fs';
@@ -19,7 +20,8 @@ function getDoc(data) {
 }
 
 function getTargetDoc(docRepo, options = { index: { isTrue: false, value: new Number() } }) {
-    const documents = docRepo.read();
+    const { data } = docRepo.read();
+    const documents = data;
     const amount = documents.length;
 
     if (options.index.isTrue && (options.index.value >= amount || options.index.value < 0))
@@ -50,6 +52,10 @@ function isDocument(document) {
     return document instanceof Document;
 }
 
+function isResult(result) {
+    return result instanceof Result;
+}
+
 function dbFileExists() {
     return fs.existsSync(collectionDbPath);
 }
@@ -74,6 +80,7 @@ export {
     getAndSetupDocRepo,
     fillDocRepo,
     isDocument,
+    isResult,
     dbFileExists,
     dbHas,
     cleanDatabase

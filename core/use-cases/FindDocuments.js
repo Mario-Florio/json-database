@@ -16,12 +16,18 @@ class FindDocuments extends DocumentRepositoryUseCase {
         
         const { keys } = paramObj;
 
-        const documents = this.repo.read();
-        uphold(documents.every(document => document instanceof Document),
-               'Invalid Type — DocumentRepository must only return Document instances');
-        const filtered = documents.filter(document => document.hasKeys(keys));
+        const response = this.repo.read();
 
-        return filtered;
+        if (response.success) {
+            const { data } = response;
+            uphold(data.every(document => document instanceof Document),
+                'Invalid Type — DocumentRepository must only return Document instances');
+            
+            const filtered = data.filter(document => document.hasKeys(keys));
+            response.data = filtered;
+        }
+
+        return response;
     }
 }
 

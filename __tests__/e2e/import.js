@@ -5,11 +5,7 @@ import Result from '../../core/entities/Result.js';
 import config from '../../config.js';
 import isObject from '../../shared/__utils__/isObject.js';
 import deepEqual from '../../shared/__utils__/deepEqual.js';
-import {
-    INPUT_IS_INVALID,
-    GET_DOCS_SUCCESS,
-    GET_ONE_DOC_SUCCESS
-} from '../../adapters/controllers/response-tokens.js';
+import { INPUT_IS_INVALID } from '../../adapters/controllers/response-tokens.js';
 import {
     DB_ALREADY_EXISTS,
     DB_DOESNT_EXIST,
@@ -43,7 +39,5 @@ export {
     NO_ID,
     ITEM_NOT_FOUND,
     INPUT_IS_INVALID,
-    GET_DOCS_SUCCESS,
-    GET_ONE_DOC_SUCCESS,
     it, assert
 }

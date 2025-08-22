@@ -32,7 +32,8 @@ function setupUseCase(type) {
 }
 
 function getTargetDoc(repo, options = { index: { isTrue: false, value: new Number() } }) {
-    const documents = repo.read();
+    const { data } = repo.read();
+    const documents = data;
     const amount = documents.length;
 
     if (options.index.isTrue && (options.index.value >= amount || options.index.value < 0))

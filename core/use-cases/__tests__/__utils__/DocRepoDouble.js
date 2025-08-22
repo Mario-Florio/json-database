@@ -18,7 +18,7 @@ class DocumentRepositoryDouble {
     }
     read() {
         if (!Array.isArray(this.#db)) return { message: MESSAGE, success: false };
-        return this.#db;
+        return { message: MESSAGE, data: this.#db, success: true };
     }
     update(_id, updatedDoc) {
         if (!Array.isArray(this.#db)) return { message: MESSAGE, success: false };

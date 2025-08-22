@@ -16,12 +16,18 @@ class FindOneDocument extends DocumentRepositoryUseCase {
         
         const { keys } = paramObj;
 
-        const documents = this.repo.read();
-        uphold(documents.every(document => document instanceof Document),
-               'Invalid Type — DocumentRepository must only return Document instances');
-        const document = documents.find(document => document.hasKeys(keys));
+        const response = this.repo.read();
 
-        return document ?? null;
+        if (response.success) {
+            const { data } = response;
+            uphold(data.every(document => document instanceof Document),
+                'Invalid Type — DocumentRepository must only return Document instances');
+
+            const document = data.find(document => document.hasKeys(keys));
+            response.data = document ?? null;
+        }
+
+        return response;
     }
 }
 

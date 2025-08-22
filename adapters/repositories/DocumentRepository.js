@@ -17,10 +17,8 @@ class DocumentRepository {
     }
     read() {
         const result = this.#db.read();
-
-        if (!result.success) return [];
-
-        return result.data.map(doc => new Document(doc));
+        if (result.success === true) result.data = result.data.map(doc => new Document(doc));
+        return result;
     }
     update(_id, updatedDoc) {
         uphold(updatedDoc instanceof Document, 'DocumentRepositoryUseCases must only input Document instances');
