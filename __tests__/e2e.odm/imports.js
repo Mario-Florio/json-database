@@ -1,4 +1,4 @@
-import { it, assert } from '../../shared/testing/test-tools.js';
+import { itAsync, assert } from '../../shared/testing/test-tools.js';
 import ODM from '../../ODM/ODM.js';
 import config from '../../config.js';
 import {
@@ -7,7 +7,7 @@ import {
 } from '../../IO-API/response-tokens.js';
 
 export {
-    it, assert,
+    itAsync, assert,
     ODM,
     config,
     DELETE_SUCCESSFUL,

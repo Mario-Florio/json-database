@@ -6,26 +6,26 @@ class DocumentRepositoryDouble {
 
     constructor(collectionName) {
     }
-    instantiate() {
+    async instantiate() {
         if (Array.isArray(this.#db)) return { message: MESSAGE, success: false };
         this.#db = [];
         return { message: MESSAGE, success: true };
     }
-    create(document) {
+    async create(document) {
         if (!Array.isArray(this.#db)) return { message: MESSAGE, success: false };
         this.#db.push(document);
         return { message: MESSAGE, success: true };
     }
-    read() {
+    async read() {
         if (!Array.isArray(this.#db)) return { message: MESSAGE, success: false };
         return { message: MESSAGE, data: this.#db, success: true };
     }
-    update(_id, updatedDoc) {
+    async update(_id, updatedDoc) {
         if (!Array.isArray(this.#db)) return { message: MESSAGE, success: false };
         this.#db = this.#db.map(document => document._id === _id ? updatedDoc : document);
         return { message: MESSAGE, success: true };
     }
-    delete(_id) {
+    async delete(_id) {
         if (!Array.isArray(this.#db)) return { message: MESSAGE, success: false };
         this.#db = this.#db.filter(document => document._id !== _id);
         return { message: MESSAGE, success: true };

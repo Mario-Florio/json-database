@@ -1,4 +1,4 @@
-import { it, assert } from '../../../shared/testing/test-tools.js';
+import { it, itAsync, assert } from '../../../shared/testing/test-tools.js';
 import DocumentRepository from '../../../adapters/repositories/DocumentRepository.js';
 import Document from '../../../core/entities/Document.js';
 import Result from '../../../core/entities/Result.js';
@@ -7,6 +7,7 @@ import { READ_SUCCESSFUL } from '../../../IO-API/response-tokens.js';
 
 export {
     it,
+    itAsync,
     assert,
     DocumentRepository,
     Document,

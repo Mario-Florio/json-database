@@ -1,15 +1,15 @@
 import { setupUseCase, getSchema } from './__utils__/automate.js';
 import {
-    it,
+    it, itAsync,
     assert,
     SAVE,
     isObject
 } from './imports.js';
 
 console.log('----SAVE_DOCUMENTS----');
-it('Returns a non-array object with message and truthy success fields', () => {
+await itAsync('Returns a non-array object with message and truthy success fields', async () => {
 
-    const useCase = setupUseCase(SAVE);
+    const useCase = await setupUseCase(SAVE);
     const schema = getSchema();
     const data = { _id: 'id', prop: 'item 11' };
 
@@ -18,16 +18,16 @@ it('Returns a non-array object with message and truthy success fields', () => {
         data
     };
 
-    const response = useCase.execute(paramObj);
+    const response = await useCase.execute(paramObj);
 
     assert(isObject(response));
     assert(response.message);
     assert(response.success === true);
 
 });
-it('Returns a non-array object with message and falsy success fields if data does not represent schema', () => {
+await itAsync('Returns a non-array object with message and falsy success fields if data does not represent schema', async () => {
 
-    const useCase = setupUseCase(SAVE);
+    const useCase = await setupUseCase(SAVE);
     const schema = getSchema();
     const data = {
         _id: 'id',
@@ -39,7 +39,7 @@ it('Returns a non-array object with message and falsy success fields if data doe
         data
     };
 
-    const response = useCase.execute(paramObj);
+    const response = await useCase.execute(paramObj);
 
     assert(isObject(response));
     assert(response.message);

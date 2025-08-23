@@ -1,5 +1,6 @@
 #!/bin/bash
 
+instantiate="./__tests__/e2e/instantiate.test.js"
 create="./__tests__/e2e/create.test.js"
 get="./__tests__/e2e/get.test.js"
 getOne="./__tests__/e2e/getOne.test.js"
@@ -7,6 +8,7 @@ update="./__tests__/e2e/update.test.js"
 delete="./__tests__/e2e/delete.test.js"
 
 files=(
+    "$instantiate"
     "$create"
     "$get"
     "$getOne"
@@ -26,6 +28,9 @@ fi
 test=$1
 
 case $test in
+    "instantiate")
+        node "$instantiate"
+        ;;
     "create")
         node "$create"
         ;;

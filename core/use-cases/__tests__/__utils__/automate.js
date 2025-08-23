@@ -12,10 +12,10 @@ import {
 } from '../imports.js';
 import DocumentRepositoryDouble from './DocRepoDouble.js';
 
-function setupUseCase(type) {
+async function setupUseCase(type) {
     const repo = new DocumentRepositoryDouble();
-    repo.instantiate();
-    fillRepo(repo);
+    await repo.instantiate();
+    await fillRepo(repo);
 
     switch (type) {
         case FIND:
@@ -31,8 +31,8 @@ function setupUseCase(type) {
     }
 }
 
-function getTargetDoc(repo, options = { index: { isTrue: false, value: new Number() } }) {
-    const { data } = repo.read();
+async function getTargetDoc(repo, options = { index: { isTrue: false, value: new Number() } }) {
+    const { data } = await repo.read();
     const documents = data;
     const amount = documents.length;
 
@@ -62,10 +62,10 @@ function getDoc(data) {
 }
 
 // UTILS
-function fillRepo(repo, amount = 10) {
+async function fillRepo(repo, amount = 10) {
     for (let i = 0; i < amount; i++) {
         const doc = getDoc({ prop: `item ${i+1}` });
-        repo.create(doc);
+        await repo.create(doc);
     }
 }
 

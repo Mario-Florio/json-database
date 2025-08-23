@@ -10,13 +10,13 @@ class FindDocuments extends DocumentRepositoryUseCase {
         super(repo);
     }
 
-    execute(paramObj) {
+    async execute(paramObj) {
         must(isObject(paramObj), 'Invalid Type — paramObj must be a non-array object');
         must(isObject(paramObj.keys), 'Invalid Type — paramObj.keys must be a non-array object');
         
         const { keys } = paramObj;
 
-        const response = this.repo.read();
+        const response = await this.repo.read();
 
         if (response.success) {
             const { data } = response;

@@ -13,7 +13,7 @@ class UpdateDocument extends DocumentRepositoryUseCase {
         super(repo);
     }
 
-    execute(paramObj) {
+    async execute(paramObj) {
         must(isObject(paramObj), 'Invalid Type — paramObj must be a non-array object');
         must(typeof paramObj._id === 'string', 'Invalid Type — paramObj._id must be a non-array object');
         must(isObject(paramObj.data), 'Invalid Type — paramObj.data must be a non-array object');
@@ -27,7 +27,7 @@ class UpdateDocument extends DocumentRepositoryUseCase {
 
         if (!isValid) return { message: DOC_IS_INVALID, success: false }
 
-        const response = this.repo.update(_id, updatedDoc);
+        const response = await this.repo.update(_id, updatedDoc);
         return response;
     }
 }

@@ -4,10 +4,10 @@ import {
     getPropsArr,
     cleanDatabase
 } from './__utils__/automate.js';
-import { it, assert } from './imports.js';
+import { itAsync, assert } from './imports.js';
 
 console.log('------FIND_BY_ID_AND_UPDATE------');
-it('Update appropriate item with proper values', () => {
+await itAsync('Update appropriate item with proper values', async () => {
     const ModelType = setupSchema();
     const propsArr = getPropsArr(2);
 
@@ -16,35 +16,35 @@ it('Update appropriate item with proper values', () => {
         model2
     ] = getModelInstances(2, ModelType, propsArr);
 
-    model1.save();
-    model2.save();
+    await model1.save();
+    await model2.save();
 
     const updatedProp = 'updated prop';
-    ModelType.findByIdAndUpdate(model2._id, { prop: updatedProp });
+    await ModelType.findByIdAndUpdate(model2._id, { prop: updatedProp });
 
-    const updatedModel2 = ModelType.findById(model2._id);
+    const updatedModel2 = await ModelType.findById(model2._id);
 
     assert(updatedModel2.prop === updatedProp);
 
 }, cleanDatabase);
-it('Does not update _id & createdAt fields', () => {
+await itAsync('Does not update _id & createdAt fields', async () => {
     const ModelType = setupSchema();
     const propsArr = getPropsArr(1);
 
     const [ model1 ] = getModelInstances(1, ModelType, propsArr);
-    model1.save();
+    await model1.save();
 
     const updatedId = 'saldjbskjdvbsa';
     const updatedCreatedAt = new Date();
-    ModelType.findByIdAndUpdate(model1._id, { _id: updatedId, createdAt: updatedCreatedAt });
+    await ModelType.findByIdAndUpdate(model1._id, { _id: updatedId, createdAt: updatedCreatedAt });
 
-    const updatedModel = ModelType.findById(model1._id);
+    const updatedModel = await ModelType.findById(model1._id);
 
     assert(updatedModel._id === model1._id);
     assert(updatedModel.createdAt === model1.createdAt);
 
 }, cleanDatabase);
-it('Returns null if no object is found', () => {
+await itAsync('Returns null if no object is found', async () => {
     const ModelType = setupSchema();
     const propsArr = getPropsArr(2);
 
@@ -53,16 +53,16 @@ it('Returns null if no object is found', () => {
         model2
     ] = getModelInstances(2, ModelType, propsArr);
 
-    model1.save();
-    model2.save();
+    await model1.save();
+    await model2.save();
 
     const updatedProp = 'updated prop';
-    const res = ModelType.findByIdAndUpdate('sdjkvbsdv', { prop: updatedProp });
+    const res = await ModelType.findByIdAndUpdate('sdjkvbsdv', { prop: updatedProp });
 
     assert(res === null);
 
 }, cleanDatabase);
-it('Returns null if no arguments are passed', () => {
+await itAsync('Returns null if no arguments are passed', async () => {
     const ModelType = setupSchema();
     const propsArr = getPropsArr(2);
 
@@ -71,10 +71,10 @@ it('Returns null if no arguments are passed', () => {
         model2
     ] = getModelInstances(2, ModelType, propsArr);
 
-    model1.save();
-    model2.save();
+    await model1.save();
+    await model2.save();
 
-    const res = ModelType.findByIdAndUpdate();
+    const res = await ModelType.findByIdAndUpdate();
 
     assert(res === null);
 

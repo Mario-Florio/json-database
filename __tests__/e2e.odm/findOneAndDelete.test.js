@@ -5,13 +5,13 @@ import {
     cleanDatabase
 } from './__utils__/automate.js';
 import {
-    it, assert,
+    itAsync, assert,
     DELETE_SUCCESSFUL,
     ITEM_NOT_FOUND
 } from './imports.js';
 
 console.log('------FIND_ONE_AND_DELETE------');
-it('Deletes appropriate object', () => {
+await itAsync('Deletes appropriate object', async () => {
     const ModelType = setupSchema();
     const propsArr = getPropsArr(4);
 
@@ -22,33 +22,33 @@ it('Deletes appropriate object', () => {
         model4
     ] = getModelInstances(4, ModelType, propsArr);
 
-    model1.save();
-    model2.save();
-    model3.save();
-    model4.save();
+    await model1.save();
+    await model2.save();
+    await model3.save();
+    await model4.save();
 
-    ModelType.findOneAndDelete({ _id: model3._id });
+    await ModelType.findOneAndDelete({ _id: model3._id });
     
-    const models = ModelType.find();
+    const models = await ModelType.find();
 
     assert(models.length === 3);
     assert(models[2].prop !== model3.prop);
 
 }, cleanDatabase);
-it('Returns "Deletion successful" message if deletion is successful', () => {
+await itAsync('Returns "Deletion successful" message if deletion is successful', async () => {
     const ModelType = setupSchema();
     const propsArr = getPropsArr(1, false);
 
     const [ model ] = getModelInstances(1, ModelType, propsArr);
 
-    model.save();
+    await model.save();
 
-    const res = ModelType.findOneAndDelete({ _id: model._id });
+    const res = await ModelType.findOneAndDelete({ _id: model._id });
     
     assert(res.message === DELETE_SUCCESSFUL);
 
 }, cleanDatabase);
-it('Returns "Item was not found" message if no object is found', () => {
+await itAsync('Returns "Item was not found" message if no object is found', async () => {
     const ModelType = setupSchema();
     const propsArr = getPropsArr(4);
 
@@ -59,20 +59,20 @@ it('Returns "Item was not found" message if no object is found', () => {
         model4
     ] = getModelInstances(4, ModelType, propsArr);
 
-    model1.save();
-    model2.save();
-    model3.save();
-    model4.save();
+    await model1.save();
+    await model2.save();
+    await model3.save();
+    await model4.save();
 
-    const res = ModelType.findOneAndDelete({ _id: '_id' });
+    const res = await ModelType.findOneAndDelete({ _id: '_id' });
     
     assert(res.message === ITEM_NOT_FOUND);
 
 }, cleanDatabase);
-it('Returns null if no arguments are passed', () => {
+await itAsync('Returns null if no arguments are passed', async () => {
     const ModelType = setupSchema();
 
-    const res = ModelType.findOneAndDelete();
+    const res = await ModelType.findOneAndDelete();
 
     assert(res === null);
 }, cleanDatabase);

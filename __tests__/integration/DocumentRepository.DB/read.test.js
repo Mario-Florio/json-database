@@ -12,12 +12,12 @@ import {
 
 console.log('----DOCUMENT_REPOSITORY_READ----');
 // Happy path
-((cleanupFn) => {
+await (async (cleanupFn) => {
 
-    const docRepo = getAndSetupDocRepo({
+    const docRepo = await getAndSetupDocRepo({
         fill: { isTrue: true, amount: 10 }
     });
-    const response = docRepo.read();
+    const response = await docRepo.read();
     const { message, success, data } = response;
 
     it('Returns a Result object', () => {

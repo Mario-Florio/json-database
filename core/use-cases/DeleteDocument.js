@@ -4,10 +4,10 @@ class DeleteDocument extends DocumentRepositoryUseCase {
     constructor(repo) {
         super(repo);
     }
-    execute(paramObj) {
+    async execute(paramObj) {
         const { _id } = paramObj;
 
-        const response = this.repo.delete(_id);
+        const response = await this.repo.delete(_id);
         return response;
     }
 }

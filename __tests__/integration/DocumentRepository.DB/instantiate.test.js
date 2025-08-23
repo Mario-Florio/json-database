@@ -4,31 +4,31 @@ import {
     dbFileExists,
     cleanDatabase
 } from './__utils__/automate.js';
-import { it, assert } from './imports.js';
+import { itAsync, assert } from './imports.js';
 
 console.log('----DOCUMENT_REPOSITORY_INSTANTIATE----');
 
-it('Instantiates database file', () => {
+await itAsync('Instantiates database file', async () => {
 
     const docRepo = getDocRepo();
-    docRepo.instantiate();
+    await docRepo.instantiate();
 
     assert(dbFileExists());
 
 }, cleanDatabase);
-it('Returns object with message and truthy success fields', () => {
+await itAsync('Returns object with message and truthy success fields', async () => {
 
     const docRepo = getDocRepo();
-    const response = docRepo.instantiate();
+    const response = await docRepo.instantiate();
 
     assert(response.message);
     assert(response.success === true);
 
 }, cleanDatabase);
-it('If database file already exists, returns object with message and falsy success fields', () => {
+await itAsync('If database file already exists, returns object with message and falsy success fields', async () => {
 
-    const docRepo = getAndSetupDocRepo();
-    const response = docRepo.instantiate();
+    const docRepo = await getAndSetupDocRepo();
+    const response = await docRepo.instantiate();
 
     assert(response.message);
     assert(response.success === false);

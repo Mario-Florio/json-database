@@ -5,8 +5,8 @@ class InstantiateCollection extends DocumentRepositoryUseCase {
         super(repo);
     }
 
-    execute() {
-        const response = this.repo.instantiate();
+    async execute() {
+        const response = await this.repo.instantiate();
         return response;
     }
 }

@@ -16,8 +16,6 @@ function model(collectionName, schema, stub = false) {
     const collectionId = collectionName;
     const controller = stub ? stubController : documentController;
 
-    documentController.instantiateCollection({ collectionId });
-
     class Model {
         constructor() {
             this._id = uid();
@@ -26,17 +24,19 @@ function model(collectionName, schema, stub = false) {
         // SETUP QUERY RETURNS
         static setupModel(SubModel) {
             for (const method in queryMethodMap) {
-                SubModel[method] = (...args) => {
-                    const response = Model[method](...args);
+                SubModel[method] = async (...args) => {
+                    const response = await Model[method](...args);
                     return instantiateRes(response, SubModel);
                 }
             }
         }
         // READ
-        static findById(_id) {
+        static async findById(_id) {
             if (!idIsValid(_id)) return null;
 
-            const response = controller.getOneDocument({
+            await controller.instantiateCollection({ collectionId });
+
+            const response = await controller.getOneDocument({
                 collectionId, 
                 keys: { _id: _id }
             });
@@ -46,8 +46,11 @@ function model(collectionName, schema, stub = false) {
 
             return document;
         }
-        static find(classKeys) {
-            const response = controller.getDocuments({
+        static async find(classKeys) {
+
+            await controller.instantiateCollection({ collectionId });
+
+            const response = await controller.getDocuments({
                 collectionId,
                 keys: classKeys || {}
             });
@@ -57,10 +60,12 @@ function model(collectionName, schema, stub = false) {
 
             return documents;
         }
-        static findOne(classKeys) {
+        static async findOne(classKeys) {
             if (!keysAreValid(classKeys)) return null;
 
-            const response = controller.getOneDocument({
+            await controller.instantiateCollection({ collectionId });
+
+            const response = await controller.getOneDocument({
                 collectionId, 
                 keys: classKeys
             });
@@ -71,14 +76,16 @@ function model(collectionName, schema, stub = false) {
             return document;
         }
         // UPDATE
-        static findByIdAndUpdate(_id, updatedKeys) {
+        static async findByIdAndUpdate(_id, updatedKeys) {
             if (!keysAreValid(updatedKeys)) return null;
 
-            const document = Model.findById(_id);
+            await controller.instantiateCollection({ collectionId });
+
+            const document = await Model.findById(_id);
 
             if (!document) return null;
 
-            const response = controller.updateDocument({
+            const response = await controller.updateDocument({
                 collectionId,
                 _id,
                 schema,
@@ -88,15 +95,17 @@ function model(collectionName, schema, stub = false) {
 
             return response;
         }
-        static findOneAndUpdate(classKeys, updatedKeys) {
+        static async findOneAndUpdate(classKeys, updatedKeys) {
             if (!keysAreValid(classKeys)) return null;
             if (!keysAreValid(updatedKeys)) return null;
 
-            const document = Model.findOne(classKeys);
+            await controller.instantiateCollection({ collectionId });
+
+            const document = await Model.findOne(classKeys);
 
             if (!document) return null;
 
-            const response = controller.updateDocument({
+            const response = await controller.updateDocument({
                 collectionId,
                 _id: document._id,
                 schema,
@@ -107,20 +116,24 @@ function model(collectionName, schema, stub = false) {
             return response;
         }
         // DELETE
-        static findByIdAndDelete(_id) {
+        static async findByIdAndDelete(_id) {
             if (!idIsValid(_id)) return null;
 
-            const response = controller.deleteDocument({ collectionId, _id });
+            await controller.instantiateCollection({ collectionId });
+
+            const response = await controller.deleteDocument({ collectionId, _id });
             
             return response;
         }
-        static findOneAndDelete(classKeys) {
+        static async findOneAndDelete(classKeys) {
             if (!keysAreValid(classKeys)) return null;
 
-            const document = Model.findOne(classKeys);
+            await documentController.instantiateCollection({ collectionId });
+
+            const document = await Model.findOne(classKeys);
             if (!document) return { message: 'Item was not found' };
 
-            const response = controller.deleteDocument({
+            const response = await controller.deleteDocument({
                 collectionId,
                 _id: document._id
             })
@@ -128,8 +141,10 @@ function model(collectionName, schema, stub = false) {
             return response;
         } 
         // CREATE
-        save() {
-            const response = controller.createDocument({
+        async save() {
+            await controller.instantiateCollection({ collectionId });
+
+            const response = await controller.createDocument({
                 collectionId,
                 schema,
                 data: this

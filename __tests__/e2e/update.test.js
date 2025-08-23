@@ -15,26 +15,26 @@ import {
     NO_ID,
     DB_DOESNT_EXIST,
     INPUT_IS_INVALID,
-    it, assert
+    it, itAsync, assert
 } from './import.js';
 
 const collectionId = getCollectionId();
 const schema = getSchema();
 const updatedKeys = { prop: 'This prop has been updated' }
 
-function setupCollection() {
-    documentController.instantiateCollection({ collectionId });
+async function setupCollection() {
+    await documentController.instantiateCollection({ collectionId });
     fillDb();
 }
 
 console.log(`----UPDATE----`);
 // Happy path
-((cleanupFn) => {
+await (async (cleanupFn) => {
 
-    setupCollection();
+    await setupCollection();
     const data = getTargetDoc();
     const { _id } = data;
-    const res = documentController.updateDocument({ collectionId, _id, schema, data, updatedKeys });
+    const res = await documentController.updateDocument({ collectionId, _id, schema, data, updatedKeys });
 
     it('Updates correct document with accurate values in database', () => {
 
@@ -56,9 +56,9 @@ console.log(`----UPDATE----`);
 
 })(cleanDatabase);
 
-it('Returns input is invalid message if input is invalid', () => {
+await itAsync('Returns input is invalid message if input is invalid', async () => {
 
-    setupCollection();
+    await setupCollection();
     const data = getTargetDoc();
     const { _id } = data;
 
@@ -69,50 +69,50 @@ it('Returns input is invalid message if input is invalid', () => {
     const invalidKeys = types.filter(type => !isObject(type));
 
     for (const collectionId of invalidCollectionIds) {
-        const res = documentController.updateDocument({ collectionId, _id, schema, data, updatedKeys });
+        const res = await documentController.updateDocument({ collectionId, _id, schema, data, updatedKeys });
         assert(res.message === INPUT_IS_INVALID);
         assert(res.success === false);
     }
 
     for (const _id of invalidIds) {
-        const res = documentController.updateDocument({ collectionId, _id, schema, data, updatedKeys });
+        const res = await documentController.updateDocument({ collectionId, _id, schema, data, updatedKeys });
         assert(res.message === INPUT_IS_INVALID);
         assert(res.success === false);
     }
 
     for (const schema of invalidSchemas) {
-        const res = documentController.updateDocument({ collectionId, _id, schema, data, updatedKeys });
+        const res = await documentController.updateDocument({ collectionId, _id, schema, data, updatedKeys });
         assert(res.message === INPUT_IS_INVALID);
         assert(res.success === false);
     }
 
     for (const data of invalidDatas) {
-        const res = documentController.updateDocument({ collectionId, _id, schema, data, updatedKeys });
+        const res = await documentController.updateDocument({ collectionId, _id, schema, data, updatedKeys });
         assert(res.message === INPUT_IS_INVALID);
         assert(res.success === false);
     }
 
     for (const updatedKeys of invalidKeys) {
-        const res = documentController.updateDocument({ collectionId, _id, schema, data, updatedKeys });
+        const res = await documentController.updateDocument({ collectionId, _id, schema, data, updatedKeys });
         assert(res.message === INPUT_IS_INVALID);
         assert(res.success === false);
     }
 
 }, cleanDatabase);
 
-it('Returns database doesn\'t exist message if database file hasn\'t been instantiated', () => {
+await itAsync('Returns database doesn\'t exist message if database file hasn\'t been instantiated', async () => {
     
-    const res = documentController.updateDocument({ collectionId, _id: '_id', schema, data: {}, updatedKeys });
+    const res = await documentController.updateDocument({ collectionId, _id: '_id', schema, data: {}, updatedKeys });
     assert(res.message === DB_DOESNT_EXIST);
     assert(res.success === false);
 
 }, cleanDatabase);
 
 // Edge cases
-it('Returns database no-id-given message if _id is an empty string', () => {
+await itAsync('Returns database no-id-given message if _id is an empty string', async () => {
     
-    setupCollection();
-    const res = documentController.updateDocument({ collectionId, _id: '', schema, data: {}, updatedKeys });
+    await setupCollection();
+    const res = await documentController.updateDocument({ collectionId, _id: '', schema, data: {}, updatedKeys });
     assert(res.message === NO_ID);
     assert(res.success === false);
 

@@ -5,7 +5,7 @@ import {
     dbHas,
     cleanDatabase
 } from './__utils__/automate.js';
-import { it, assert } from './imports.js';
+import { it, itAsync, assert } from './imports.js';
 
 const data = {
     string: 'string',
@@ -23,30 +23,30 @@ const data = {
 
 console.log('----DOCUMENT_REPOSITORY_CREATE----');
 
-it('Creates accurate record in database file', () => {
+await itAsync('Creates accurate record in database file', async () => {
 
-    const docRepo = getAndSetupDocRepo();
+    const docRepo = await getAndSetupDocRepo();
     const doc = getDoc(data);
-    docRepo.create(doc);
+    await docRepo.create(doc);
 
     assert(dbHas(data));
 
 }, cleanDatabase);
-it('Returns object with message and truthy success fields', () => {
+await itAsync('Returns object with message and truthy success fields', async () => {
 
-    const docRepo = getAndSetupDocRepo();
+    const docRepo = await getAndSetupDocRepo();
     const doc = getDoc(data);
-    const response = docRepo.create(doc);
+    const response = await docRepo.create(doc);
 
     assert(response.message);
     assert(response.success === true);
 
 }, cleanDatabase);
-it('If database file does not exist, returns object with message and falsy success fields', () => {
+await itAsync('If database file does not exist, returns object with message and falsy success fields', async () => {
 
     const docRepo = getDocRepo();
     const doc = getDoc(data);
-    const response = docRepo.create(doc);
+    const response = await docRepo.create(doc);
 
     assert(response.message);
     assert(response.success === false);

@@ -13,7 +13,7 @@ class SaveDocument extends DocumentRepositoryUseCase {
         super(repo);
     }
 
-    execute(paramObj) {
+    async execute(paramObj) {
         must(isObject(paramObj), 'Invalid Type — paramObj must be a non-array object');
         must(isObject(paramObj.data), 'Invalid Type — paramObj.data must be a non-array object');
 
@@ -25,7 +25,7 @@ class SaveDocument extends DocumentRepositoryUseCase {
 
         if (!isValid) return { message: DOC_IS_INVALID, success: false };
         
-        const response = this.repo.create(document);
+        const response = await this.repo.create(document);
         return response;
     }
 }

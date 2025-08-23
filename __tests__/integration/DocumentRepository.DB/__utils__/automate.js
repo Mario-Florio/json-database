@@ -19,8 +19,8 @@ function getDoc(data) {
     return new Document(data);
 }
 
-function getTargetDoc(docRepo, options = { index: { isTrue: false, value: new Number() } }) {
-    const { data } = docRepo.read();
+async function getTargetDoc(docRepo, options = { index: { isTrue: false, value: new Number() } }) {
+    const { data } = await docRepo.read();
     const documents = data;
     const amount = documents.length;
 
@@ -33,18 +33,18 @@ function getTargetDoc(docRepo, options = { index: { isTrue: false, value: new Nu
     return targetDoc;
 }
 
-function getAndSetupDocRepo(options = { fill: { isTrue: false, amount: 10 } }) {
+async function getAndSetupDocRepo(options = { fill: { isTrue: false, amount: 10 } }) {
     const docRepo = getDocRepo();
-    docRepo.instantiate();
-    if (options.fill.isTrue) fillDocRepo(docRepo, options.fill.amount);
+    await docRepo.instantiate();
+    if (options.fill.isTrue) await fillDocRepo(docRepo, options.fill.amount);
     return docRepo;
 }
 
-function fillDocRepo(docRepo, amount = 10) {
+async function fillDocRepo(docRepo, amount = 10) {
     for (let i = 0; i < amount; i++) {
         const uid = (new Date().getUTCMilliseconds() + i * (Math.floor(Math.random() * 100) + 1)).toString();
         const doc = getDoc({ _id: uid, prop: `item ${i+1}` });
-        docRepo.create(doc);
+        await docRepo.create(doc);
     }
 }
 

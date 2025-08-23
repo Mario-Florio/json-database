@@ -4,21 +4,21 @@ import {
     getPropsArr,
     cleanDatabase
 } from './__utils__/automate.js';
-import { it, assert } from './imports.js';
+import { itAsync, assert } from './imports.js';
 
 console.log('------VIRTUALS------');
-it('Virtuals work', () => {
+await itAsync('Virtuals work', async () => {
     const ModelType = setupSchema();
     const propsArr = getPropsArr(1, false);
 
     const [ model ] = getModelInstances(1, ModelType, propsArr);
 
-    model.save();
+    await model.save();
 
     assert(model.virtualProp === "This is a virtual prop from model.")
 
 }, cleanDatabase);
-it('Virtuals work on queried data: find', () => {
+await itAsync('Virtuals work on queried data: find', async () => {
     const ModelType = setupSchema();
     const propsArr = getPropsArr(2);
 
@@ -27,41 +27,41 @@ it('Virtuals work on queried data: find', () => {
         model2
     ] = getModelInstances(2, ModelType, propsArr);
 
-    model1.save();
-    model2.save();
+    await model1.save();
+    await model2.save();
 
-    const models = ModelType.find();
+    const models = await ModelType.find();
 
     assert(models[0].virtualProp === "This is a virtual prop from model 1.");
     assert(models[1].virtualProp === "This is a virtual prop from model 2.");
 
-    const model = ModelType.find(model1);
+    const model = await ModelType.find(model1);
 
     assert(model[0].virtualProp === "This is a virtual prop from model 1.");
 
 }, cleanDatabase);
-it('Virtuals work on queried data: findById', () => {
+await itAsync('Virtuals work on queried data: findById', async () => {
     const ModelType = setupSchema();
     const propsArr = getPropsArr(1);
 
     const [ model1 ] = getModelInstances(1, ModelType, propsArr);
 
-    model1.save();
+    await model1.save();
 
-    const model = ModelType.findById(model1._id);
+    const model = await ModelType.findById(model1._id);
 
     assert(model.virtualProp === "This is a virtual prop from model 1.");
 
 }, cleanDatabase);
-it('Virtuals work on queried data: findOne', () => {
+await itAsync('Virtuals work on queried data: findOne', async () => {
     const ModelType = setupSchema();
     const propsArr = getPropsArr(1);
 
     const [ model1 ] = getModelInstances(1, ModelType, propsArr);
 
-    model1.save();
+    await model1.save();
 
-    const model = ModelType.findOne(model1);
+    const model = await ModelType.findOne(model1);
 
     assert(model.virtualProp === "This is a virtual prop from model 1.");
 

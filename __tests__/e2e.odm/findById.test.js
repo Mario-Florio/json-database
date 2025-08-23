@@ -4,10 +4,10 @@ import {
     getPropsArr,
     cleanDatabase
 } from './__utils__/automate.js';
-import { it, assert } from './imports.js';
+import { itAsync, assert } from './imports.js';
 
 console.log('------FIND_BY_ID------');
-it('Returns appropriate obj', () => {
+await itAsync('Returns appropriate obj', async () => {
     const ModelType = setupSchema();
     const propsArr = getPropsArr(4);
 
@@ -18,24 +18,24 @@ it('Returns appropriate obj', () => {
         model4
     ] = getModelInstances(4, ModelType, propsArr);
 
-    model1.save();
-    model2.save();
-    model3.save();
-    model4.save();
+    await model1.save();
+    await model2.save();
+    await model3.save();
+    await model4.save();
 
-    const model = ModelType.findById(model3._id);
+    const model = await ModelType.findById(model3._id);
 
     assert(model.prop === 'model 3');
 
 }, cleanDatabase);
-it('Returns null if no _id is passed', () => {
+await itAsync('Returns null if no _id is passed', async () => {
     const ModelType = setupSchema();
 
-    const res = ModelType.findById();
+    const res = await ModelType.findById();
 
     assert(res === null);
 });
-it('Returns null if no object is found', () => {
+await itAsync('Returns null if no object is found', async () => {
     const ModelType = setupSchema();
     const propsArr = getPropsArr(4);
 
@@ -46,12 +46,12 @@ it('Returns null if no object is found', () => {
         model4
     ] = getModelInstances(4, ModelType, propsArr);
 
-    model1.save();
-    model2.save();
-    model3.save();
-    model4.save();
+    await model1.save();
+    await model2.save();
+    await model3.save();
+    await model4.save();
 
-    const res = ModelType.findById('sldkjvb');
+    const res = await ModelType.findById('sldkjvb');
 
     assert(res === null);
 

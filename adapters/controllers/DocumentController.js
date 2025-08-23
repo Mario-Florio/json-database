@@ -10,7 +10,7 @@ import ContractError from '../../shared/contracts/__utils__/ContractError.js';
 import inputIsValid from './__utils__/inputIsValid.js';
 import { INPUT_IS_INVALID } from './response-tokens.js';
 
-function instantiateCollection(paramObj) {
+async function instantiateCollection(paramObj) {
     try {
         if (!inputIsValid(paramObj)) return new Result({ message: INPUT_IS_INVALID, success: false });
 
@@ -19,14 +19,14 @@ function instantiateCollection(paramObj) {
         const repo = new DocumentRepository(collectionId);
         const useCase = new InstantiateCollection(repo);
 
-        const response = useCase.execute();
+        const response = await useCase.execute();
         return response;
     } catch (err) {
         return errorHandler(err);
     }
 }
 
-function createDocument(paramObj) {
+async function createDocument(paramObj) {
     try {
         if (!inputIsValid(paramObj)) return new Result({ message: INPUT_IS_INVALID, success: false });
 
@@ -35,14 +35,14 @@ function createDocument(paramObj) {
         const repo = new DocumentRepository(collectionId);
         const useCase = new SaveDocument(repo);
 
-        const response = useCase.execute({ data, schema });
+        const response = await useCase.execute({ data, schema });
         return response;
     } catch (err) {
         return errorHandler(err);
     }
 }
 
-function getDocuments(paramObj) {
+async function getDocuments(paramObj) {
     try {
         if (!inputIsValid(paramObj)) return new Result({ message: INPUT_IS_INVALID, success: false });
 
@@ -51,14 +51,14 @@ function getDocuments(paramObj) {
         const repo = new DocumentRepository(collectionId);
         const useCase = new FindDocuments(repo);
 
-        const response = useCase.execute({ keys });
+        const response = await useCase.execute({ keys });
         return response;
     } catch (err) {
         return errorHandler(err);
     }
 }
 
-function getOneDocument(paramObj) {
+async function getOneDocument(paramObj) {
     try {
         if (!inputIsValid(paramObj)) return new Result({ message: INPUT_IS_INVALID, success: false });
 
@@ -67,14 +67,14 @@ function getOneDocument(paramObj) {
         const repo = new DocumentRepository(collectionId);
         const useCase = new FindOneDocument(repo);
 
-        const response = useCase.execute({ keys });
+        const response = await useCase.execute({ keys });
         return response;
     } catch (err) {
         return errorHandler(err);
     }
 }
 
-function updateDocument(paramObj) {
+async function updateDocument(paramObj) {
     try {
         if (!inputIsValid(paramObj)) return new Result({ message: INPUT_IS_INVALID, success: false });
 
@@ -83,7 +83,7 @@ function updateDocument(paramObj) {
         const repo = new DocumentRepository(collectionId);
         const useCase = new UpdateDocument(repo);
 
-        const response = useCase.execute({
+        const response = await useCase.execute({
             _id,
             schema,
             data,
@@ -96,7 +96,7 @@ function updateDocument(paramObj) {
     }
 }
 
-function deleteDocument(paramObj) {
+async function deleteDocument(paramObj) {
     try {
         if (!inputIsValid(paramObj)) return new Result({ message: INPUT_IS_INVALID, success: false });
 
@@ -105,7 +105,7 @@ function deleteDocument(paramObj) {
         const repo = new DocumentRepository(collectionId);
         const useCase = new DeleteDocument(repo);
 
-        const response = useCase.execute({ _id });
+        const response = await useCase.execute({ _id });
         return response;
     } catch (err) {
         return errorHandler(err);

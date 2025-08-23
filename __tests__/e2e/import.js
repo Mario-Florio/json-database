@@ -18,7 +18,7 @@ import {
     NO_ID,
     ITEM_NOT_FOUND
 } from '../../IO-API/response-tokens.js';
-import { it, assert } from '../../shared/testing/test-tools.js';
+import { it, itAsync, assert } from '../../shared/testing/test-tools.js';
 
 export {
     documentController,
@@ -39,5 +39,5 @@ export {
     NO_ID,
     ITEM_NOT_FOUND,
     INPUT_IS_INVALID,
-    it, assert
+    itAsync, it, assert
 }

@@ -13,7 +13,7 @@ import {
     DB_DOESNT_EXIST,
     READ_SUCCESSFUL,
     INPUT_IS_INVALID,
-    it, assert
+    it, itAsync, assert
 } from './import.js';
 
 const collectionId = getCollectionId();
@@ -22,11 +22,11 @@ const amount = 10;
 
 console.log(`----GET_ONE----`);
 // Happy path
-((cleanupFn) => {
+await (async (cleanupFn) => {
 
-    documentController.instantiateCollection({ collectionId });
+    await documentController.instantiateCollection({ collectionId });
     fillDb({ amount });
-    const res = documentController.getOneDocument({ collectionId, keys });
+    const res = await documentController.getOneDocument({ collectionId, keys });
 
     it('Returns a Document', () => {
         assert(isDocument(res.data));
@@ -38,10 +38,10 @@ console.log(`----GET_ONE----`);
         assert(res.message === READ_SUCCESSFUL);
     });
 
-    it('Returned Document corresponds to given keys', () => {
+    await itAsync('Returned Document corresponds to given keys', async () => {
 
         const targetDocProp = 'Document 5'; // Number must be within range of 0 and (amount-1)
-        const res = documentController.getOneDocument({ collectionId, keys: { prop: targetDocProp } });
+        const res = await documentController.getOneDocument({ collectionId, keys: { prop: targetDocProp } });
 
         assert(res.data.prop === targetDocProp);
         assert(res.data._id !== undefined && res.data.createdAt !== undefined);
@@ -53,28 +53,28 @@ console.log(`----GET_ONE----`);
 
 })(cleanDatabase);
 
-it('Returns input is invalid message if input is invalid', () => {
+await itAsync('Returns input is invalid message if input is invalid', async () => {
 
     const invalidCollectionIds = types.filter(type => typeof type !== 'string');
     const invalidKeys = types.filter(type => !isObject(type));
 
     for (const collectionId of invalidCollectionIds) {
-        const res = documentController.getOneDocument({ collectionId, keys });
+        const res = await documentController.getOneDocument({ collectionId, keys });
         assert(res.message === INPUT_IS_INVALID);
         assert(res.success === false);
     }
 
     for (const keys of invalidKeys) {
-        const res = documentController.getOneDocument({ collectionId, keys });
+        const res = await documentController.getOneDocument({ collectionId, keys });
         assert(res.message === INPUT_IS_INVALID);
         assert(res.success === false);
     }
 
 }, cleanDatabase);
 
-it('Returns database doesn\'t exist message if database file hasn\'t been instantiated', () => {
+await itAsync('Returns database doesn\'t exist message if database file hasn\'t been instantiated', async () => {
 
-    const res = documentController.getOneDocument({ collectionId, keys });
+    const res = await documentController.getOneDocument({ collectionId, keys });
     assert(res.message === DB_DOESNT_EXIST);
     assert(res.success === false);
 

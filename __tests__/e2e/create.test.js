@@ -12,7 +12,7 @@ import {
     SAVE_SUCCESSFUL,
     DB_DOESNT_EXIST,
     INPUT_IS_INVALID,
-    it, assert
+    itAsync, it, assert
 } from './import.js';
 
 const collectionId = getCollectionId();
@@ -39,10 +39,10 @@ const data = {
 
 console.log(`----CREATE----`);
 // Happy path
-((cleanupFn) => {
+await (async (cleanupFn) => {
 
-    documentController.instantiateCollection({ collectionId });
-    const res = documentController.createDocument({ collectionId, data, schema });
+    await documentController.instantiateCollection({ collectionId });
+    const res = await documentController.createDocument({ collectionId, data, schema });
 
     it('Creates a document with accurate values in database', () => {
         assert(dbHas(data));
@@ -57,35 +57,35 @@ console.log(`----CREATE----`);
 
 })(cleanDatabase);
 
-it('Returns input is invalid message if input is invalid', () => {
+await itAsync('Returns input is invalid message if input is invalid', async () => {
 
     const invalidCollectionIds = types.filter(type => typeof type !== 'string');
     const invalidDatas = types.filter(type => !isObject(type));
     const invalidSchemas = types;
 
     for (const collectionId of invalidCollectionIds) {
-        const res = documentController.createDocument({ collectionId, data, schema });
+        const res = await documentController.createDocument({ collectionId, data, schema });
         assert(res.message === INPUT_IS_INVALID);
         assert(res.success === false);
     }
 
     for (const data of invalidDatas) {
-        const res = documentController.createDocument({ collectionId, data, schema });
+        const res = await documentController.createDocument({ collectionId, data, schema });
         assert(res.message === INPUT_IS_INVALID);
         assert(res.success === false);
     }
 
     for (const schema of invalidSchemas) {
-        const res = documentController.createDocument({ collectionId, data, schema });
+        const res = await documentController.createDocument({ collectionId, data, schema });
         assert(res.message === INPUT_IS_INVALID);
         assert(res.success === false);
     }
 
 }, cleanDatabase);
 
-it('Returns database doesn\'t exist message if database file hasn\'t been instantiated', () => {
+await itAsync('Returns database doesn\'t exist message if database file hasn\'t been instantiated', async () => {
 
-    const res = documentController.createDocument({ collectionId, data, schema });
+    const res = await documentController.createDocument({ collectionId, data, schema });
     assert(res.message === DB_DOESNT_EXIST);
     assert(res.success === false);
 

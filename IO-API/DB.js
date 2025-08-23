@@ -24,47 +24,47 @@ class DB {
         this.#dbFile = dbPath+collectionName+'.json';
         this.#IO_SERVICE = IO_SERVICE;
     }
-    instantiate() {
+    async instantiate() {
         if (this.#dbFileExists()) return new Result({ message: DB_ALREADY_EXISTS, success: false });
 
-        this.#IO_SERVICE.writeFileSync({ path: this.#dbFile, data: JSON.stringify([]) });
+        await this.#IO_SERVICE.writeFile({ path: this.#dbFile, data: JSON.stringify([]) });
         return new Result({ message: INSTANTIATION_SUCCESSFUL, success: true });
     }
-    create(obj) {
+    async create(obj) {
         if (!obj) return new Result({ message: NO_DATA, success: false });
         if (!this.#dbFileExists()) return new Result({ message: DB_DOESNT_EXIST, success: false });
 
-        const result = this.read();
+        const result = await this.read();
         if (!result.success) return result;
 
         const { data } = result;
         data.push(obj);
-        this.#IO_SERVICE.writeFileSync({ path: this.#dbFile, data: JSON.stringify(data) });
+        await this.#IO_SERVICE.writeFile({ path: this.#dbFile, data: JSON.stringify(data) });
 
         return new Result({ message: SAVE_SUCCESSFUL, success: true });
     }
-    read() {
+    async read() {
         if (!this.#dbFileExists()) return new Result({ message: DB_DOESNT_EXIST, success: false });
 
-        const json = this.#IO_SERVICE.readFileSync({ path: this.#dbFile, encoding: 'utf-8' });
+        const json = await this.#IO_SERVICE.readFile({ path: this.#dbFile, encoding: 'utf-8' });
         const data = JSON.parse(json);
         return new Result({ message: READ_SUCCESSFUL, success: true })
                     .addData(data);
     }
-    update(_id, updatedObj) {
+    async update(_id, updatedObj) {
         if (!_id) return new Result({ message: NO_ID, success: false });
 
-        const result = this.delete(_id);
+        const result = await this.delete(_id);
         if (!result.success) return result;
 
-        this.create(updatedObj);
+        await this.create(updatedObj);
         return new Result({ message: UPDATE_SUCCESSFUL, success: true });
     }
-    delete(_id) {
+    async delete(_id) {
         if (!_id) return new Result({ message: NO_ID, success: false });
         if (!this.#dbFileExists()) return new Result({ message: DB_DOESNT_EXIST, success: false });
 
-        const result = this.read();
+        const result = await this.read();
         if (!result.success) return result;
 
         const { data } = result;
@@ -72,7 +72,7 @@ class DB {
 
         if (data.length === filteredData.length) return new Result({ message: ITEM_NOT_FOUND, success: false });
 
-        this.#IO_SERVICE.writeFileSync({ path: this.#dbFile, data: JSON.stringify(filteredData) });
+        await this.#IO_SERVICE.writeFile({ path: this.#dbFile, data: JSON.stringify(filteredData) });
         
         return new Result({ message: DELETE_SUCCESSFUL, success: true });
     }

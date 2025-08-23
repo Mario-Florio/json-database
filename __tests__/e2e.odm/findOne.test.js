@@ -4,10 +4,10 @@ import {
     getPropsArr,
     cleanDatabase
 } from './__utils__/automate.js';
-import { it, assert } from './imports.js';
+import { itAsync, assert } from './imports.js';
 
 console.log('------FIND_ONE------');
-it('Returns appropriate obj', () => {
+await itAsync('Returns appropriate obj', async () => {
     const ModelType = setupSchema();
     const propsArr = getPropsArr(4);
 
@@ -18,25 +18,25 @@ it('Returns appropriate obj', () => {
         model4
     ] = getModelInstances(4, ModelType, propsArr);
 
-    model1.save();
-    model2.save();
-    model3.save();
-    model4.save();
+    await model1.save();
+    await model2.save();
+    await model3.save();
+    await model4.save();
 
     // _id
-    let model = ModelType.findOne({ _id: model1._id });
+    let model = await ModelType.findOne({ _id: model1._id });
     assert(model.prop === model1.prop);
 
     // prop
-    model = ModelType.findOne({ prop: model2.prop });
+    model = await ModelType.findOne({ prop: model2.prop });
     assert(model.prop === model2.prop);
 
     // _id & prop
-    model = ModelType.findOne({ _id: model3._id, prop: model3.prop });
+    model = await ModelType.findOne({ _id: model3._id, prop: model3.prop });
     assert(model.prop === model3.prop);
 
 }, cleanDatabase);
-it('Returns first obj which meets criteria (in order of created first)', () => {
+await itAsync('Returns first obj which meets criteria (in order of created first)', async () => {
     const ModelType = setupSchema();
     const propsArr = getPropsArr(4, false);
 
@@ -47,18 +47,18 @@ it('Returns first obj which meets criteria (in order of created first)', () => {
         model4
     ] = getModelInstances(4, ModelType, propsArr);
 
-    model1.save();
-    model2.save();
-    model3.save();
-    model4.save();
+    await model1.save();
+    await model2.save();
+    await model3.save();
+    await model4.save();
 
-    const model = ModelType.findOne({ prop: 'model' });
+    const model = await ModelType.findOne({ prop: 'model' });
 
     assert(!model.length);
     assert(model._id === model1._id);
 
 }, cleanDatabase);
-it('Returns null if no object is found', () => {
+await itAsync('Returns null if no object is found', async () => {
     const ModelType = setupSchema();
     const propsArr = getPropsArr(4);
 
@@ -69,12 +69,12 @@ it('Returns null if no object is found', () => {
         model4
     ] = getModelInstances(4, ModelType, propsArr);
 
-    model1.save();
-    model2.save();
-    model3.save();
-    model4.save();
+    await model1.save();
+    await model2.save();
+    await model3.save();
+    await model4.save();
 
-    const res = ModelType.findOne({ _id: 'sdajvkbiu' });
+    const res = await ModelType.findOne({ _id: 'sdajvkbiu' });
 
     assert(res === null);
 
