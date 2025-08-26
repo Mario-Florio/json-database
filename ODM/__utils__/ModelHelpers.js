@@ -15,10 +15,10 @@ function lateConstructor(model, data) {
 
 function instantiateRes(response, SubModel) {
     if (Array.isArray(response)) {
-        return response.map(obj => lateConstructor(new SubModel(), obj));
+        return response.map(obj => lateConstructor(new SubModel({}), obj));
     }
     if (response) {
-        return lateConstructor(new SubModel(), response);
+        return lateConstructor(new SubModel({}), response);
     }
     return response;
 }
