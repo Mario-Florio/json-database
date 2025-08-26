@@ -1,29 +1,28 @@
 
-function uid() {
-    const uid = Date.now().toString(36) +
-        Math.random().toString(36).substring(2).padStart(12, 0);
-        
-    return uid;
+function idIsValid(_id) {
+    if (!_id) return false;
+    if (typeof _id !== 'string') return false;
+    return true;
 }
 
-function lateConstructor(model, data) {
-    for (const key in data) {
-        model[key] = data[key];
-    }
-    return model;
+function keysAreValid(keys) {
+    if (keys === undefined) return false;
+    if (typeof keys !== 'object' || Array.isArray(keys)) return false;
+    return true;
 }
 
-function instantiateRes(response, SubModel) {
-    if (Array.isArray(response)) {
-        return response.map(obj => lateConstructor(new SubModel({}), obj));
+function setVirtuals(virtuals, obj) {
+    for (const virtual of virtuals) {
+        Object.defineProperty(obj, virtual.name, {
+            get: virtual.getFn, 
+            set: virtual.setFn,
+            configurable: true
+        });
     }
-    if (response) {
-        return lateConstructor(new SubModel({}), response);
-    }
-    return response;
 }
 
 export {
-    uid,
-    instantiateRes
-}
+    idIsValid,
+    keysAreValid,
+    setVirtuals
+};

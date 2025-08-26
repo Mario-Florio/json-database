@@ -12,26 +12,19 @@ function setupSchema() {
         prop: { type: 'string', required: true }
     });
 
-    const Model = ODM.model(collectionName, SchemaType);
-    class ModelType extends Model {
-        constructor(prop) {
-            super();
-            this.prop = prop;
-        }
-        get virtualProp() {
-            return `This is a virtual prop from ${this.prop}.`;
-        }
-    }
-    Model.setupModel(ModelType);
+    SchemaType.virtual('virtualProp').get(function() {
+        return `This is a virtual prop from ${this.prop}.`;
+    });
 
-    return ModelType;
+    const Model = ODM.model(collectionName, SchemaType);
+
+    return Model;
 }
 
 function getModelInstances(amount, ModelType, props) {
     const models = [];
     for (let i = 0; i < amount; i++) {
-        const propsArr = Object.values(props[i]);
-        const model = new ModelType(...propsArr);
+        const model = new ModelType(props[i]);
         models.push(model);
     }
     return models;

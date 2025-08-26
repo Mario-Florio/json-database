@@ -23,60 +23,46 @@ Copy the `database/DB.js` and `models/ORM/Model.js` files into your project or i
 ## Usage
 
 ```javascript
-const ODM = require('json-database/ODM/ODM.js');
+import ODM from 'json-database/ODM/ODM.js';
 
 // Create Schema for Model
 const Schema = ODM.Schema;
 const UserSchema = new Schema({
     username: { type: 'string', required: true },
     password: { type: 'string', required: true },
-    email: { type: 'string' },
+    email: { type: 'string', required: true },
     firstName: { type: 'string', required: true },
-    lastName: { type: 'string', required: true }
+    lastName: { type: 'string' },
+    age: { type: 'number' },
+    isActive: { type: 'boolean' }
 });
 
-// Create base Model class bound to a JSON file
-const UserModel = ODM.model('user', UserSchema);
-
-// Define your model by extending the base class
-class User extends UserModel {
-    constructor({ username, password, email, firstName, lastName }) {
-        super();
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-    get fullName = function() {
-        return `${this.firstName} ${this.lastName}`;
-    }
-}
-
-// Setup model to instantiate query results
-UserModel.setupModel(User);
+// Create Model class bound to a JSON file
+const User = ODM.model(collectionName, UserSchema);
 
 // Create new instance and save it
-const user = new User({
-    username: 'username',
+const newUser = new User({
+    username: 'alice123',
     password: 'password',
-    firstName: 'firstName',
-    lastName: 'lastName'
+    firstName: 'Alice',
+    email: 'alice123@domain.com',
+    age: 27
 });
-user.save();
+await newUser.save();
 
-// Query by keys
-const users = User.find({ username: 'username' });
+// Find by keys
+const users = await User.find({ age: 27 });
 
 // Find by ID
-const userFoundByID = User.findById(user._id);
+const userFoundByID = await User.findById(users[0]._id);
+
+// Find by Operators
+const usersFoundByOp = await User.find({ age: { $gt: 20 } });
 
 // Update and delete
-User.findByIdAndUpdate(user._id, { password: 'password1234' });
-User.findByIdAndDelete(user._id);
+await User.findByIdAndUpdate(userFoundByID._id, { password: 'password1234' });
+await User.findByIdAndDelete(userFoundByID._id);
 ```
-
-**Disclaimer: *Base models (e.g. `UserModel`) create a closure-scoped, JSON file singletons. Each base model should only have one sub class (e.g. `User`), used for customizing properties. Multiple model extensions will cause data mutation.***
 
 ## API Reference
 
@@ -98,4 +84,12 @@ Notes and Limitations
 
 Testing
 
-End-to-end tests are provided and can be ran via shell script `e2e.test.sh`.
+* End-to-end:
+    * *controllers to IO* — `sh scripts/e2e.test.sh`
+    * *client to IO* — `sh scripts/e2e.odm.test.sh`
+* Integration:
+    * *docRepo to db* — `sh scripts/integration.docrepo.db.test.sh`
+* Unit:
+    * *document entity* — `sh scripts/unit.document.test.sh`
+    * *schema entity* — `sh scripts/unit.schema.test.sh`
+    * *use cases* — `sh scripts/unit.usecases.test.sh`
