@@ -1,6 +1,6 @@
 import documentController from '../adapters/controllers/DocumentController.js';
 import uid from '../shared/__utils__/uid.js';
-import { setVirtuals, idIsValid, keysAreValid } from './__utils__/ModelHelpers.js';
+import { idIsValid, keysAreValid } from './__utils__/ModelHelpers.js';
 
 function model(collectionName, schema) {
     const collectionId = collectionName;
@@ -14,7 +14,7 @@ function model(collectionName, schema) {
             for (const key in schema)
                 if (paramObj[key]) this[key] = paramObj[key];
 
-            setVirtuals(schema.getVirtuals(), this);
+            this.#setVirtuals(schema.getVirtuals());
         }
         // READ
         static async findById(_id) {
@@ -131,6 +131,15 @@ function model(collectionName, schema) {
                 model[key] = document[key];
             }
             return model;
+        }
+        #setVirtuals(virtuals) {
+            for (const virtual of virtuals) {
+                Object.defineProperty(this, virtual.name, {
+                    get: virtual.getFn, 
+                    set: virtual.setFn,
+                    configurable: true
+                });
+            }
         }
     }
 

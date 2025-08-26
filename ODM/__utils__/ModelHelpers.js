@@ -11,18 +11,7 @@ function keysAreValid(keys) {
     return true;
 }
 
-function setVirtuals(virtuals, obj) {
-    for (const virtual of virtuals) {
-        Object.defineProperty(obj, virtual.name, {
-            get: virtual.getFn, 
-            set: virtual.setFn,
-            configurable: true
-        });
-    }
-}
-
 export {
     idIsValid,
-    keysAreValid,
-    setVirtuals
+    keysAreValid
 };
