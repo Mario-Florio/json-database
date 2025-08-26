@@ -57,8 +57,7 @@ function getSchema() {
 }
 
 function getDoc(data) {
-    const uid = (new Date().getUTCMilliseconds() + (Math.floor(Math.random() * 10) + 1) * (Math.floor(Math.random() * 100) + 1)).toString();
-    return new Document({ _id: uid, ...data });
+    return new Document(data);
 }
 
 // UTILS

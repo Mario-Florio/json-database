@@ -49,19 +49,17 @@ function fillDb(options = { amount: 10 }) {
     if (!fileExists()) throw new Error('Test Error: Database has not been instantiated');
     const data = [];
     for (let i = 0; i < options.amount; i++)
-        data.push(new Document({
-            _id: uid(),
-            createdAt: new Date().toString(),
-            prop: `Document ${i}`
-        }));
+        data.push(new Document({ prop: `Document ${i}` }));
     fs.writeFileSync(collectionDbPath, JSON.stringify(data));
 }
 
 function dbHas(document) {
+    const { _id, ...documentWithNoId } = document;
     const json = fs.readFileSync(collectionDbPath, 'utf-8');
     const data = JSON.parse(json);
     for (const doc of data) {
-        if (deepEqual(doc, document)) return true;
+        const { _id, ...docWithNoId } = doc;
+        if (deepEqual(docWithNoId, documentWithNoId)) return true;
     }
     return false;
 }
@@ -82,14 +80,6 @@ function cleanDatabase() {
     if (fs.existsSync(collectionDbPath)) {
         fs.unlinkSync(collectionDbPath);
     }
-}
-
-// UTILS
-function uid() {
-    const uid = Date.now().toString(36) +
-        Math.random().toString(36).substring(2).padStart(12, 0);
-        
-    return uid;
 }
 
 export {

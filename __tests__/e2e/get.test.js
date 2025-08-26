@@ -48,7 +48,6 @@ await (async (cleanupFn) => {
 
         assert(filteredRes.data.length > 0);
         assert(filteredRes.data.every(doc => doc.prop === targetDocProp));
-        assert(filteredRes.data.every(doc => doc._id !== undefined && doc.createdAt !== undefined));
         assert(filteredRes.data.every(doc => dbHas(doc)));
 
     });

@@ -42,8 +42,7 @@ async function getAndSetupDocRepo(options = { fill: { isTrue: false, amount: 10 
 
 async function fillDocRepo(docRepo, amount = 10) {
     for (let i = 0; i < amount; i++) {
-        const uid = (new Date().getUTCMilliseconds() + i * (Math.floor(Math.random() * 100) + 1)).toString();
-        const doc = getDoc({ _id: uid, prop: `item ${i+1}` });
+        const doc = getDoc({ prop: `item ${i+1}` });
         await docRepo.create(doc);
     }
 }

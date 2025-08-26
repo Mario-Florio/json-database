@@ -1,10 +1,11 @@
 import QueryBuilder from './QueryBuilder.js';
 import constKeys from './__utils__/constKeys.js';
-import { isObject, must } from './imports.js';
+import { isObject, uid, must } from './imports.js';
 
 class Document {
     constructor(content) {
         must (isObject(content), 'Invalid Type — content must be object');
+        if (content._id === undefined) this._id = uid();
         for (const key in content) {
             this[key] = content[key];
         }

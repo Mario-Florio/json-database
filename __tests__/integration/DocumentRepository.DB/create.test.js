@@ -29,7 +29,7 @@ await itAsync('Creates accurate record in database file', async () => {
     const doc = getDoc(data);
     await docRepo.create(doc);
 
-    assert(dbHas(data));
+    assert(dbHas(doc));
 
 }, cleanDatabase);
 await itAsync('Returns object with message and truthy success fields', async () => {

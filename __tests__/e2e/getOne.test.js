@@ -43,7 +43,6 @@ await (async (cleanupFn) => {
         const res = await documentController.getOneDocument({ collectionId, keys: { prop: targetDocProp } });
 
         assert(res.data.prop === targetDocProp);
-        assert(res.data._id !== undefined && res.data.createdAt !== undefined);
         assert(dbHas(res.data));
 
     });

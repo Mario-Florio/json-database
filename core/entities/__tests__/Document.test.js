@@ -18,12 +18,13 @@ it('Returns non-array object with passed content data', () => {
         assert(document[key] && document[key] === content[key]);
     }
 });
-it('No properties not in content exist on constructed object', () => {
+it('No properties not in content (except _id) exist on constructed object', () => {
 
     const content = { propA: 'a', propB: 'b' };
     const document = new Document(content);
 
     for (const key of Object.keys(document)) {
+        if (key === '_id') continue;
         assert(content[key]);
     }
 });
