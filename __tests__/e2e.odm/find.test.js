@@ -26,14 +26,20 @@ await itAsync('Returns appropriate obj', async () => {
     // _id
     let model = await ModelType.find({ _id: model1._id });
     assert(model[0].prop === model1.prop);
+    assert(model[0].createdAt === model1.createdAt);
+    assert(model[0]._id === model1._id);
 
     // prop
     model = await ModelType.find({ prop: model2.prop });
     assert(model[0].prop === model2.prop);
+    assert(model[0].createdAt === model2.createdAt);
+    assert(model[0]._id === model2._id);
 
     // _id & prop
     model = await ModelType.find({ _id: model3._id, prop: model3.prop });
     assert(model[0].prop === model3.prop);
+    assert(model[0].createdAt === model3.createdAt);
+    assert(model[0]._id === model3._id);
 
 }, cleanDatabase);
 await itAsync('Returns all data if no arguments are passed', async () => {
@@ -55,10 +61,22 @@ await itAsync('Returns all data if no arguments are passed', async () => {
     const models = await ModelType.find();
 
     assert(models.length === 4);
+
     assert(models[0].prop === model1.prop);
+    assert(models[0].createdAt === model1.createdAt);
+    assert(models[0]._id === model1._id);
+
     assert(models[1].prop === model2.prop);
+    assert(models[1].createdAt === model2.createdAt);
+    assert(models[1]._id === model2._id);
+
     assert(models[2].prop === model3.prop);
+    assert(models[2].createdAt === model3.createdAt);
+    assert(models[2]._id === model3._id);
+
     assert(models[3].prop === model4.prop);
+    assert(models[3].createdAt === model4.createdAt);
+    assert(models[3]._id === model4._id);
 
 }, cleanDatabase);
 await itAsync('Returns empty array if classKeys are passed and no object is found', async () => {

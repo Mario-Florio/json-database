@@ -25,7 +25,9 @@ await itAsync('Returns appropriate obj', async () => {
 
     const model = await ModelType.findById(model3._id);
 
-    assert(model.prop === 'model 3');
+    assert(model.prop === model3.prop);
+    assert(model.createdAt === model3.createdAt);
+    assert(model._id === model3._id);
 
 }, cleanDatabase);
 await itAsync('Returns null if no _id is passed', async () => {

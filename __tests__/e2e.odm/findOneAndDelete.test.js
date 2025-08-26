@@ -30,9 +30,11 @@ await itAsync('Deletes appropriate object', async () => {
     await ModelType.findOneAndDelete({ _id: model3._id });
     
     const models = await ModelType.find();
+    const model3Exists = await ModelType.findById(model3._id);
 
     assert(models.length === 3);
     assert(models[2].prop !== model3.prop);
+    assert(model3Exists === null);
 
 }, cleanDatabase);
 await itAsync('Returns "Deletion successful" message if deletion is successful', async () => {

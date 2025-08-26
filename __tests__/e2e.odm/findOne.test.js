@@ -26,14 +26,20 @@ await itAsync('Returns appropriate obj', async () => {
     // _id
     let model = await ModelType.findOne({ _id: model1._id });
     assert(model.prop === model1.prop);
+    assert(model.createdAt === model1.createdAt);
+    assert(model._id === model1._id);
 
     // prop
     model = await ModelType.findOne({ prop: model2.prop });
     assert(model.prop === model2.prop);
+    assert(model.createdAt === model2.createdAt);
+    assert(model._id === model2._id);
 
     // _id & prop
     model = await ModelType.findOne({ _id: model3._id, prop: model3.prop });
     assert(model.prop === model3.prop);
+    assert(model.createdAt === model3.createdAt);
+    assert(model._id === model3._id);
 
 }, cleanDatabase);
 await itAsync('Returns first obj which meets criteria (in order of created first)', async () => {
