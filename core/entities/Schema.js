@@ -2,18 +2,29 @@ import validateKeyMetaData from './__utils__/validateKeyMetaData.js';
 import constKeys from './__utils__/constKeys.js';
 import typeCheckMap from './__utils__/typeCheckMap.js';
 import Document from './Document.js';
+import Virtual from './Virtual.js';
 import { guarantee } from './imports.js';
 
 class Schema {
+    #virtuals;
     constructor(keyMetaData) {
         validateKeyMetaData(keyMetaData);
         for (const field of Object.keys(keyMetaData)) {
             this[field] = keyMetaData[field];
         }
+        this.#virtuals = [];
         guarantee(
             Object.keys(this).length === Object.keys(keyMetaData).length,
             'Schema must have same amount of keys as keyMetaData'
         );
+    }
+    virtual(name) {
+        const v = new Virtual(name);
+        this.#virtuals.push(v);
+        return v;
+    }
+    getVirtuals() {
+        return this.#virtuals;
     }
     validateDoc(document) {
         if (!(document instanceof Document)) return false;
