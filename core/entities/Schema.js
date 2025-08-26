@@ -23,6 +23,8 @@ class Schema {
             const { required = false, type } = this[key];
             const value = document[key];
 
+            if (!required && (value === undefined || value === null)) continue;
+
             if (required && value === undefined) {
                 return false;
             }
