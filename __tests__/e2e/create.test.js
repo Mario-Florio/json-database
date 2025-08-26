@@ -10,7 +10,6 @@ import {
     Schema,
     isObject,
     SAVE_SUCCESSFUL,
-    DB_DOESNT_EXIST,
     INPUT_IS_INVALID,
     itAsync, it, assert
 } from './import.js';
@@ -80,13 +79,5 @@ await itAsync('Returns input is invalid message if input is invalid', async () =
         assert(res.message === INPUT_IS_INVALID);
         assert(res.success === false);
     }
-
-}, cleanDatabase);
-
-await itAsync('Returns database doesn\'t exist message if database file hasn\'t been instantiated', async () => {
-
-    const res = await documentController.createDocument({ collectionId, data, schema });
-    assert(res.message === DB_DOESNT_EXIST);
-    assert(res.success === false);
 
 }, cleanDatabase);

@@ -3,7 +3,6 @@ import Result from '../core/entities/Result.js';
 import config from '../config.js';
 import {
     DB_ALREADY_EXISTS,
-    DB_DOESNT_EXIST,
     INSTANTIATION_SUCCESSFUL,
     SAVE_SUCCESSFUL,
     READ_SUCCESSFUL,
@@ -32,7 +31,7 @@ class DB {
     }
     async create(obj) {
         if (!obj) return new Result({ message: NO_DATA, success: false });
-        if (!this.#dbFileExists()) return new Result({ message: DB_DOESNT_EXIST, success: false });
+        if (!this.#dbFileExists()) await this.instantiate();
 
         const result = await this.read();
         if (!result.success) return result;
@@ -44,7 +43,7 @@ class DB {
         return new Result({ message: SAVE_SUCCESSFUL, success: true });
     }
     async read() {
-        if (!this.#dbFileExists()) return new Result({ message: DB_DOESNT_EXIST, success: false });
+        if (!this.#dbFileExists()) await this.instantiate();
 
         const json = await this.#IO_SERVICE.readFile({ path: this.#dbFile, encoding: 'utf-8' });
         const data = JSON.parse(json);
@@ -62,7 +61,7 @@ class DB {
     }
     async delete(_id) {
         if (!_id) return new Result({ message: NO_ID, success: false });
-        if (!this.#dbFileExists()) return new Result({ message: DB_DOESNT_EXIST, success: false });
+        if (!this.#dbFileExists()) await this.instantiate();
 
         const result = await this.read();
         if (!result.success) return result;

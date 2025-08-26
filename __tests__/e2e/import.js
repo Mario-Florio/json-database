@@ -8,7 +8,6 @@ import deepEqual from '../../shared/__utils__/deepEqual.js';
 import { INPUT_IS_INVALID } from '../../adapters/controllers/response-tokens.js';
 import {
     DB_ALREADY_EXISTS,
-    DB_DOESNT_EXIST,
     INSTANTIATION_SUCCESSFUL,
     SAVE_SUCCESSFUL,
     READ_SUCCESSFUL,
@@ -29,7 +28,6 @@ export {
     deepEqual,
     isObject,
     DB_ALREADY_EXISTS,
-    DB_DOESNT_EXIST,
     INSTANTIATION_SUCCESSFUL,
     SAVE_SUCCESSFUL,
     READ_SUCCESSFUL,

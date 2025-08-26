@@ -11,7 +11,6 @@ import {
     documentController,
     DELETE_SUCCESSFUL,
     NO_ID,
-    DB_DOESNT_EXIST,
     INPUT_IS_INVALID,
     it, itAsync, assert
 } from './import.js';
@@ -66,14 +65,6 @@ await itAsync('Returns input is invalid message if input is invalid', async () =
         assert(res.message === INPUT_IS_INVALID);
         assert(res.success === false);
     }
-
-}, cleanDatabase);
-
-await itAsync('Returns database doesn\'t exist message if database file hasn\'t been instantiated', async () => {
-    
-    const res = await documentController.deleteDocument({ collectionId, _id: '_id' });
-    assert(res.message === DB_DOESNT_EXIST);
-    assert(res.success === false);
 
 }, cleanDatabase);
 

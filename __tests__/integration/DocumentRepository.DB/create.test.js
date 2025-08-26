@@ -42,13 +42,3 @@ await itAsync('Returns object with message and truthy success fields', async () 
     assert(response.success === true);
 
 }, cleanDatabase);
-await itAsync('If database file does not exist, returns object with message and falsy success fields', async () => {
-
-    const docRepo = getDocRepo();
-    const doc = getDoc(data);
-    const response = await docRepo.create(doc);
-
-    assert(response.message);
-    assert(response.success === false);
-
-}, cleanDatabase);

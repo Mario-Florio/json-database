@@ -1,7 +1,6 @@
 
 // DB
 const DB_ALREADY_EXISTS = 'Database already exists';
-const DB_DOESNT_EXIST = 'Database does not exist'
 const INSTANTIATION_SUCCESSFUL = 'Instantiation successful';
 const SAVE_SUCCESSFUL = 'Save successful';
 const READ_SUCCESSFUL = 'Data retrieved successfully';
@@ -13,7 +12,6 @@ const ITEM_NOT_FOUND = 'Item was not found';
 
 export {
     DB_ALREADY_EXISTS,
-    DB_DOESNT_EXIST,
     INSTANTIATION_SUCCESSFUL,
     SAVE_SUCCESSFUL,
     READ_SUCCESSFUL,
