@@ -11,19 +11,22 @@ This project exposes a `Model` class which acts as an API for CRUD operations on
 ## Features
 
 - Simple JSON file persistence for local projects
-- ORM-like static methods for querying (`find`, `findById`, `findOne`, etc.)
+- ODM-like static methods for querying (`find`, `findById`, `findOne`, etc.)
 - Instance methods for creating and saving records
 - Flexible querying by arbitrary keys
 - Automatically generates unique IDs and timestamps for new records
 
 ## Setup
 
-Copy the `database/DB.js` and `models/ORM/Model.js` files into your project or include as a dependency.
+1. Clone repo (or copy) into project.
+2. Create folder for database files.
+3. Set `config.DBPATH` in `json-database/config.js` (or an *env var* `DBPATH`) to folder for database files.
+4. Import `ODM` from `json-database/main.js` where needed in project and use as needed (see *Usage*).
 
 ## Usage
 
 ```javascript
-import ODM from 'json-database/ODM/ODM.js';
+import ODM from 'json-database/main.js';
 
 // Create Schema for Model
 const Schema = ODM.Schema;
@@ -38,7 +41,7 @@ const UserSchema = new Schema({
 });
 
 // Create Model class bound to a JSON file
-const User = ODM.model(collectionName, UserSchema);
+const User = ODM.model('user', UserSchema);
 
 // Create new instance and save it
 const newUser = new User({
@@ -77,9 +80,7 @@ await User.findByIdAndDelete(userFoundByID._id);
 * `static findOneAndDelete(queryObject)` — Deletes first record matching query
 
 Notes and Limitations
-* The DB uses synchronous file I/O; performance may degrade on large datasets.
 * Update operation deletes then recreates the record; this is atomic in simple cases but not transactional.
-* No concurrency control; simultaneous writes may cause data corruption.
 * Designed for small local projects or prototyping.
 
 Testing
