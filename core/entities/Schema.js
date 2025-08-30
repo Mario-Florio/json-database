@@ -2,7 +2,6 @@ import validateKeyMetaData from './__utils__/validateKeyMetaData.js';
 import constKeys from './__utils__/constKeys.js';
 import typeCheckMap from './__utils__/typeCheckMap.js';
 import Document from './Document.js';
-import Virtual from './Virtual.js';
 import { guarantee } from './imports.js';
 
 class Schema {
@@ -59,6 +58,23 @@ class Schema {
         }
 
         return true;
+    }
+}
+
+// UTILS
+class Virtual {
+    constructor(name) {
+        this.name = name;
+        this.getFn;
+        this.setFn;
+    }
+    get(fn) {
+        this.getFn = fn;
+        return this;
+    }
+    set(fn) {
+        this.setFn = fn;
+        return this;
     }
 }
 
