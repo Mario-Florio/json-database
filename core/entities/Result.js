@@ -4,7 +4,7 @@ class Result {
         this.message = paramObj.message;
         this.success = paramObj.success;
     }
-    addData(data) {
+    setData(data) {
         this.data = data;
         return this;
     }
