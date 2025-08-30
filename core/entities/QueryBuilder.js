@@ -7,7 +7,7 @@ const operatorRegistry = {
 }
 
 class QueryBuilder {
-    constructor(filter) {
+    constructor(filter = {}) {
         this.filter = filter;
     }
     matches(doc) {
