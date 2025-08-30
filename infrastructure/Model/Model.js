@@ -1,5 +1,5 @@
-import documentController from '../adapters/controllers/DocumentController.js';
-import uid from '../shared/__utils__/uid.js';
+import documentController from '../../adapters/controllers/DocumentController.js';
+import uid from '../../shared/__utils__/uid.js';
 import { idIsValid, keysAreValid } from './__utils__/ModelHelpers.js';
 
 function model(collectionName, schema) {

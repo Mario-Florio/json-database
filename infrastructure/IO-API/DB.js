@@ -1,6 +1,6 @@
 import IO_SERVICE from "./IO-Service.js";
-import Result from '../core/entities/Result.js';
-import config from '../config.js';
+import Result from '../../core/entities/Result.js';
+import config from '../../config.js';
 import {
     DB_ALREADY_EXISTS,
     INSTANTIATION_SUCCESSFUL,
@@ -48,7 +48,7 @@ class DB {
         const json = await this.#IO_SERVICE.readFile({ path: this.#dbFile, encoding: 'utf-8' });
         const data = JSON.parse(json);
         return new Result({ message: READ_SUCCESSFUL, success: true })
-                    .addData(data);
+                    .setData(data);
     }
     async update(_id, updatedObj) {
         if (!_id) return new Result({ message: NO_ID, success: false });

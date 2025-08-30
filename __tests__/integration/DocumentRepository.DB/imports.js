@@ -3,7 +3,7 @@ import DocumentRepository from '../../../adapters/repositories/DocumentRepositor
 import Document from '../../../core/entities/Document.js';
 import Result from '../../../core/entities/Result.js';
 import deepEqual from '../../../shared/__utils__/deepEqual.js';
-import { READ_SUCCESSFUL } from '../../../IO-API/response-tokens.js';
+import { READ_SUCCESSFUL } from '../../../infrastructure/IO-API/response-tokens.js';
 
 export {
     it,

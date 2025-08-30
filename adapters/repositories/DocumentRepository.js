@@ -1,5 +1,5 @@
 import Document from '../../core/entities/Document.js';
-import DB from '../../IO-API/DB.js';
+import DB from '../../infrastructure/IO-API/DB.js';
 import { uphold } from '../../shared/contracts/contracts.js';
 
 class DocumentRepository {

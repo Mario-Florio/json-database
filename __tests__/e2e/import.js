@@ -16,7 +16,7 @@ import {
     NO_DATA,
     NO_ID,
     ITEM_NOT_FOUND
-} from '../../IO-API/response-tokens.js';
+} from '../../infrastructure/IO-API/response-tokens.js';
 import { it, itAsync, assert } from '../../shared/testing/test-tools.js';
 
 export {

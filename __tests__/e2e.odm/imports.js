@@ -1,10 +1,10 @@
 import { itAsync, assert } from '../../shared/testing/test-tools.js';
-import ODM from '../../ODM/ODM.js';
+import ODM from '../../main.js';
 import config from '../../config.js';
 import {
     DELETE_SUCCESSFUL,
     ITEM_NOT_FOUND
-} from '../../IO-API/response-tokens.js';
+} from '../../infrastructure/IO-API/response-tokens.js';
 
 export {
     itAsync, assert,
