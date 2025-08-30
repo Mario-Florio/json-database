@@ -1,10 +1,11 @@
-# Repositories
+# Document Repository
 
-* [DocumentRepository](#class-documentrepository)
-    * [constructor](#new-documentrepositorycollectionname)
-    * [create](#thiscreatedocument)
-    * [read](#thisread)
-    * [update](#thisupdate_id-updateddoc)
+- [Document Repository](#document-repository)
+  - [`class DocumentRepository`](#class-documentrepository)
+    - [`new DocumentRepository(collectionName)`](#new-documentrepositorycollectionname)
+    - [`this.create(document)`](#thiscreatedocument)
+    - [`this.read()`](#thisread)
+    - [`this.update(_id, updatedDoc)`](#thisupdate_id-updateddoc)
 
 ----
 

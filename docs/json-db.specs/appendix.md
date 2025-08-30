@@ -1,9 +1,10 @@
 
 # Appendix
 
-* [Common Expressions](#common-expressions)
+- [Appendix](#appendix)
+  - [Glossary / Terms](#glossary--terms)
 
-## Common Expressions
+## Glossary / Terms
 
 | Condition              | Expression |
 |------------------------|------------|

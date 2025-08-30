@@ -1,11 +1,12 @@
-# Controllers
+# Document Controller
 
-* [DocumentController](#documentcontroller)
-    * [getOneDocument](#getdocumentsparamobj)
-    * [getDocuments](#getdocumentsparamobj)
-    * [createDocument](#createdocumentparamobj)
-    * [updateDocument](#updatedocumentparamobj)
-    * [deleteDocuments](#deletedocumentparamobj)
+- [Document Controller](#document-controller)
+  - [`documentController`](#documentcontroller)
+    - [`getOneDocument(paramObj)`](#getonedocumentparamobj)
+    - [`getDocuments(paramObj)`](#getdocumentsparamobj)
+    - [`createDocument(paramObj)`](#createdocumentparamobj)
+    - [`updateDocument(paramObj)`](#updatedocumentparamobj)
+    - [`deleteDocument(paramObj)`](#deletedocumentparamobj)
 
 ----
 

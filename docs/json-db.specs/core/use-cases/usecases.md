@@ -1,16 +1,17 @@
 # Use Cases
 
-* [DocumentRepoUseCase](#class-documentrepousecase)
-    * [constructor](#new-documentrepousecasedocumentrepository)
-    * [implementsInterface](#implementsinterfaceinstance-interfaceclass)
-* [FindOneDocument](#class-findonedocument-extends-documentrepousecase)
-    * [execute](#thisexecuteparamobj)
-* [FindDocuments](#class-finddocuments-extends-documentrepousecase)
-    * [execute](#thisexecuteparamobj-1)
-* [SaveDocument](#class-savedocument-extends-documentrepousecase)
-    * [execute](#thisexecuteparamobj-2)
-* [UpdateDocument](#class-updatedocument-extends-documentrepousecase)
-    * [execute](#thisexecuteparamobj-3)
+- [Use Cases](#use-cases)
+  - [`class DocumentRepoUseCase`](#class-documentrepousecase)
+    - [`new DocumentRepoUseCase(documentRepository)`](#new-documentrepousecasedocumentrepository)
+    - [`implementsInterface(instance, InterfaceClass)`](#implementsinterfaceinstance-interfaceclass)
+  - [`class FindOneDocument extends DocumentRepoUseCase`](#class-findonedocument-extends-documentrepousecase)
+    - [`this.execute(paramObj)`](#thisexecuteparamobj)
+  - [`class FindDocuments extends DocumentRepoUseCase`](#class-finddocuments-extends-documentrepousecase)
+    - [`this.execute(paramObj)`](#thisexecuteparamobj-1)
+  - [`class SaveDocument extends DocumentRepoUseCase`](#class-savedocument-extends-documentrepousecase)
+    - [`this.execute(paramObj)`](#thisexecuteparamobj-2)
+  - [`class UpdateDocument extends DocumentRepoUseCase`](#class-updatedocument-extends-documentrepousecase)
+    - [`this.execute(paramObj)`](#thisexecuteparamobj-3)
 
 ----
 

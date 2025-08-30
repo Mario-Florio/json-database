@@ -2,49 +2,52 @@
 
 ## Core
 
-### [Entities](./core/entities/entities.md)
-* [Document](./core/entities/entities.md#class-document)
-    * constructor
-    * hasKeys
-    * mergeKeys
-* [Schema](./core/entities/entities.md#class-schema)
-    * constructor
-    * validateDoc
-* QueryBuilder
-    * matches
-* ChunkReader
+### Entities
+- [Document](./core/entities/Document.md)
+    - [constructor](./core/entities/Document.md#new-documentcontent)
+    - [hasKeys](./core/entities/Document.md#thishaskeyskeys)
+    - [mergeKeys](./core/entities/Document.md#thismergekeyskeys)
+- [Schema](./core/entities/Schema.md)
+    - [constructor](./core/entities/Schema.md#new-schemakeymetadata)
+    - [validateDoc](./core/entities/Schema.md#thisvalidatedocdocument)
+- [QueryBuilder](./core/entities/QueryBuilder.md)
+    - [constructor](./core/entities/QueryBuilder.md#new-querybuilderfilter)
+    - [matches](./core/entities/QueryBuilder.md#thismatchesfilter)
+- [DocReader](./core/entities/DocReader.md)
+    - [constructor](./core/entities/DocReader.md#new-docreadergenerator-transformfn--doc--doc)
+    - [read](./core/entities/DocReader.md#thisread)
 
 ### [Use Cases](./core/use-cases/usecases.md)
-* [DocumentRepoUseCase](./core/use-cases/usecases.md#class-documentrepousecase)
-    * constructor
-    * implementsInterface
-* [FindOneDocument](./core/use-cases/usecases.md#class-findonedocument-extends-documentrepousecase)
-    * execute
-* [FindDocuments](./core/use-cases/usecases.md#class-finddocuments-extends-documentrepousecase)
-    * execute
-* [SaveDocument](./core/use-cases/usecases.md#class-savedocument-extends-documentrepousecase)
-    * execute
-* [UpdateDocument](./core/use-cases/usecases.md#class-updatedocument-extends-documentrepousecase)
-    * execute
+- [DocumentRepoUseCase](./core/use-cases/usecases.md#class-documentrepousecase)
+    - [constructor](./core/use-cases/usecases.md#new-documentrepousecasedocumentrepository)
+    - [implementsInterface](./core/use-cases/usecases.md#implementsinterfaceinstance-interfaceclass)
+- [FindOneDocument](./core/use-cases/usecases.md#class-findonedocument-extends-documentrepousecase)
+    - [execute](./core/use-cases/usecases.md#thisexecuteparamobj)
+- [FindDocuments](./core/use-cases/usecases.md#class-finddocuments-extends-documentrepousecase)
+    - [execute](./core/use-cases/usecases.md#thisexecuteparamobj-1)
+- [SaveDocument](./core/use-cases/usecases.md#class-savedocument-extends-documentrepousecase)
+    - [execute](./core/use-cases/usecases.md#thisexecuteparamobj-2)
+- [UpdateDocument](./core/use-cases/usecases.md#class-updatedocument-extends-documentrepousecase)
+    - [execute](./core/use-cases/usecases.md#thisexecuteparamobj-3)
 
 ## Interface Adapters
 
-### [Controllers](./adapters/controllers/controllers.md)
-* [DocumentController](./adapters/controllers/controllers.md#documentcontroller)
-    * getOneDocument
-    * getDocuments
-    * createDocument
-    * updateDocument
-    * deleteDocument
+### Controllers
+- [Document Controller](./adapters/controllers/DocumentController.md)
+    - [getOneDocument](./adapters/controllers/DocumentController.md#getonedocumentparamobj)
+    - [getDocuments](./adapters/controllers/DocumentController.md#getdocumentsparamobj)
+    - [createDocument](./adapters/controllers/DocumentController.md#createdocumentparamobj)
+    - [updateDocument](./adapters/controllers/DocumentController.md#updatedocumentparamobj)
+    - [deleteDocument](./adapters/controllers/DocumentController.md#deletedocumentparamobj)
 
-### [Repositories](./adapters/repositories/repositories.md)
-* [DocumentRepository](./adapters/repositories/repositories.md#class-documentrepository)
-    * constructor
-    * create
-    * read
-    * update
+### Repositories
+- [Document Repository](./adapters/repositories/DocumentRepository.md)
+    - [constructor](./adapters/repositories/DocumentRepository.md#new-documentrepositorycollectionname)
+    - [create](./adapters/repositories/DocumentRepository.md#thiscreatedocument)
+    - [read](./adapters/repositories/DocumentRepository.md#thisread)
+    - [update](./adapters/repositories/DocumentRepository.md#thisupdate_id-updateddoc)
 
 ----
 
 ### [Appendix](./appendix.md)
-* Common Expressions
+- [Glossary / Terms](./appendix.md#glossary--terms)

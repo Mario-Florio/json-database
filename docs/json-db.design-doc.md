@@ -1,10 +1,18 @@
 # Design Doc: JSON Database Refactor (Clean Architecture)
 
-- [**Overview & Purpose**](#overview--purpose)
-- [**Proposed Architecture**](#architecture)
-- [**Clean Architecture Mapping Summary**](#clean-architecture-mapping-summary)
-- [**Issues**](#issues)
-- [**Future Installments**](#future-installments)
+- [Design Doc: JSON Database Refactor (Clean Architecture)](#design-doc-json-database-refactor-clean-architecture)
+  - [Overview \& Purpose](#overview--purpose)
+  - [Architecture](#architecture)
+    - [Flow Chart](#flow-chart)
+    - [Dependency Inversion](#dependency-inversion)
+  - [Clean Architecture Mapping Summary](#clean-architecture-mapping-summary)
+    - [Entities](#entities)
+    - [Use Cases](#use-cases)
+    - [Ports](#ports)
+    - [Interface Adapters](#interface-adapters)
+    - [Frameworks/Drivers (External Agents)](#frameworksdrivers-external-agents)
+  - [Issues](#issues)
+  - [Future Installments](#future-installments)
 
 ## Overview & Purpose
 JSON Database serves as a pseudo-mongo/mongoose ODM for local development. The project exposes a simple API which allows for model creation. These created models provide basic query methods which allow for interaction with the underlying database.
@@ -57,7 +65,7 @@ JSON Databases architecture utilizes CA layers to abstract core logic (i.e. data
   * `Document` — Core structure of individual data units; standardizes *cores* data handling
   * `Schema` — Responsible for determing data uniformity across collections of `Document`s; determines `Document` identity
   * `QueryBuilder` — Responsible for data filtering
-  * `ChunkReader` — Responsible for data transimssion logic (I.e. data stream handling)
+  * `DocReader` — Responsible for data transimssion logic (I.e. data stream handling) and transformation of data shape
   * `Result` — Standardizes response objects across project; changes are centralized
 
 ### Use Cases
@@ -85,9 +93,7 @@ Use Cases handle core logic associated with data filtering and document handling
 ## Issues
   * ODM API is treated as an external client, but serves as a controller, orchestrating `DocumentController` functions—this is not an issue in itself, but if the ODM API is to be treated as central to the project, it should be further integrated into the layers and not treated as an external agent.
   * Database performs dangerous and unperformant rewrites when modifying data.
-  * ODM API allows for misuse of `Model`s which can lead to unexepcted data mutation via IO singleton.
 
 ## Future Installments
   * Implement streaming for file reads to improve performance and address safety concerns.
   * Implement backup storage to further improve data safety.
-  * Fully migrate ODM API to imitate basic *Mongoose* setup, removing safety concerns involving I/O singleton (via misused sub-classes causing unexpected data mutation)
