@@ -5,7 +5,7 @@ class DocReader {
     #transform;
     constructor(generator, transformFn = (doc) => doc) {
         must(isGenerator(generator), 'Invalid Type — generator must be generator object');
-        must(typeof obj === 'function', 'Invalid Type — transformFn must be a function');
+        must(typeof transformFn === 'function', 'Invalid Type — transformFn must be a function');
 
         this.#gen = generator;
         this.#transform = transformFn;
