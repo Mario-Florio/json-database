@@ -1,4 +1,4 @@
-import IO_SERVICE from "./IO-Service.js";
+import IO_SERVICE from './IO-Service.js';
 import Result from '../../core/entities/Result.js';
 import config from '../../config.js';
 import {

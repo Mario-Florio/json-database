@@ -52,7 +52,7 @@ class Schema {
         // Check that no extraneous fields exist on document
         for (const key of Object.keys(this)) {
             if (constKeys.includes(key)) continue;
-            if (!this.hasOwnProperty(key)) {
+            if (!Object.prototype.hasOwnProperty.call(this, key)) {
                 return false;
             }
         }

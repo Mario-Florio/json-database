@@ -17,7 +17,7 @@ describe('VIRTUALS', () => {
 
         await model.save();
 
-        expect(model.virtualProp).toBe("This is a virtual prop from model.");
+        expect(model.virtualProp).toBe('This is a virtual prop from model.');
 
     });
     it('Virtuals work on queried data: find', async () => {
@@ -34,12 +34,12 @@ describe('VIRTUALS', () => {
 
         const models = await ModelType.find();
 
-        expect(models[0].virtualProp).toBe("This is a virtual prop from model 1.");
-        expect(models[1].virtualProp).toBe("This is a virtual prop from model 2.");
+        expect(models[0].virtualProp).toBe('This is a virtual prop from model 1.');
+        expect(models[1].virtualProp).toBe('This is a virtual prop from model 2.');
 
         const model = await ModelType.find(model1);
 
-        expect(model[0].virtualProp).toBe("This is a virtual prop from model 1.");
+        expect(model[0].virtualProp).toBe('This is a virtual prop from model 1.');
 
     });
     it('Virtuals work on queried data: findById', async () => {
@@ -52,7 +52,7 @@ describe('VIRTUALS', () => {
 
         const model = await ModelType.findById(model1._id);
 
-        expect(model.virtualProp).toBe("This is a virtual prop from model 1.");
+        expect(model.virtualProp).toBe('This is a virtual prop from model 1.');
 
     });
     it('Virtuals work on queried data: findOne', async () => {
@@ -65,7 +65,7 @@ describe('VIRTUALS', () => {
 
         const model = await ModelType.findOne(model1);
 
-        expect(model.virtualProp).toBe("This is a virtual prop from model 1.");
+        expect(model.virtualProp).toBe('This is a virtual prop from model 1.');
 
     });
 });
