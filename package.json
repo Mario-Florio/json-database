@@ -1,3 +1,20 @@
 {
-    "type": "module"
+    "type": "module",
+    "name": "json-database",
+    "version": "1.0.0",
+    "description": "A lightweight JSON file–based database wrapper providing a simple ODM-like interface for Node.js projects.",
+    "main": "main.js",
+    "directories": {
+        "doc": "docs"
+    },
+    "scripts": {
+        "test": "for f in scripts/*.sh; do sh \"$f\"; done"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "eslint": "^9.35.0",
+        "prettier": "^3.6.2"
+    }
 }
