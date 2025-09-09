@@ -9,10 +9,10 @@ function setupSchema() {
     const Schema = ODM.Schema;
 
     const SchemaType = new Schema({
-        prop: { type: 'string', required: true }
+        prop: { type: 'string', required: true },
     });
 
-    SchemaType.virtual('virtualProp').get(function() {
+    SchemaType.virtual('virtualProp').get(function () {
         return `This is a virtual prop from ${this.prop}.`;
     });
 
@@ -34,7 +34,7 @@ function getPropsArr(amount, numbered = true) {
     const propsArr = [];
     for (let i = 0; i < amount; i++) {
         if (numbered) {
-            propsArr.push({ prop: `model ${i+1}` });
+            propsArr.push({ prop: `model ${i + 1}` });
         } else {
             propsArr.push({ prop: 'model' });
         }
@@ -48,9 +48,4 @@ function cleanDatabase() {
     }
 }
 
-export {
-    setupSchema,
-    getModelInstances,
-    getPropsArr,
-    cleanDatabase
-}
+export { setupSchema, getModelInstances, getPropsArr, cleanDatabase };

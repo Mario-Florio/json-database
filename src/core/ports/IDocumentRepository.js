@@ -1,4 +1,3 @@
-
 class IDocumentRepository {
     instantiate() {}
     create(data) {}

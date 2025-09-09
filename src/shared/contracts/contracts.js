@@ -1,7 +1,8 @@
 import config from '../../config.js';
 import ContractError from './__utils__/ContractError.js';
 
-const ENABLE_CONTRACTS =  process.env.ENABLE_CONTRACTS || config.ENABLE_CONTRACTS;
+const ENABLE_CONTRACTS =
+    process.env.ENABLE_CONTRACTS || config.ENABLE_CONTRACTS;
 
 function must(condition, message) {
     if (!ENABLE_CONTRACTS) return;
@@ -24,8 +25,4 @@ function guarantee(condition, message) {
     }
 }
 
-export {
-    must,
-    uphold,
-    guarantee
-}
+export { must, uphold, guarantee };

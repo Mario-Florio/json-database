@@ -1,11 +1,5 @@
 import fs from 'fs';
-import {
-    Document,
-    Schema,
-    Result,
-    config,
-    deepEqual
-} from '../import.js';
+import { Document, Schema, Result, config, deepEqual } from '../import.js';
 
 const dbPath = process.env.DBPATH || config.DBPATH;
 const collectionName = 'e2e-test';
@@ -18,7 +12,7 @@ const types = [
     new Boolean(),
     new Number(),
     new Array(),
-    new Object()
+    new Object(),
 ];
 
 function getCollectionId() {
@@ -29,15 +23,23 @@ function getSchema() {
     return new Schema({ prop: { type: 'string', required: true } });
 }
 
-function getTargetDoc(options = { index: { isTrue: false, value: new Number() } }) {
-    if (!fileExists()) throw new Error('Test Error: Database has not been instantiated');
+function getTargetDoc(
+    options = { index: { isTrue: false, value: new Number() } },
+) {
+    if (!fileExists())
+        throw new Error('Test Error: Database has not been instantiated');
 
     const json = fs.readFileSync(collectionDbPath, 'utf-8');
     const documents = JSON.parse(json);
     const amount = documents.length;
 
-    if (options.index.isTrue && (options.index.value >= amount || options.index.value < 0))
-        throw new Error(`Test Error: Invalid index value — ${options.index.value} is outside bounds of database`);
+    if (
+        options.index.isTrue &&
+        (options.index.value >= amount || options.index.value < 0)
+    )
+        throw new Error(
+            `Test Error: Invalid index value — ${options.index.value} is outside bounds of database`,
+        );
 
     const randomNum = Math.floor(Math.random() * amount);
     const targetDoc = documents[randomNum];
@@ -46,7 +48,8 @@ function getTargetDoc(options = { index: { isTrue: false, value: new Number() } 
 }
 
 function fillDb(options = { amount: 10 }) {
-    if (!fileExists()) throw new Error('Test Error: Database has not been instantiated');
+    if (!fileExists())
+        throw new Error('Test Error: Database has not been instantiated');
     const data = [];
     for (let i = 0; i < options.amount; i++)
         data.push(new Document({ prop: `Document ${i}` }));
@@ -92,5 +95,5 @@ export {
     fileExists,
     isResultObject,
     isDocument,
-    cleanDatabase
-}
+    cleanDatabase,
+};

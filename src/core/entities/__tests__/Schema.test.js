@@ -1,34 +1,28 @@
-import {
-    Schema,
-    Document,
-    typeCheckMap,
-    isObject
-} from './imports.js';
+import { Schema, Document, typeCheckMap, isObject } from './imports.js';
 
 const TYPE = 'type';
 const requiredProps = [TYPE];
 
 describe('SCHEMA', () => {
-
     describe('constructor', () => {
-
         it('Each field of returned object is a non-array object', () => {
             const keyMetaData = {
                 fieldA: { type: 'string' },
                 fieldB: { type: 'number', required: true },
                 fieldC: { type: 'array', required: true },
-                fieldD: { type: 'object' }
+                fieldD: { type: 'object' },
             };
             const schema = new Schema(keyMetaData);
 
-            for (const key of Object.keys(schema)) expect(isObject(schema[key])).toBe(true);
+            for (const key of Object.keys(schema))
+                expect(isObject(schema[key])).toBe(true);
         });
         it('Each field of returned object has required properties (e.g. type)', () => {
             const keyMetaData = {
                 fieldA: { type: 'string' },
                 fieldB: { type: 'number', required: true },
                 fieldC: { type: 'array', required: true },
-                fieldD: { type: 'object' }
+                fieldD: { type: 'object' },
             };
             const schema = new Schema(keyMetaData);
 
@@ -43,15 +37,19 @@ describe('SCHEMA', () => {
                 fieldA: { type: 'string' },
                 fieldB: { type: 'number', required: true },
                 fieldC: { type: 'array', required: true },
-                fieldD: { type: 'object' }
+                fieldD: { type: 'object' },
             };
             const schema = new Schema(keyMetaData);
 
             for (const key of Object.keys(schema)) {
                 for (const prop of requiredProps) {
                     if (prop === 'type') {
-                            const type = prop;
-                            expect(Object.keys(typeCheckMap).includes(schema[key][type])).toBe(true);
+                        const type = prop;
+                        expect(
+                            Object.keys(typeCheckMap).includes(
+                                schema[key][type],
+                            ),
+                        ).toBe(true);
                     }
                 }
             }
@@ -61,7 +59,7 @@ describe('SCHEMA', () => {
                 fieldA: { type: 'string' },
                 fieldB: { type: 'number', required: true },
                 fieldC: { type: 'array', required: true },
-                fieldD: { type: 'object' }
+                fieldD: { type: 'object' },
             };
             const schema = new Schema(keyMetaData);
 
@@ -74,7 +72,7 @@ describe('SCHEMA', () => {
             try {
                 const keyMetaData = [];
                 new Schema(keyMetaData);
-            } catch(err) {
+            } catch (err) {
                 errs.push(err);
             }
             expect(errs.length).toBe(1);
@@ -87,11 +85,10 @@ describe('SCHEMA', () => {
                     fieldA: { type: 'string' },
                     fieldB: { type: 'number', required: true },
                     fieldC: { type: 'array', required: true },
-                    fieldD: []
+                    fieldD: [],
                 };
                 new Schema(keyMetaData);
-
-            } catch(err) {
+            } catch (err) {
                 errs.push(err);
             }
             expect(errs.length).toBe(1);
@@ -104,11 +101,10 @@ describe('SCHEMA', () => {
                     fieldA: { type: 'string' },
                     fieldB: { type: 'number', required: true },
                     fieldC: { type: 'array', required: true },
-                    fieldD: { type: 'object', invalidProp: true }
+                    fieldD: { type: 'object', invalidProp: true },
                 };
                 new Schema(keyMetaData);
-
-            } catch(err) {
+            } catch (err) {
                 errs.push(err);
             }
             expect(errs.length).toBe(1);
@@ -121,11 +117,10 @@ describe('SCHEMA', () => {
                     fieldA: { type: 'string' },
                     fieldB: { type: 'number', required: true },
                     fieldC: { type: 'array', required: true },
-                    fieldD: { required: true } // No required properties
+                    fieldD: { required: true }, // No required properties
                 };
                 new Schema(keyMetaData);
-
-            } catch(err) {
+            } catch (err) {
                 errs.push(err);
             }
             expect(errs.length).toBe(1);
@@ -138,11 +133,10 @@ describe('SCHEMA', () => {
                     fieldA: { type: undefined },
                     fieldB: { type: 'number', required: true },
                     fieldC: { type: 'array', required: true },
-                    fieldD: { type: 'object' }
+                    fieldD: { type: 'object' },
                 };
                 new Schema(keyMetaData);
-
-            } catch(err) {
+            } catch (err) {
                 errs.push(err);
             }
             expect(errs.length).toBe(1);
@@ -151,17 +145,20 @@ describe('SCHEMA', () => {
     });
 
     describe('validateDoc', () => {
-
         it('Returns true if passed document has all required properties and valid property values', () => {
             const keyMetaData = {
                 fieldA: { type: 'string' },
                 fieldB: { type: 'number', required: true },
                 fieldC: { type: 'array', required: true },
-                fieldD: { type: 'object' }
+                fieldD: { type: 'object' },
             };
             const schema = new Schema(keyMetaData);
 
-            const document = new Document({ fieldA: '', fieldB: 0, fieldC: [] });
+            const document = new Document({
+                fieldA: '',
+                fieldB: 0,
+                fieldC: [],
+            });
 
             expect(schema.validateDoc(document)).toBe(true);
         });
@@ -170,7 +167,7 @@ describe('SCHEMA', () => {
                 fieldA: { type: 'string' },
                 fieldB: { type: 'number', required: true },
                 fieldC: { type: 'array', required: true },
-                fieldD: { type: 'object' }
+                fieldD: { type: 'object' },
             };
             const schema = new Schema(keyMetaData);
 
@@ -183,11 +180,11 @@ describe('SCHEMA', () => {
                 fieldA: { type: 'string' },
                 fieldB: { type: 'number', required: true },
                 fieldC: { type: 'array', required: true },
-                fieldD: { type: 'object' }
+                fieldD: { type: 'object' },
             };
             const schema = new Schema(keyMetaData);
 
-            const document = new Document({ fieldA: '' , fieldC: [] });
+            const document = new Document({ fieldA: '', fieldC: [] });
 
             expect(!schema.validateDoc(document)).toBe(true);
         });
@@ -196,11 +193,16 @@ describe('SCHEMA', () => {
                 fieldA: { type: 'string' },
                 fieldB: { type: 'number', required: true },
                 fieldC: { type: 'array', required: true },
-                fieldD: { type: 'object' }
+                fieldD: { type: 'object' },
             };
             const schema = new Schema(keyMetaData);
 
-            const document = new Document({ fieldA: 0, fieldB: '', fieldC: true, fieldD: [] });
+            const document = new Document({
+                fieldA: 0,
+                fieldB: '',
+                fieldC: true,
+                fieldD: [],
+            });
 
             expect(!schema.validateDoc(document)).toBe(true);
         });

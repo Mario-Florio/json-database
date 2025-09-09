@@ -1,15 +1,12 @@
 import {
     DocumentRepoUseCase,
     IDocumentRepository,
-    implementsInterface
+    implementsInterface,
 } from './imports.js';
 
 describe('DOC REPO USE CASE', () => {
-
     describe('constructor', () => {
-
         it('Returns valid use case instance if repo implements IDocumentRepository', () => {
-
             class ValidDocumentRepository {
                 instantiate() {}
                 create() {}
@@ -25,7 +22,6 @@ describe('DOC REPO USE CASE', () => {
     });
 
     describe('implementsInterface', () => {
-
         it('Returns true if class instance implements Interface methods', () => {
             class Class {
                 instantiate() {}
@@ -35,20 +31,25 @@ describe('DOC REPO USE CASE', () => {
                 delete() {}
             }
 
-            expect(implementsInterface(new Class(), IDocumentRepository)).toBe(true);
-
+            expect(implementsInterface(new Class(), IDocumentRepository)).toBe(
+                true,
+            );
         });
         it('Returns true if object instance implements Interface methods', () => {
             const prototype = {
-                instantiate: function() {},
-                create: function() {},
-                read: function() {},
-                update: function() {},
-                delete: function() {}
-            }
+                instantiate: function () {},
+                create: function () {},
+                read: function () {},
+                update: function () {},
+                delete: function () {},
+            };
 
-            expect(implementsInterface(Object.create(prototype), IDocumentRepository)).toBe(true);
-
+            expect(
+                implementsInterface(
+                    Object.create(prototype),
+                    IDocumentRepository,
+                ),
+            ).toBe(true);
         });
         it('Returns false if object instance does not implement all Interface methods', () => {
             const methods = [
@@ -56,7 +57,7 @@ describe('DOC REPO USE CASE', () => {
                 'create',
                 'read',
                 'update',
-                'delete'
+                'delete',
             ];
 
             const results = [];
@@ -64,13 +65,17 @@ describe('DOC REPO USE CASE', () => {
                 let prototype = {};
                 for (let j = 0; j < methods.length; j++) {
                     if (j === i) continue;
-                    prototype[methods[j]] = function() {};
+                    prototype[methods[j]] = function () {};
                 }
-                results.push(implementsInterface(Object.create(prototype), IDocumentRepository));
+                results.push(
+                    implementsInterface(
+                        Object.create(prototype),
+                        IDocumentRepository,
+                    ),
+                );
             }
 
             for (const result of results) expect(result === false).toBe(true);
         });
-
     });
 });

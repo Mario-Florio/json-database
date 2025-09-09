@@ -1,4 +1,4 @@
-import DocumentRepositoryUseCase from'./UseCase.js';
+import DocumentRepositoryUseCase from './UseCase.js';
 
 class DeleteDocument extends DocumentRepositoryUseCase {
     constructor(repo) {

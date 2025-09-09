@@ -1,25 +1,19 @@
-import {
-    Document,
-    constKeys,
-    isObject
-} from './imports.js';
+import { Document, constKeys, isObject } from './imports.js';
 
 describe('DOCUMENT', () => {
-
     describe('constructor', () => {
-
         it('Returns non-array object with passed content data', () => {
-
             const content = { propA: 'a', propB: 'b' };
             const document = new Document(content);
 
             expect(isObject(document)).toBe(true);
             for (const key of Object.keys(content)) {
-                expect(document[key] && document[key] === content[key]).toBe(true);
+                expect(document[key] && document[key] === content[key]).toBe(
+                    true,
+                );
             }
         });
         it('No properties not in content (except _id) exist on constructed object', () => {
-
             const content = { propA: 'a', propB: 'b' };
             const document = new Document(content);
 
@@ -31,9 +25,7 @@ describe('DOCUMENT', () => {
     });
 
     describe('hasKeys', () => {
-
         it('Returns true if document has all keys key:value pairs (structurally equal', () => {
-
             const keyA = { propA: 'a' };
             const keyB = { propB: 'b' };
             const keyC = { propC: 'c' };
@@ -45,7 +37,6 @@ describe('DOCUMENT', () => {
             expect(document.hasKeys({ ...keyA, ...keyC })).toBe(true);
         });
         it('Returns false if document does not have all keys key:value pairs', () => {
-
             const keyA = { propA: 'a' };
             const keyB = { propB: 'b' };
             const keyC = { propC: 'c' };
@@ -57,9 +48,7 @@ describe('DOCUMENT', () => {
         });
     });
     describe('mergeKeys', () => {
-
         it('Returns an instance of Document', () => {
-
             const keyA = { propA: 'a' };
             const keyB = { propB: 'b' };
             const keyC = { propC: 'c' };
@@ -71,7 +60,6 @@ describe('DOCUMENT', () => {
             expect(updatedDoc instanceof Document).toBe(true);
         });
         it('Returns object with modified key:value pairs', () => {
-
             const keyA = { propA: 'a' };
             const keyB = { propB: 'b' };
             const keyC = { propC: 'c' };
@@ -81,13 +69,14 @@ describe('DOCUMENT', () => {
 
             const newKeys = { ...updatedKeyA, ...keyB, ...keyC };
             const updatedDoc = document.mergeKeys(newKeys);
-            
+
             for (const key of Object.keys(newKeys)) {
-                expect(updatedDoc[key] && updatedDoc[key] === newKeys[key]).toBe(true);
+                expect(
+                    updatedDoc[key] && updatedDoc[key] === newKeys[key],
+                ).toBe(true);
             }
         });
         it('Mutates initial document with modified key:value pairs', () => {
-
             const keyA = { propA: 'a' };
             const keyB = { propB: 'b' };
             const keyC = { propC: 'c' };
@@ -97,13 +86,14 @@ describe('DOCUMENT', () => {
 
             const newKeys = { ...updatedKeyA, ...keyB, ...keyC };
             document.mergeKeys(newKeys);
-            
+
             for (const key of Object.keys(newKeys)) {
-                expect(document[key] && document[key] === newKeys[key]).toBe(true);
+                expect(document[key] && document[key] === newKeys[key]).toBe(
+                    true,
+                );
             }
         });
         it('Does not modify constant keys', () => {
-
             const keyA = { propA: 'a' };
             const keyB = { propB: 'b' };
             const keyC = { propC: 'c' };
@@ -123,13 +113,11 @@ describe('DOCUMENT', () => {
         it('Throws TypeError if passed keys is a non-array object', () => {
             const errs = [];
             try {
-
                 const content = { propA: 'a' };
                 const document = new Document(content);
 
                 document.mergeKeys([]);
-
-            } catch(err) {
+            } catch (err) {
                 errs.push(err);
             }
             expect(errs.length).toBe(1);

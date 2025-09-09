@@ -4,10 +4,4 @@ import typeCheckMap from '../__utils__/typeCheckMap.js';
 import constKeys from '../__utils__/constKeys.js';
 import isObject from '../../../shared/__utils__/isObject.js';
 
-export {
-    Document,
-    Schema,
-    typeCheckMap,
-    constKeys,
-    isObject
-}
+export { Document, Schema, typeCheckMap, constKeys, isObject };

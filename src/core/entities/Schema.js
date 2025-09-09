@@ -14,7 +14,7 @@ class Schema {
         this.#virtuals = [];
         guarantee(
             Object.keys(this).length === Object.keys(keyMetaData).length,
-            'Schema must have same amount of keys as keyMetaData'
+            'Schema must have same amount of keys as keyMetaData',
         );
     }
     virtual(name) {

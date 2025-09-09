@@ -1,5 +1,9 @@
-
-function it(desc, fn, cleanupFn = false, options = { logErr: false, devLog: false }) {
+function it(
+    desc,
+    fn,
+    cleanupFn = false,
+    options = { logErr: false, devLog: false },
+) {
     try {
         fn();
         console.log('\x1b[32m%s\x1b[0m', '\u2714 ' + desc);
@@ -12,7 +16,12 @@ function it(desc, fn, cleanupFn = false, options = { logErr: false, devLog: fals
     }
 }
 
-async function itAsync(desc, fn, cleanupFn = false, options = { logErr: false, devLog: false }) {
+async function itAsync(
+    desc,
+    fn,
+    cleanupFn = false,
+    options = { logErr: false, devLog: false },
+) {
     try {
         await fn();
         console.log('\x1b[32m%s\x1b[0m', '\u2714 ' + desc);
@@ -41,9 +50,4 @@ function arraysEqual(a, b) {
     return true;
 }
 
-export {
-    it,
-    itAsync,
-    assert,
-    arraysEqual
-}
+export { it, itAsync, assert, arraysEqual };

@@ -1,4 +1,3 @@
-
 class Result {
     constructor(paramObj) {
         this.message = paramObj.message;

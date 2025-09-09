@@ -1,4 +1,3 @@
-
 const ID = '_id';
 const CREATED_AT = 'createdAt';
 

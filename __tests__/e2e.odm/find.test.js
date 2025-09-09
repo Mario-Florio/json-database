@@ -2,23 +2,21 @@ import {
     setupSchema,
     getModelInstances,
     getPropsArr,
-    cleanDatabase
+    cleanDatabase,
 } from './__utils__/automate.js';
 
 describe('FIND', () => {
-
     afterEach(() => cleanDatabase());
 
     it('Returns appropriate obj', async () => {
         const ModelType = setupSchema();
         const propsArr = getPropsArr(4);
 
-        const [
-            model1,
-            model2,
-            model3,
-            model4
-        ] = getModelInstances(4, ModelType, propsArr);
+        const [model1, model2, model3, model4] = getModelInstances(
+            4,
+            ModelType,
+            propsArr,
+        );
 
         await model1.save();
         await model2.save();
@@ -42,18 +40,16 @@ describe('FIND', () => {
         expect(model[0].prop).toBe(model3.prop);
         expect(model[0].createdAt).toBe(model3.createdAt);
         expect(model[0]._id).toBe(model3._id);
-
     });
     it('Returns all data if no arguments are passed', async () => {
         const ModelType = setupSchema();
         const propsArr = getPropsArr(4);
 
-        const [
-            model1,
-            model2,
-            model3,
-            model4
-        ] = getModelInstances(4, ModelType, propsArr);
+        const [model1, model2, model3, model4] = getModelInstances(
+            4,
+            ModelType,
+            propsArr,
+        );
 
         await model1.save();
         await model2.save();
@@ -79,18 +75,16 @@ describe('FIND', () => {
         expect(models[3].prop).toBe(model4.prop);
         expect(models[3].createdAt).toBe(model4.createdAt);
         expect(models[3]._id).toBe(model4._id);
-
     });
     it('Returns empty array if classKeys are passed and no object is found', async () => {
         const ModelType = setupSchema();
         const propsArr = getPropsArr(4);
 
-        const [
-            model1,
-            model2,
-            model3,
-            model4
-        ] = getModelInstances(4, ModelType, propsArr);
+        const [model1, model2, model3, model4] = getModelInstances(
+            4,
+            ModelType,
+            propsArr,
+        );
 
         await model1.save();
         await model2.save();
@@ -101,26 +95,24 @@ describe('FIND', () => {
 
         expect(Array.isArray(res)).toBe(true);
         expect(res.length).toBe(0);
-
     });
     it('Returns empty array if database is empty', async () => {
         const ModelType = setupSchema();
         const propsArr = getPropsArr(1);
 
-        const [ model1 ] = getModelInstances(1, ModelType, propsArr);
-        
+        const [model1] = getModelInstances(1, ModelType, propsArr);
+
         await model1.save();
         await ModelType.findByIdAndDelete(model1._id);
 
         let res = await ModelType.find();
-        
+
         expect(Array.isArray(res)).toBe(true);
         expect(res.length).toBe(0);
 
         res = await ModelType.find({ _id: 'kldsjvb' });
-        
+
         expect(Array.isArray(res)).toBe(true);
         expect(res.length).toBe(0);
-
     });
 });

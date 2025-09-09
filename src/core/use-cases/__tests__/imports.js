@@ -28,5 +28,5 @@ export {
     FIND,
     FIND_ONE,
     SAVE,
-    UPDATE
-}
+    UPDATE,
+};

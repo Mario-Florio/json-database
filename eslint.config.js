@@ -19,12 +19,12 @@ export default [
                 beforeAll: 'readonly',
                 afterAll: 'readonly',
                 beforeEach: 'readonly',
-                afterEach: 'readonly'
-            }
+                afterEach: 'readonly',
+            },
         },
         rules: {
             'no-unused-vars': 'off',
-            quotes: ['error', 'single']
-        }
-    }
+            quotes: ['error', 'single'],
+        },
+    },
 ];

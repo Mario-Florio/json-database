@@ -1,4 +1,3 @@
-
 // DB
 const DB_ALREADY_EXISTS = 'Database already exists';
 const INSTANTIATION_SUCCESSFUL = 'Instantiation successful';
@@ -19,5 +18,5 @@ export {
     DELETE_SUCCESSFUL,
     NO_DATA,
     NO_ID,
-    ITEM_NOT_FOUND
-}
+    ITEM_NOT_FOUND,
+};

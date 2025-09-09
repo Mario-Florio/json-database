@@ -15,7 +15,7 @@ import {
     DELETE_SUCCESSFUL,
     NO_DATA,
     NO_ID,
-    ITEM_NOT_FOUND
+    ITEM_NOT_FOUND,
 } from '../../src/infrastructure/IO-API/response-tokens.js';
 
 export {
@@ -35,5 +35,5 @@ export {
     NO_DATA,
     NO_ID,
     ITEM_NOT_FOUND,
-    INPUT_IS_INVALID
-}
+    INPUT_IS_INVALID,
+};
