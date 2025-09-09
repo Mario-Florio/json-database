@@ -1,48 +1,45 @@
 import { setupUseCase, getSchema } from './__utils__/automate.js';
-import {
-    it, itAsync,
-    assert,
-    SAVE,
-    isObject
-} from './imports.js';
+import { SAVE, isObject } from './imports.js';
 
-console.log('----SAVE_DOCUMENTS----');
-await itAsync('Returns a non-array object with message and truthy success fields', async () => {
+describe('SAVE DOCUMENTS', () => {
 
-    const useCase = await setupUseCase(SAVE);
-    const schema = getSchema();
-    const data = { _id: 'id', prop: 'item 11' };
+    it('Returns a non-array object with message and truthy success fields', async () => {
 
-    const paramObj = {
-        schema,
-        data
-    };
+        const useCase = await setupUseCase(SAVE);
+        const schema = getSchema();
+        const data = { _id: 'id', prop: 'item 11' };
 
-    const response = await useCase.execute(paramObj);
+        const paramObj = {
+            schema,
+            data
+        };
 
-    assert(isObject(response));
-    assert(response.message);
-    assert(response.success === true);
+        const response = await useCase.execute(paramObj);
 
-});
-await itAsync('Returns a non-array object with message and falsy success fields if data does not represent schema', async () => {
+        expect(isObject(response)).toBe(true);
+        expect(response.message).toBeTruthy();
+        expect(response.success).toBe(true);
 
-    const useCase = await setupUseCase(SAVE);
-    const schema = getSchema();
-    const data = {
-        _id: 'id',
-        // doesn't contain collections 'prop'
-    };
+    });
+    it('Returns a non-array object with message and falsy success fields if data does not represent schema', async () => {
 
-    const paramObj = {
-        schema,
-        data
-    };
+        const useCase = await setupUseCase(SAVE);
+        const schema = getSchema();
+        const data = {
+            _id: 'id',
+            // doesn't contain collections 'prop'
+        };
 
-    const response = await useCase.execute(paramObj);
+        const paramObj = {
+            schema,
+            data
+        };
 
-    assert(isObject(response));
-    assert(response.message);
-    assert(response.success === false);
+        const response = await useCase.execute(paramObj);
 
+        expect(isObject(response)).toBe(true);
+        expect(response.message).toBeTruthy();
+        expect(response.success).toBe(false);
+
+    });
 });

@@ -1,11 +1,9 @@
 import {
-    getDocRepo,
     getDoc,
     getAndSetupDocRepo,
     dbHas,
     cleanDatabase
 } from './__utils__/automate.js';
-import { it, itAsync, assert } from './imports.js';
 
 const data = {
     string: 'string',
@@ -21,24 +19,28 @@ const data = {
     array: [ true, 0, 'string', { string: 'string', number: 4, boolean: true, }, [ 'string', { string: 'string' } ] ]
 }
 
-console.log('----DOCUMENT_REPOSITORY_CREATE----');
+describe('DOC REPO CREATE', () => {
 
-await itAsync('Creates accurate record in database file', async () => {
+    afterEach(() => cleanDatabase());
 
-    const docRepo = await getAndSetupDocRepo();
-    const doc = getDoc(data);
-    await docRepo.create(doc);
+    it('Creates accurate record in database file', async () => {
 
-    assert(dbHas(doc));
+        const docRepo = await getAndSetupDocRepo();
+        const doc = getDoc(data);
+        await docRepo.create(doc);
 
-}, cleanDatabase);
-await itAsync('Returns object with message and truthy success fields', async () => {
+        expect(dbHas(doc)).toBe(true);
 
-    const docRepo = await getAndSetupDocRepo();
-    const doc = getDoc(data);
-    const response = await docRepo.create(doc);
+    });
+    it('Returns object with message and truthy success fields', async () => {
 
-    assert(response.message);
-    assert(response.success === true);
+        const docRepo = await getAndSetupDocRepo();
+        const doc = getDoc(data);
+        const response = await docRepo.create(doc);
 
-}, cleanDatabase);
+        expect(response.message).toBeTruthy();
+        expect(response.success).toBe(true);
+
+    });
+
+});

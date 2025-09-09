@@ -8,7 +8,6 @@ import Document from '../../entities/Document.js';
 import Schema from '../../entities/Schema.js';
 import implementsInterface from '../__utils__/implementsInterface.js';
 import isObject from '../../../shared/__utils__/isObject.js';
-import { it, itAsync, assert } from '../../../shared/testing/test-tools.js';
 
 const FIND = 'find';
 const FIND_ONE = 'findOne';
@@ -29,7 +28,5 @@ export {
     FIND,
     FIND_ONE,
     SAVE,
-    UPDATE,
-    it, itAsync,
-    assert
+    UPDATE
 }

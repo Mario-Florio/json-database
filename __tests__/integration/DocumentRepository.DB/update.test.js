@@ -6,84 +6,86 @@ import {
     dbHas,
     cleanDatabase
 } from './__utils__/automate.js';
-import { it, itAsync, assert } from './imports.js';
 
 const NON_EXISTENT_ID = 'non-existent id';
 
-console.log('----DOCUMENT_REPOSITORY_UPDATE----');
+describe('DOC REPO UPDATE', () => {
 
-await itAsync('Accurately modifies targeted record in database file', async () => {
+    afterEach(() => cleanDatabase());
 
-    const amount = 10;
+    it('Accurately modifies targeted record in database file', async () => {
 
-    const docRepo = await getAndSetupDocRepo({
-        fill: { isTrue: true, amount }
+        const amount = 10;
+
+        const docRepo = await getAndSetupDocRepo({
+            fill: { isTrue: true, amount }
+        });
+
+        const targetDoc = await getTargetDoc(docRepo);
+        const updatedKeys = { prop: 'updated value' };
+        const updatedDoc = targetDoc.mergeKeys(updatedKeys);
+
+        await docRepo.update(targetDoc._id, updatedDoc);
+
+        expect(dbHas(updatedDoc)).toBe(true);
+
     });
+    it('Returns object with message and truthy success fields', async () => {
 
-    const targetDoc = await getTargetDoc(docRepo);
-    const updatedKeys = { prop: 'updated value' };
-    const updatedDoc = targetDoc.mergeKeys(updatedKeys);
+        const docRepo = await getAndSetupDocRepo({
+            fill: { isTrue: true, amount: 10 }
+        });
 
-    await docRepo.update(targetDoc._id, updatedDoc);
+        const targetDoc = await getTargetDoc(
+            docRepo,
+            { index: { isTrue: true, value: 5 } }
+        );
+        const updatedKeys = { prop: 'updated value' };
+        const updatedDoc = targetDoc.mergeKeys(updatedKeys);
+        
+        const response = await docRepo.update(targetDoc._id, updatedDoc);
 
-    assert(dbHas(updatedDoc));
+        expect(response.message).toBeTruthy();
+        expect(response.success).toBe(true);
 
-}, cleanDatabase, true);
-await itAsync('Returns object with message and truthy success fields', async () => {
-
-    const docRepo = await getAndSetupDocRepo({
-        fill: { isTrue: true, amount: 10 }
     });
+    it('If database file does not exist, returns object with message and falsy success fields', async () => {
 
-    const targetDoc = await getTargetDoc(
-        docRepo,
-        { index: { isTrue: true, value: 5 } }
-    );
-    const updatedKeys = { prop: 'updated value' };
-    const updatedDoc = targetDoc.mergeKeys(updatedKeys);
-    
-    const response = await docRepo.update(targetDoc._id, updatedDoc);
+        const docRepo = getDocRepo(); // plain doc repo - database file not instantiated
 
-    assert(response.message);
-    assert(response.success === true);
+        const response = await docRepo.update('id', getDoc({}));
 
-}, cleanDatabase);
-await itAsync('If database file does not exist, returns object with message and falsy success fields', async () => {
+        expect(response.message).toBeTruthy();
+        expect(response.success).toBe(false);
 
-    const docRepo = getDocRepo(); // plain doc repo - database file not instantiated
+    },);
+    it('If not given id, returns object with message and falsy success fields', async () => {
 
-    const response = await docRepo.update('id', getDoc({}));
+        const docRepo = await getAndSetupDocRepo({
+            fill: { isTrue: true, amount: 10 }
+        });
 
-    assert(response.message);
-    assert(response.success === false);
+        const targetDoc = await getTargetDoc(
+            docRepo,
+            { index: { isTrue: true, value: 5 } }
+        );
+        const updatedKeys = { prop: 'updated value' };
+        const updatedDoc = targetDoc.mergeKeys(updatedKeys);
+        
+        const response = await docRepo.update(null, updatedDoc);
 
-}, cleanDatabase,);
-await itAsync('If not given id, returns object with message and falsy success fields', async () => {
+        expect(response.message).toBeTruthy();
+        expect(response.success).toBe(false);
 
-    const docRepo = await getAndSetupDocRepo({
-        fill: { isTrue: true, amount: 10 }
     });
+    it('If targeted record does not exist, returns object with message and falsy success fields', async () => {
 
-    const targetDoc = await getTargetDoc(
-        docRepo,
-        { index: { isTrue: true, value: 5 } }
-    );
-    const updatedKeys = { prop: 'updated value' };
-    const updatedDoc = targetDoc.mergeKeys(updatedKeys);
-    
-    const response = await docRepo.update(null, updatedDoc);
+        const docRepo = await getAndSetupDocRepo();
+        
+        const response = await docRepo.update(NON_EXISTENT_ID, getDoc({}));
 
-    assert(response.message);
-    assert(response.success === false);
+        expect(response.message).toBeTruthy();
+        expect(response.success).toBe(false);
 
-}, cleanDatabase);
-await itAsync('If targeted record does not exist, returns object with message and falsy success fields', async () => {
-
-    const docRepo = await getAndSetupDocRepo();
-    
-    const response = await docRepo.update(NON_EXISTENT_ID, getDoc({}));
-
-    assert(response.message);
-    assert(response.success === false);
-
-}, cleanDatabase);
+    });
+});

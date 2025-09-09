@@ -10,8 +10,7 @@ import {
     Schema,
     isObject,
     SAVE_SUCCESSFUL,
-    INPUT_IS_INVALID,
-    itAsync, it, assert
+    INPUT_IS_INVALID
 } from './import.js';
 
 const collectionId = getCollectionId();
@@ -36,48 +35,54 @@ const data = {
     array: [ true, 0, 'string', { string: 'string', number: 4, boolean: true, }, [ 'string', { string: 'string' } ] ]
 }
 
-console.log(`----CREATE----`);
-// Happy path
-await (async (cleanupFn) => {
+describe('CREATE', () => {
 
-    await documentController.instantiateCollection({ collectionId });
-    const res = await documentController.createDocument({ collectionId, data, schema });
+    describe('Happy path', () => {
 
-    it('Creates a document with accurate values in database', () => {
-        assert(dbHas(data));
+        beforeAll(async () => await documentController.instantiateCollection({ collectionId }));
+        afterAll(() => cleanDatabase());
+
+        it('Creates a document with accurate values in database', async () => {
+            const res = await documentController.createDocument({ collectionId, data, schema });
+            expect(dbHas(data)).toBe(true);
+        });
+        it('Returns successful Result object', async () => {
+            const res = await documentController.createDocument({ collectionId, data, schema });
+            expect(isResultObject(res)).toBe(true);
+        });
+        it('Returns Result object with save successful message', async () => {
+            const res = await documentController.createDocument({ collectionId, data, schema });
+            expect(res.message).toBe(SAVE_SUCCESSFUL);
+        });
+
     });
-    it('Returns successful Result object', () => {
-        assert(isResultObject(res));
+
+    describe('Sad path :(', () => {
+
+        it('Returns input is invalid message if input is invalid', async () => {
+
+            const invalidCollectionIds = types.filter(type => typeof type !== 'string');
+            const invalidDatas = types.filter(type => !isObject(type));
+            const invalidSchemas = types;
+
+            for (const collectionId of invalidCollectionIds) {
+                const res = await documentController.createDocument({ collectionId, data, schema });
+                expect(res.message).toBe(INPUT_IS_INVALID);
+                expect(res.success).toBe(false);
+            }
+
+            for (const data of invalidDatas) {
+                const res = await documentController.createDocument({ collectionId, data, schema });
+                expect(res.message).toBe(INPUT_IS_INVALID);
+                expect(res.success).toBe(false);
+            }
+
+            for (const schema of invalidSchemas) {
+                const res = await documentController.createDocument({ collectionId, data, schema });
+                expect(res.message).toBe(INPUT_IS_INVALID);
+                expect(res.success).toBe(false);
+            }
+
+        });
     });
-    it('Returns Result object with save successful message', () => {
-        assert(res.message === SAVE_SUCCESSFUL);
-    });
-    cleanupFn();
-
-})(cleanDatabase);
-
-await itAsync('Returns input is invalid message if input is invalid', async () => {
-
-    const invalidCollectionIds = types.filter(type => typeof type !== 'string');
-    const invalidDatas = types.filter(type => !isObject(type));
-    const invalidSchemas = types;
-
-    for (const collectionId of invalidCollectionIds) {
-        const res = await documentController.createDocument({ collectionId, data, schema });
-        assert(res.message === INPUT_IS_INVALID);
-        assert(res.success === false);
-    }
-
-    for (const data of invalidDatas) {
-        const res = await documentController.createDocument({ collectionId, data, schema });
-        assert(res.message === INPUT_IS_INVALID);
-        assert(res.success === false);
-    }
-
-    for (const schema of invalidSchemas) {
-        const res = await documentController.createDocument({ collectionId, data, schema });
-        assert(res.message === INPUT_IS_INVALID);
-        assert(res.success === false);
-    }
-
-}, cleanDatabase);
+});

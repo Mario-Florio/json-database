@@ -1,134 +1,139 @@
 import {
     Document,
     constKeys,
-    isObject,
-    it, assert
+    isObject
 } from './imports.js';
 
-console.log('-----DOCUMENT-----');
+describe('DOCUMENT', () => {
 
-console.log('   CONSTRUCTOR');
-it('Returns non-array object with passed content data', () => {
+    describe('constructor', () => {
 
-    const content = { propA: 'a', propB: 'b' };
-    const document = new Document(content);
+        it('Returns non-array object with passed content data', () => {
 
-    assert(isObject(document));
-    for (const key of Object.keys(content)) {
-        assert(document[key] && document[key] === content[key]);
-    }
-});
-it('No properties not in content (except _id) exist on constructed object', () => {
+            const content = { propA: 'a', propB: 'b' };
+            const document = new Document(content);
 
-    const content = { propA: 'a', propB: 'b' };
-    const document = new Document(content);
+            expect(isObject(document)).toBe(true);
+            for (const key of Object.keys(content)) {
+                expect(document[key] && document[key] === content[key]).toBe(true);
+            }
+        });
+        it('No properties not in content (except _id) exist on constructed object', () => {
 
-    for (const key of Object.keys(document)) {
-        if (key === '_id') continue;
-        assert(content[key]);
-    }
-});
+            const content = { propA: 'a', propB: 'b' };
+            const document = new Document(content);
 
-console.log('   HAS_KEYS');
-it('Returns true if document has all keys key:value pairs (structurally equal', () => {
+            for (const key of Object.keys(document)) {
+                if (key === '_id') continue;
+                expect(content[key]).toBeTruthy();
+            }
+        });
+    });
 
-    const keyA = { propA: 'a' };
-    const keyB = { propB: 'b' };
-    const keyC = { propC: 'c' };
-    const content = { ...keyA, ...keyB, ...keyC };
-    const document = new Document(content);
+    describe('hasKeys', () => {
 
-    assert(document.hasKeys(keyA));
-    assert(document.hasKeys(keyB));
-    assert(document.hasKeys({ ...keyA, ...keyC }));
-});
-it('Returns false if document does not have all keys key:value pairs', () => {
+        it('Returns true if document has all keys key:value pairs (structurally equal', () => {
 
-    const keyA = { propA: 'a' };
-    const keyB = { propB: 'b' };
-    const keyC = { propC: 'c' };
-    const content = { ...keyA };
-    const document = new Document(content);
+            const keyA = { propA: 'a' };
+            const keyB = { propB: 'b' };
+            const keyC = { propC: 'c' };
+            const content = { ...keyA, ...keyB, ...keyC };
+            const document = new Document(content);
 
-    assert(!document.hasKeys(keyB));
-    assert(!document.hasKeys({ ...keyA, ...keyC }));
-});
+            expect(document.hasKeys(keyA)).toBe(true);
+            expect(document.hasKeys(keyB)).toBe(true);
+            expect(document.hasKeys({ ...keyA, ...keyC })).toBe(true);
+        });
+        it('Returns false if document does not have all keys key:value pairs', () => {
 
-console.log('   MERGE_KEYS');
-it('Returns an instance of Document', () => {
+            const keyA = { propA: 'a' };
+            const keyB = { propB: 'b' };
+            const keyC = { propC: 'c' };
+            const content = { ...keyA };
+            const document = new Document(content);
 
-    const keyA = { propA: 'a' };
-    const keyB = { propB: 'b' };
-    const keyC = { propC: 'c' };
-    const content = { ...keyA };
-    const document = new Document(content);
+            expect(!document.hasKeys(keyB)).toBe(true);
+            expect(!document.hasKeys({ ...keyA, ...keyC })).toBe(true);
+        });
+    });
+    describe('mergeKeys', () => {
 
-    const updatedDoc = document.mergeKeys({ ...keyB, ...keyC });
+        it('Returns an instance of Document', () => {
 
-    assert(updatedDoc instanceof Document);
-});
-it('Returns object with modified key:value pairs', () => {
+            const keyA = { propA: 'a' };
+            const keyB = { propB: 'b' };
+            const keyC = { propC: 'c' };
+            const content = { ...keyA };
+            const document = new Document(content);
 
-    const keyA = { propA: 'a' };
-    const keyB = { propB: 'b' };
-    const keyC = { propC: 'c' };
-    const updatedKeyA = { propA: 'A' };
-    const content = { ...keyA };
-    const document = new Document(content);
+            const updatedDoc = document.mergeKeys({ ...keyB, ...keyC });
 
-    const newKeys = { ...updatedKeyA, ...keyB, ...keyC };
-    const updatedDoc = document.mergeKeys(newKeys);
-    
-    for (const key of Object.keys(newKeys)) {
-        assert(updatedDoc[key] && updatedDoc[key] === newKeys[key]);
-    }
-});
-it('Mutates initial document with modified key:value pairs', () => {
+            expect(updatedDoc instanceof Document).toBe(true);
+        });
+        it('Returns object with modified key:value pairs', () => {
 
-    const keyA = { propA: 'a' };
-    const keyB = { propB: 'b' };
-    const keyC = { propC: 'c' };
-    const updatedKeyA = { propA: 'A' };
-    const content = { ...keyA };
-    const document = new Document(content);
+            const keyA = { propA: 'a' };
+            const keyB = { propB: 'b' };
+            const keyC = { propC: 'c' };
+            const updatedKeyA = { propA: 'A' };
+            const content = { ...keyA };
+            const document = new Document(content);
 
-    const newKeys = { ...updatedKeyA, ...keyB, ...keyC };
-    document.mergeKeys(newKeys);
-    
-    for (const key of Object.keys(newKeys)) {
-        assert(document[key] && document[key] === newKeys[key]);
-    }
-});
-it('Does not modify constant keys', () => {
+            const newKeys = { ...updatedKeyA, ...keyB, ...keyC };
+            const updatedDoc = document.mergeKeys(newKeys);
+            
+            for (const key of Object.keys(newKeys)) {
+                expect(updatedDoc[key] && updatedDoc[key] === newKeys[key]).toBe(true);
+            }
+        });
+        it('Mutates initial document with modified key:value pairs', () => {
 
-    const keyA = { propA: 'a' };
-    const keyB = { propB: 'b' };
-    const keyC = { propC: 'c' };
-    const content = { ...keyA };
-    for (const key of constKeys) content[key] = key;
-    const document = new Document(content);
+            const keyA = { propA: 'a' };
+            const keyB = { propB: 'b' };
+            const keyC = { propC: 'c' };
+            const updatedKeyA = { propA: 'A' };
+            const content = { ...keyA };
+            const document = new Document(content);
 
-    const updatedKeys = { ...keyB, ...keyC };
-    for (const key of constKeys) updatedKeys[key] = 'updated';
+            const newKeys = { ...updatedKeyA, ...keyB, ...keyC };
+            document.mergeKeys(newKeys);
+            
+            for (const key of Object.keys(newKeys)) {
+                expect(document[key] && document[key] === newKeys[key]).toBe(true);
+            }
+        });
+        it('Does not modify constant keys', () => {
 
-    document.mergeKeys(updatedKeys);
+            const keyA = { propA: 'a' };
+            const keyB = { propB: 'b' };
+            const keyC = { propC: 'c' };
+            const content = { ...keyA };
+            for (const key of constKeys) content[key] = key;
+            const document = new Document(content);
 
-    for (const key of constKeys) {
-        assert(document[key] === key);
-    }
-});
-it('Throws TypeError if passed keys is a non-array object', () => {
-    const errs = [];
-    try {
+            const updatedKeys = { ...keyB, ...keyC };
+            for (const key of constKeys) updatedKeys[key] = 'updated';
 
-        const content = { propA: 'a' };
-        const document = new Document(content);
+            document.mergeKeys(updatedKeys);
 
-        const res = document.mergeKeys([]);
+            for (const key of constKeys) {
+                expect(document[key] === key).toBe(true);
+            }
+        });
+        it('Throws TypeError if passed keys is a non-array object', () => {
+            const errs = [];
+            try {
 
-    } catch(err) {
-        errs.push(err);
-    }
-    assert(errs.length === 1);
-    assert(errs[0] instanceof TypeError);
+                const content = { propA: 'a' };
+                const document = new Document(content);
+
+                document.mergeKeys([]);
+
+            } catch(err) {
+                errs.push(err);
+            }
+            expect(errs.length).toBe(1);
+            expect(errs[0] instanceof TypeError).toBe(true);
+        });
+    });
 });

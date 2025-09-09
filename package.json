@@ -8,13 +8,21 @@
         "doc": "docs"
     },
     "scripts": {
-        "test": "for f in scripts/*.sh; do sh \"$f\"; done"
+        "test": "jest --runInBand",
+        "test:watch": "jest --runInBand --watch",
+        "test:unit": "jest --testPathPatterns=src",
+        "test:integration": "jest --testPathPatterns=__tests__/integration --runInBand",
+        "test:e2e": "jest --testPathPatterns=__tests__/e2e --runInBand"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "devDependencies": {
+        "@babel/core": "^7.28.4",
+        "@babel/preset-env": "^7.28.3",
+        "babel-jest": "^30.1.2",
         "eslint": "^9.35.0",
+        "jest": "^30.1.3",
         "prettier": "^3.6.2"
     }
 }

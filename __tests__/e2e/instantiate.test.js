@@ -9,46 +9,57 @@ import {
     documentController,
     INSTANTIATION_SUCCESSFUL,
     INPUT_IS_INVALID,
-    DB_ALREADY_EXISTS,
-    it, itAsync, assert
+    DB_ALREADY_EXISTS
 } from './import.js';
 
 const collectionId = getCollectionId();
 
-console.log(`----INSTANTIATE----`);
-// Happy path
-await (async (cleanupFn) => {
+describe('INSTANTIATE', () => {
 
-    const res = await documentController.instantiateCollection({ collectionId });
+    describe('Happy path', () => {
 
-    it('Creates a file named after collection id', () => {
-        assert(fileExists());
+        afterEach(() => cleanDatabase());
+
+        it('Creates a file named after collection id', async () => {
+            await documentController.instantiateCollection({ collectionId });
+            expect(fileExists()).toBe(true);
+        });
+        it('Returns successful Result object', async () => {
+            const res = await documentController.instantiateCollection({ collectionId });
+            expect(isResultObject(res)).toBe(true);
+        });
+        it('Returns Result object with instantiation successful message', async () => {
+            const res = await documentController.instantiateCollection({ collectionId });
+            expect(res.message).toBe(INSTANTIATION_SUCCESSFUL);
+        });
+
     });
-    it('Returns successful Result object', () => {
-        assert(isResultObject(res));
+
+    describe('Sad path :(', () => {
+
+        afterEach(() => cleanDatabase());
+
+        it('Returns input is invalid message if collectionId is invalid', async () => {
+
+            const invalidCollectionIds = types.filter(type => typeof type !== 'string');
+
+            for (const collectionId of invalidCollectionIds) {
+                const res = await documentController.instantiateCollection({ collectionId });
+
+                expect(res.message).toBe(INPUT_IS_INVALID);
+            }
+
+        });
+        
+        it('Returns database exists message if file with collection id already exists', async () => {
+
+            await documentController.instantiateCollection({ collectionId });
+            const res = await documentController.instantiateCollection({ collectionId });
+
+            console.log(res);
+            expect(res.message).toBe(DB_ALREADY_EXISTS);
+
+        });
+
     });
-    it('Returns Result object with instantiation successful message', () => {
-        assert(res.message === INSTANTIATION_SUCCESSFUL);
-    });
-    cleanupFn();
-
-})(cleanDatabase);
-
-await itAsync('Returns input is invalid message if collectionId is invalid', async () => {
-
-    const invalidCollectionIds = types.filter(type => typeof type !== 'string');
-
-    for (const collectionId of invalidCollectionIds) {
-        const res = await documentController.instantiateCollection({ collectionId });
-        assert(res.message === INPUT_IS_INVALID);
-    }
-
-}, cleanDatabase);
-await itAsync('Returns database exists message if file with collection id already exists', async () => {
-
-    await documentController.instantiateCollection({ collectionId });
-    const res = await documentController.instantiateCollection({ collectionId });
-
-    assert(res.message === DB_ALREADY_EXISTS);
-
-}, cleanDatabase);
+});

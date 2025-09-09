@@ -1,28 +1,27 @@
 import { setupUseCase, isDocument } from './__utils__/automate.js';
-import {
-    itAsync,
-    assert,
-    FIND_ONE
-} from './imports.js';
+import { FIND_ONE } from './imports.js';
 
-const useCase = await setupUseCase(FIND_ONE);
+describe('FIND ONE DOCUMENT', () => {
 
-console.log('----FIND_ONE_DOCUMENT----');
-await itAsync('Returns an instance of Document', async () => {
+    it('Returns an instance of Document', async () => {
 
-    const { data } = await useCase.execute({ keys: { prop: 'item 1' } });
-    assert(isDocument(data));
+        const useCase = await setupUseCase(FIND_ONE);
+        const { data } = await useCase.execute({ keys: { prop: 'item 1' } });
+        expect(isDocument(data)).toBe(true);
 
-}, false, true);
-await itAsync('Returned Document has all specified key:val pairs', async () => {
-   
-    const { data } = await useCase.execute({ keys: { prop: 'item 1' } });
-    assert(data.prop === 'item 1');
+    }, false, true);
+    it('Returned Document has all specified key:val pairs', async () => {
 
-});
-await itAsync('Returns null if no Document is found to have all specified key:val pairs', async () => {
+        const useCase = await setupUseCase(FIND_ONE);
+        const { data } = await useCase.execute({ keys: { prop: 'item 1' } });
+        expect(data.prop).toBe('item 1');
 
-    const { data } = await useCase.execute({ keys: { non_existent_prop: true } });
-    assert(data === null);
+    });
+    it('Returns null if no Document is found to have all specified key:val pairs', async () => {
 
+        const useCase = await setupUseCase(FIND_ONE);
+        const { data } = await useCase.execute({ keys: { non_existent_prop: true } });
+        expect(data).toBe(null);
+
+    });
 });

@@ -11,8 +11,7 @@ import {
     documentController,
     DELETE_SUCCESSFUL,
     NO_ID,
-    INPUT_IS_INVALID,
-    it, itAsync, assert
+    INPUT_IS_INVALID
 } from './import.js';
 
 const collectionId = getCollectionId();
@@ -22,58 +21,71 @@ async function setupCollection() {
     fillDb();
 }
 
-console.log(`----DELETE----`);
-// Happy path
-await (async (cleanupFn) => {
+describe('DELETE', () => {
 
-    await setupCollection();
-    const doc = getTargetDoc();
-    const { _id } = doc;
-    const res = await documentController.deleteDocument({ collectionId, _id });
+    describe('Happy path', () => {
 
-    it('Deletes correct document with accurate values in database', () => {
+        beforeEach(async () => await setupCollection());
+        afterEach(() => cleanDatabase);
 
-        assert(!dbHas(doc));
+        it('Deletes correct document with accurate values in database', async () => {
+            const doc = getTargetDoc();
+            const { _id } = doc;
+            await documentController.deleteDocument({ collectionId, _id });
+            expect(dbHas(doc)).toBe(false);
+        });
+        it('Returns successful Result object', async () => {
+            const doc = getTargetDoc();
+            const { _id } = doc;
+            const res = await documentController.deleteDocument({ collectionId, _id });
+            expect(isResultObject(res)).toBe(true);
+        });
+        it('Returns Result object with delete successful message', async () => {
+            const doc = getTargetDoc();
+            const { _id } = doc;
+            const res = await documentController.deleteDocument({ collectionId, _id });
+            expect(res.message).toBe(DELETE_SUCCESSFUL);
+        });
 
-    }, false, { logErr: true });
-    it('Returns successful Result object', () => {
-        assert(isResultObject(res));
     });
-    it('Returns Result object with delete successful message', () => {
-        assert(res.message === DELETE_SUCCESSFUL);
+
+    describe('Sad path :(', () => {
+
+        it('Returns input is invalid message if input is invalid', async () => {
+
+            await setupCollection();
+            const { _id } = getTargetDoc();
+
+            const invalidCollectionIds = types.filter(type => typeof type !== 'string');
+            const invalidIds = types.filter(type => typeof type !== 'string');
+
+            for (const collectionId of invalidCollectionIds) {
+                const res = await documentController.deleteDocument({ collectionId, _id });
+                expect(res.message).toBe(INPUT_IS_INVALID);
+                expect(res.success).toBe(false);
+            }
+
+            for (const _id of invalidIds) {
+                const res = await documentController.deleteDocument({ collectionId, _id });
+                expect(res.message).toBe(INPUT_IS_INVALID);
+                expect(res.success).toBe(false);
+            }
+
+        });
     });
-    cleanupFn();
 
-})(cleanDatabase);
+    describe('Edge cases', () => {
 
-await itAsync('Returns input is invalid message if input is invalid', async () => {
+        beforeEach(async () => await setupCollection());
+        afterEach(() => cleanDatabase());
 
-    await setupCollection();
-    const { _id } = getTargetDoc();
-
-    const invalidCollectionIds = types.filter(type => typeof type !== 'string');
-    const invalidIds = types.filter(type => typeof type !== 'string');
-
-    for (const collectionId of invalidCollectionIds) {
-        const res = await documentController.deleteDocument({ collectionId, _id });
-        assert(res.message === INPUT_IS_INVALID);
-        assert(res.success === false);
-    }
-
-    for (const _id of invalidIds) {
-        const res = await documentController.deleteDocument({ collectionId, _id });
-        assert(res.message === INPUT_IS_INVALID);
-        assert(res.success === false);
-    }
-
-}, cleanDatabase);
-
-// Edge cases
-await itAsync('Returns database no-id-given message if _id is an empty string', async () => {
+        it('Returns database no-id-given message if _id is an empty string', async () => {
     
-    await setupCollection();
-    const res = await documentController.deleteDocument({ collectionId, _id: '' });
-    assert(res.message === NO_ID);
-    assert(res.success === false);
+            await setupCollection();
+            const res = await documentController.deleteDocument({ collectionId, _id: '' });
+            expect(res.message).toBe(NO_ID);
+            expect(res.success).toBe(false);
 
-}, cleanDatabase);
+        });
+    });
+});

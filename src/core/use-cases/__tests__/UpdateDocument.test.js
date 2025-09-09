@@ -1,50 +1,47 @@
 import { setupUseCase, getSchema, getTargetDoc } from './__utils__/automate.js';
-import {
-    itAsync,
-    assert,
-    UPDATE,
-    isObject
-} from './imports.js';
+import { UPDATE, isObject } from './imports.js';
 
-console.log('----UPDATE_DOCUMENTS----');
-await itAsync('Returns a non-array object with message and success fields', async () => {
+describe('UPDATE DOCUMENTS', () => {
 
-    const useCase = await setupUseCase(UPDATE);
-    const schema = getSchema();
-    const data = await getTargetDoc(useCase.repo);
-    const updatedKeys = { prop: 'updated value' };
-    const paramObj = {
-        schema,
-        _id: data._id,
-        data,
-        updatedKeys
-    };
+    it('Returns a non-array object with message and success fields', async () => {
 
-    const response = await useCase.execute(paramObj);
+        const useCase = await setupUseCase(UPDATE);
+        const schema = getSchema();
+        const data = await getTargetDoc(useCase.repo);
+        const updatedKeys = { prop: 'updated value' };
+        const paramObj = {
+            schema,
+            _id: data._id,
+            data,
+            updatedKeys
+        };
 
-    assert(isObject(response));
-    assert(response.message);
-    assert(response.success === true);
+        const response = await useCase.execute(paramObj);
 
-}, false, true);
-await itAsync('Returns a non-array object with message and falsy success fields if Document does not represent schema', async () => {
+        expect(isObject(response)).toBe(true);
+        expect(response.message).toBeTruthy();
+        expect(response.success).toBe(true);
 
-    const useCase = await setupUseCase(UPDATE);
-    const schema = getSchema();
-    const data = await getTargetDoc(useCase.repo);
-    delete data.prop
-    const updatedKeys = { non_existent_prop: true };
-    const paramObj = {
-        schema,
-        _id: data._id,
-        data,
-        updatedKeys
-    };
+    }, false, true);
+    it('Returns a non-array object with message and falsy success fields if Document does not represent schema', async () => {
 
-    const response = await useCase.execute(paramObj);
+        const useCase = await setupUseCase(UPDATE);
+        const schema = getSchema();
+        const data = await getTargetDoc(useCase.repo);
+        delete data.prop
+        const updatedKeys = { non_existent_prop: true };
+        const paramObj = {
+            schema,
+            _id: data._id,
+            data,
+            updatedKeys
+        };
 
-    assert(isObject(response));
-    assert(response.message);
-    assert(response.success === false);
+        const response = await useCase.execute(paramObj);
 
+        expect(isObject(response)).toBe(true);
+        expect(response.message).toBeTruthy();
+        expect(response.success).toBe(false);
+
+    });
 });

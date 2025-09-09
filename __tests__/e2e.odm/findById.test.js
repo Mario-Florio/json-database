@@ -4,57 +4,60 @@ import {
     getPropsArr,
     cleanDatabase
 } from './__utils__/automate.js';
-import { itAsync, assert } from './imports.js';
 
-console.log('------FIND_BY_ID------');
-await itAsync('Returns appropriate obj', async () => {
-    const ModelType = setupSchema();
-    const propsArr = getPropsArr(4);
+describe('FIND BY ID', () => {
 
-    const [
-        model1,
-        model2,
-        model3,
-        model4
-    ] = getModelInstances(4, ModelType, propsArr);
+    afterEach(() => cleanDatabase());
 
-    await model1.save();
-    await model2.save();
-    await model3.save();
-    await model4.save();
+    it('Returns appropriate obj', async () => {
+        const ModelType = setupSchema();
+        const propsArr = getPropsArr(4);
 
-    const model = await ModelType.findById(model3._id);
+        const [
+            model1,
+            model2,
+            model3,
+            model4
+        ] = getModelInstances(4, ModelType, propsArr);
 
-    assert(model.prop === model3.prop);
-    assert(model.createdAt === model3.createdAt);
-    assert(model._id === model3._id);
+        await model1.save();
+        await model2.save();
+        await model3.save();
+        await model4.save();
 
-}, cleanDatabase);
-await itAsync('Returns null if no _id is passed', async () => {
-    const ModelType = setupSchema();
+        const model = await ModelType.findById(model3._id);
 
-    const res = await ModelType.findById();
+        expect(model.prop).toBe(model3.prop);
+        expect(model.createdAt).toBe(model3.createdAt);
+        expect(model._id).toBe(model3._id);
 
-    assert(res === null);
+    });
+    it('Returns null if no _id is passed', async () => {
+        const ModelType = setupSchema();
+
+        const res = await ModelType.findById();
+
+        expect(res).toBe(null);
+    });
+    it('Returns null if no object is found', async () => {
+        const ModelType = setupSchema();
+        const propsArr = getPropsArr(4);
+
+        const [
+            model1,
+            model2,
+            model3,
+            model4
+        ] = getModelInstances(4, ModelType, propsArr);
+
+        await model1.save();
+        await model2.save();
+        await model3.save();
+        await model4.save();
+
+        const res = await ModelType.findById('sldkjvb');
+
+        expect(res).toBe(null);
+
+    });
 });
-await itAsync('Returns null if no object is found', async () => {
-    const ModelType = setupSchema();
-    const propsArr = getPropsArr(4);
-
-    const [
-        model1,
-        model2,
-        model3,
-        model4
-    ] = getModelInstances(4, ModelType, propsArr);
-
-    await model1.save();
-    await model2.save();
-    await model3.save();
-    await model4.save();
-
-    const res = await ModelType.findById('sldkjvb');
-
-    assert(res === null);
-
-}, cleanDatabase);

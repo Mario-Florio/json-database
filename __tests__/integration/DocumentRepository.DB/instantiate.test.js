@@ -4,33 +4,35 @@ import {
     dbFileExists,
     cleanDatabase
 } from './__utils__/automate.js';
-import { itAsync, assert } from './imports.js';
 
-console.log('----DOCUMENT_REPOSITORY_INSTANTIATE----');
+describe('DOC REPO INSTANTIATE', () => {
 
-await itAsync('Instantiates database file', async () => {
+    afterEach(() => cleanDatabase());
 
-    const docRepo = getDocRepo();
-    await docRepo.instantiate();
+    it('Instantiates database file', async () => {
 
-    assert(dbFileExists());
+        const docRepo = getDocRepo();
+        await docRepo.instantiate();
 
-}, cleanDatabase);
-await itAsync('Returns object with message and truthy success fields', async () => {
+        expect(dbFileExists()).toBe(true);
 
-    const docRepo = getDocRepo();
-    const response = await docRepo.instantiate();
+    });
+    it('Returns object with message and truthy success fields', async () => {
 
-    assert(response.message);
-    assert(response.success === true);
+        const docRepo = getDocRepo();
+        const response = await docRepo.instantiate();
 
-}, cleanDatabase);
-await itAsync('If database file already exists, returns object with message and falsy success fields', async () => {
+        expect(response.message).toBeTruthy();
+        expect(response.success).toBe(true);
 
-    const docRepo = await getAndSetupDocRepo();
-    const response = await docRepo.instantiate();
+    });
+    it('If database file already exists, returns object with message and falsy success fields', async () => {
 
-    assert(response.message);
-    assert(response.success === false);
+        const docRepo = await getAndSetupDocRepo();
+        const response = await docRepo.instantiate();
 
-}, cleanDatabase);
+        expect(response.message).toBeTruthy();
+        expect(response.success).toBe(false);
+
+    });
+});

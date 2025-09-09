@@ -5,76 +5,79 @@ import {
     cleanDatabase
 } from './__utils__/automate.js';
 import {
-    itAsync, assert,
     DELETE_SUCCESSFUL,
     ITEM_NOT_FOUND
 } from './imports.js';
 
-console.log('------FIND_ONE_AND_DELETE------');
-await itAsync('Deletes appropriate object', async () => {
-    const ModelType = setupSchema();
-    const propsArr = getPropsArr(4);
+describe('FIND ONE AND DELETE', () => {
 
-    const [
-        model1,
-        model2,
-        model3,
-        model4
-    ] = getModelInstances(4, ModelType, propsArr);
+    afterEach(() => cleanDatabase());
 
-    await model1.save();
-    await model2.save();
-    await model3.save();
-    await model4.save();
+    it('Deletes appropriate object', async () => {
+        const ModelType = setupSchema();
+        const propsArr = getPropsArr(4);
 
-    await ModelType.findOneAndDelete({ _id: model3._id });
-    
-    const models = await ModelType.find();
-    const model3Exists = await ModelType.findById(model3._id);
+        const [
+            model1,
+            model2,
+            model3,
+            model4
+        ] = getModelInstances(4, ModelType, propsArr);
 
-    assert(models.length === 3);
-    assert(models[2].prop !== model3.prop);
-    assert(model3Exists === null);
+        await model1.save();
+        await model2.save();
+        await model3.save();
+        await model4.save();
 
-}, cleanDatabase);
-await itAsync('Returns "Deletion successful" message if deletion is successful', async () => {
-    const ModelType = setupSchema();
-    const propsArr = getPropsArr(1, false);
+        await ModelType.findOneAndDelete({ _id: model3._id });
+        
+        const models = await ModelType.find();
+        const model3Exists = await ModelType.findById(model3._id);
 
-    const [ model ] = getModelInstances(1, ModelType, propsArr);
+        expect(models.length).toBe(3);
+        expect(models[2].prop !== model3.prop).toBe(true);
+        expect(model3Exists).toBe(null);
 
-    await model.save();
+    });
+    it('Returns "Deletion successful" message if deletion is successful', async () => {
+        const ModelType = setupSchema();
+        const propsArr = getPropsArr(1, false);
 
-    const res = await ModelType.findOneAndDelete({ _id: model._id });
-    
-    assert(res.message === DELETE_SUCCESSFUL);
+        const [ model ] = getModelInstances(1, ModelType, propsArr);
 
-}, cleanDatabase);
-await itAsync('Returns "Item was not found" message if no object is found', async () => {
-    const ModelType = setupSchema();
-    const propsArr = getPropsArr(4);
+        await model.save();
 
-    const [
-        model1,
-        model2,
-        model3,
-        model4
-    ] = getModelInstances(4, ModelType, propsArr);
+        const res = await ModelType.findOneAndDelete({ _id: model._id });
+        
+        expect(res.message).toBe(DELETE_SUCCESSFUL);
 
-    await model1.save();
-    await model2.save();
-    await model3.save();
-    await model4.save();
+    });
+    it('Returns "Item was not found" message if no object is found', async () => {
+        const ModelType = setupSchema();
+        const propsArr = getPropsArr(4);
 
-    const res = await ModelType.findOneAndDelete({ _id: '_id' });
-    
-    assert(res.message === ITEM_NOT_FOUND);
+        const [
+            model1,
+            model2,
+            model3,
+            model4
+        ] = getModelInstances(4, ModelType, propsArr);
 
-}, cleanDatabase);
-await itAsync('Returns null if no arguments are passed', async () => {
-    const ModelType = setupSchema();
+        await model1.save();
+        await model2.save();
+        await model3.save();
+        await model4.save();
 
-    const res = await ModelType.findOneAndDelete();
+        const res = await ModelType.findOneAndDelete({ _id: '_id' });
+        
+        expect(res.message).toBe(ITEM_NOT_FOUND);
 
-    assert(res === null);
-}, cleanDatabase);
+    });
+    it('Returns null if no arguments are passed', async () => {
+        const ModelType = setupSchema();
+
+        const res = await ModelType.findOneAndDelete();
+
+        expect(res).toBe(null);
+    });
+});

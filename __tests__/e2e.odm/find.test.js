@@ -4,120 +4,123 @@ import {
     getPropsArr,
     cleanDatabase
 } from './__utils__/automate.js';
-import { itAsync, assert } from './imports.js';
 
-console.log('------FIND------');
-await itAsync('Returns appropriate obj', async () => {
-    const ModelType = setupSchema();
-    const propsArr = getPropsArr(4);
+describe('FIND', () => {
 
-    const [
-        model1,
-        model2,
-        model3,
-        model4
-    ] = getModelInstances(4, ModelType, propsArr);
+    afterEach(() => cleanDatabase());
 
-    await model1.save();
-    await model2.save();
-    await model3.save();
-    await model4.save();
+    it('Returns appropriate obj', async () => {
+        const ModelType = setupSchema();
+        const propsArr = getPropsArr(4);
 
-    // _id
-    let model = await ModelType.find({ _id: model1._id });
-    assert(model[0].prop === model1.prop);
-    assert(model[0].createdAt === model1.createdAt);
-    assert(model[0]._id === model1._id);
+        const [
+            model1,
+            model2,
+            model3,
+            model4
+        ] = getModelInstances(4, ModelType, propsArr);
 
-    // prop
-    model = await ModelType.find({ prop: model2.prop });
-    assert(model[0].prop === model2.prop);
-    assert(model[0].createdAt === model2.createdAt);
-    assert(model[0]._id === model2._id);
+        await model1.save();
+        await model2.save();
+        await model3.save();
+        await model4.save();
 
-    // _id & prop
-    model = await ModelType.find({ _id: model3._id, prop: model3.prop });
-    assert(model[0].prop === model3.prop);
-    assert(model[0].createdAt === model3.createdAt);
-    assert(model[0]._id === model3._id);
+        // _id
+        let model = await ModelType.find({ _id: model1._id });
+        expect(model[0].prop).toBe(model1.prop);
+        expect(model[0].createdAt).toBe(model1.createdAt);
+        expect(model[0]._id).toBe(model1._id);
 
-}, cleanDatabase);
-await itAsync('Returns all data if no arguments are passed', async () => {
-    const ModelType = setupSchema();
-    const propsArr = getPropsArr(4);
+        // prop
+        model = await ModelType.find({ prop: model2.prop });
+        expect(model[0].prop).toBe(model2.prop);
+        expect(model[0].createdAt).toBe(model2.createdAt);
+        expect(model[0]._id).toBe(model2._id);
 
-    const [
-        model1,
-        model2,
-        model3,
-        model4
-    ] = getModelInstances(4, ModelType, propsArr);
+        // _id & prop
+        model = await ModelType.find({ _id: model3._id, prop: model3.prop });
+        expect(model[0].prop).toBe(model3.prop);
+        expect(model[0].createdAt).toBe(model3.createdAt);
+        expect(model[0]._id).toBe(model3._id);
 
-    await model1.save();
-    await model2.save();
-    await model3.save();
-    await model4.save();
+    });
+    it('Returns all data if no arguments are passed', async () => {
+        const ModelType = setupSchema();
+        const propsArr = getPropsArr(4);
 
-    const models = await ModelType.find();
+        const [
+            model1,
+            model2,
+            model3,
+            model4
+        ] = getModelInstances(4, ModelType, propsArr);
 
-    assert(models.length === 4);
+        await model1.save();
+        await model2.save();
+        await model3.save();
+        await model4.save();
 
-    assert(models[0].prop === model1.prop);
-    assert(models[0].createdAt === model1.createdAt);
-    assert(models[0]._id === model1._id);
+        const models = await ModelType.find();
 
-    assert(models[1].prop === model2.prop);
-    assert(models[1].createdAt === model2.createdAt);
-    assert(models[1]._id === model2._id);
+        expect(models.length).toBe(4);
 
-    assert(models[2].prop === model3.prop);
-    assert(models[2].createdAt === model3.createdAt);
-    assert(models[2]._id === model3._id);
+        expect(models[0].prop).toBe(model1.prop);
+        expect(models[0].createdAt).toBe(model1.createdAt);
+        expect(models[0]._id).toBe(model1._id);
 
-    assert(models[3].prop === model4.prop);
-    assert(models[3].createdAt === model4.createdAt);
-    assert(models[3]._id === model4._id);
+        expect(models[1].prop).toBe(model2.prop);
+        expect(models[1].createdAt).toBe(model2.createdAt);
+        expect(models[1]._id).toBe(model2._id);
 
-}, cleanDatabase);
-await itAsync('Returns empty array if classKeys are passed and no object is found', async () => {
-    const ModelType = setupSchema();
-    const propsArr = getPropsArr(4);
+        expect(models[2].prop).toBe(model3.prop);
+        expect(models[2].createdAt).toBe(model3.createdAt);
+        expect(models[2]._id).toBe(model3._id);
 
-    const [
-        model1,
-        model2,
-        model3,
-        model4
-    ] = getModelInstances(4, ModelType, propsArr);
+        expect(models[3].prop).toBe(model4.prop);
+        expect(models[3].createdAt).toBe(model4.createdAt);
+        expect(models[3]._id).toBe(model4._id);
 
-    await model1.save();
-    await model2.save();
-    await model3.save();
-    await model4.save();
+    });
+    it('Returns empty array if classKeys are passed and no object is found', async () => {
+        const ModelType = setupSchema();
+        const propsArr = getPropsArr(4);
 
-    const res = await ModelType.find({ _id: 'sldkjvb' });
+        const [
+            model1,
+            model2,
+            model3,
+            model4
+        ] = getModelInstances(4, ModelType, propsArr);
 
-    assert(Array.isArray(res));
-    assert(res.length === 0);
+        await model1.save();
+        await model2.save();
+        await model3.save();
+        await model4.save();
 
-}, cleanDatabase);
-await itAsync('Returns empty array if database is empty', async () => {
-    const ModelType = setupSchema();
-    const propsArr = getPropsArr(1);
+        const res = await ModelType.find({ _id: 'sldkjvb' });
 
-    const [ model1 ] = getModelInstances(1, ModelType, propsArr);
-    
-    await model1.save();
-    await ModelType.findByIdAndDelete(model1._id);
+        expect(Array.isArray(res)).toBe(true);
+        expect(res.length).toBe(0);
 
-    let res = await ModelType.find();
-    
-    assert(Array.isArray(res));
-    assert(res.length === 0);
+    });
+    it('Returns empty array if database is empty', async () => {
+        const ModelType = setupSchema();
+        const propsArr = getPropsArr(1);
 
-    res = await ModelType.find({ _id: 'kldsjvb' });
-    
-    assert(Array.isArray(res));
-    assert(res.length === 0);
+        const [ model1 ] = getModelInstances(1, ModelType, propsArr);
+        
+        await model1.save();
+        await ModelType.findByIdAndDelete(model1._id);
 
-}, cleanDatabase);
+        let res = await ModelType.find();
+        
+        expect(Array.isArray(res)).toBe(true);
+        expect(res.length).toBe(0);
+
+        res = await ModelType.find({ _id: 'kldsjvb' });
+        
+        expect(Array.isArray(res)).toBe(true);
+        expect(res.length).toBe(0);
+
+    });
+});

@@ -4,84 +4,86 @@ import {
     getPropsArr,
     cleanDatabase
 } from './__utils__/automate.js';
-import { itAsync, assert } from './imports.js';
 
-console.log('------FIND_ONE------');
-await itAsync('Returns appropriate obj', async () => {
-    const ModelType = setupSchema();
-    const propsArr = getPropsArr(4);
+describe('FIND ONE', () => {
 
-    const [
-        model1,
-        model2,
-        model3,
-        model4
-    ] = getModelInstances(4, ModelType, propsArr);
+    afterEach(() => cleanDatabase());
 
-    await model1.save();
-    await model2.save();
-    await model3.save();
-    await model4.save();
+    it('Returns appropriate obj', async () => {
+        const ModelType = setupSchema();
+        const propsArr = getPropsArr(4);
 
-    // _id
-    let model = await ModelType.findOne({ _id: model1._id });
-    assert(model.prop === model1.prop);
-    assert(model.createdAt === model1.createdAt);
-    assert(model._id === model1._id);
+        const [
+            model1,
+            model2,
+            model3,
+            model4
+        ] = getModelInstances(4, ModelType, propsArr);
 
-    // prop
-    model = await ModelType.findOne({ prop: model2.prop });
-    assert(model.prop === model2.prop);
-    assert(model.createdAt === model2.createdAt);
-    assert(model._id === model2._id);
+        await model1.save();
+        await model2.save();
+        await model3.save();
+        await model4.save();
 
-    // _id & prop
-    model = await ModelType.findOne({ _id: model3._id, prop: model3.prop });
-    assert(model.prop === model3.prop);
-    assert(model.createdAt === model3.createdAt);
-    assert(model._id === model3._id);
+        // _id
+        let model = await ModelType.findOne({ _id: model1._id });
+        expect(model.prop).toBe(model1.prop);
+        expect(model.createdAt).toBe(model1.createdAt);
+        expect(model._id).toBe(model1._id);
 
-}, cleanDatabase);
-await itAsync('Returns first obj which meets criteria (in order of created first)', async () => {
-    const ModelType = setupSchema();
-    const propsArr = getPropsArr(4, false);
+        // prop
+        model = await ModelType.findOne({ prop: model2.prop });
+        expect(model.prop).toBe(model2.prop);
+        expect(model.createdAt).toBe(model2.createdAt);
+        expect(model._id).toBe(model2._id);
 
-    const [
-        model1,
-        model2,
-        model3,
-        model4
-    ] = getModelInstances(4, ModelType, propsArr);
+        // _id & prop
+        model = await ModelType.findOne({ _id: model3._id, prop: model3.prop });
+        expect(model.prop).toBe(model3.prop);
+        expect(model.createdAt).toBe(model3.createdAt);
+        expect(model._id).toBe(model3._id);
 
-    await model1.save();
-    await model2.save();
-    await model3.save();
-    await model4.save();
+    });
+    it('Returns first obj which meets criteria (in order of created first)', async () => {
+        const ModelType = setupSchema();
+        const propsArr = getPropsArr(4, false);
 
-    const model = await ModelType.findOne({ prop: 'model' });
+        const [
+            model1,
+            model2,
+            model3,
+            model4
+        ] = getModelInstances(4, ModelType, propsArr);
 
-    assert(!model.length);
-    assert(model._id === model1._id);
+        await model1.save();
+        await model2.save();
+        await model3.save();
+        await model4.save();
 
-}, cleanDatabase);
-await itAsync('Returns null if no object is found', async () => {
-    const ModelType = setupSchema();
-    const propsArr = getPropsArr(4);
+        const model = await ModelType.findOne({ prop: 'model' });
 
-    const [
-        model1,
-        model2,
-        model3,
-        model4
-    ] = getModelInstances(4, ModelType, propsArr);
+        expect(model._id).toBe(model1._id);
 
-    await model1.save();
-    await model2.save();
-    await model3.save();
-    await model4.save();
+    });
+    it('Returns null if no object is found', async () => {
+        const ModelType = setupSchema();
+        const propsArr = getPropsArr(4);
 
-    const res = await ModelType.findOne({ _id: 'sdajvkbiu' });
+        const [
+            model1,
+            model2,
+            model3,
+            model4
+        ] = getModelInstances(4, ModelType, propsArr);
 
-    assert(res === null);
+        await model1.save();
+        await model2.save();
+        await model3.save();
+        await model4.save();
 
-}, cleanDatabase);
+        const res = await ModelType.findOne({ _id: 'sdajvkbiu' });
+
+        expect(res).toBe(null);
+
+    });
+});
