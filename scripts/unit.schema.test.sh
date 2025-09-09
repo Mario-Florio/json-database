@@ -1,2 +1,2 @@
 
-node ./core/entities/__tests__/Schema.test.js
+node ./src/core/entities/__tests__/Schema.test.js

@@ -1,9 +1,9 @@
-import { it, itAsync, assert } from '../../../shared/testing/test-tools.js';
-import DocumentRepository from '../../../adapters/repositories/DocumentRepository.js';
-import Document from '../../../core/entities/Document.js';
-import Result from '../../../core/entities/Result.js';
-import deepEqual from '../../../shared/__utils__/deepEqual.js';
-import { READ_SUCCESSFUL } from '../../../infrastructure/IO-API/response-tokens.js';
+import { it, itAsync, assert } from '../../../src/shared/testing/test-tools.js';
+import DocumentRepository from '../../../src/adapters/repositories/DocumentRepository.js';
+import Document from '../../../src/core/entities/Document.js';
+import Result from '../../../src/core/entities/Result.js';
+import deepEqual from '../../../src/shared/__utils__/deepEqual.js';
+import { READ_SUCCESSFUL } from '../../../src/infrastructure/IO-API/response-tokens.js';
 
 export {
     it,
