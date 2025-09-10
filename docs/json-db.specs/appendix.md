@@ -13,6 +13,8 @@
 | String type            | `typeof val === 'string'`  |
 | Whole number           | `Number.isInteger(val)` |
 | Non-array object       | `typeof obj === 'object' && obj !== null && !Array.isArray(obj)` |
+| Function               | `typeof obj === 'function'` |
+| Generator object       | `typeof obj.next === 'function' && typeof obj.throw === 'function'` |
 
 ----
 
