@@ -2,7 +2,7 @@ import fs from 'fs';
 import { Document, Schema, Result, config, deepEqual, uid } from '../import.js';
 
 const dbPath = process.env.DBPATH || config.DBPATH;
-const collectionName = 'e2e-test'+uid();
+const collectionName = 'e2e-test' + uid();
 const collectionDbPath = `${dbPath}${collectionName}.json`;
 
 const types = [
