@@ -85,12 +85,6 @@ Notes and Limitations
 
 Testing
 
-* End-to-end:
-    * *controllers to IO* — `sh scripts/e2e.test.sh`
-    * *client to IO* — `sh scripts/e2e.odm.test.sh`
-* Integration:
-    * *docRepo to db* — `sh scripts/integration.docrepo.db.test.sh`
-* Unit:
-    * *document entity* — `sh scripts/unit.document.test.sh`
-    * *schema entity* — `sh scripts/unit.schema.test.sh`
-    * *use cases* — `sh scripts/unit.usecases.test.sh`
+* End-to-end — `npm run test:e2e`
+* Integration — `npm run test:integration`
+* Unit — `npm run test:unit`
