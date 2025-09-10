@@ -8,11 +8,11 @@
         "doc": "docs"
     },
     "scripts": {
-        "test": "jest --runInBand",
-        "test:watch": "jest --runInBand --watch",
+        "test": "jest",
+        "test:watch": "jest --watch",
         "test:unit": "jest --testPathPatterns=src",
-        "test:integration": "jest --testPathPatterns=__tests__/integration --runInBand",
-        "test:e2e": "jest --testPathPatterns=__tests__/e2e --runInBand",
+        "test:integration": "jest --testPathPatterns=__tests__/integration",
+        "test:e2e": "jest --testPathPatterns=__tests__/e2e",
         "lint": "eslint . --ext .js",
         "lint:fix": "eslint . --ext .js --fix",
         "format": "prettier --write \"**/*.js\"",

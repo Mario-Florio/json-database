@@ -1,8 +1,8 @@
-import { DocumentRepository, Document, Result, deepEqual } from '../imports.js';
+import { DocumentRepository, Document, Result, deepEqual, uid } from '../imports.js';
 import fs from 'fs';
 
 const dbPath = process.env.DBPATH || './database/collections/';
-const collectionName = 'docrepo-db-test';
+const collectionName = 'docrepo-db-test'+uid();
 const collectionDbPath = `${dbPath}${collectionName}.json`;
 
 function getDocRepo() {

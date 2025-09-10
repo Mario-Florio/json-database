@@ -1,8 +1,8 @@
-import { ODM, config } from '../imports.js';
+import { ODM, config, uid } from '../imports.js';
 import fs from 'fs';
 
 const dbPath = process.env.DBPATH || config.DBPATH;
-const collectionName = 'db-test';
+const collectionName = 'db-test'+uid();
 const collectionDbPath = `${dbPath}${collectionName}.json`;
 
 function setupSchema() {
