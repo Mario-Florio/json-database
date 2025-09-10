@@ -12,6 +12,7 @@ import {
     NO_ID,
     ITEM_NOT_FOUND,
 } from './response-tokens.js';
+import DocReader from '../../core/entities/DocReader.js';
 
 const dbPath = process.env.DBPATH || config.DBPATH;
 
@@ -37,10 +38,12 @@ class DB {
         if (!obj) return new Result({ message: NO_DATA, success: false });
         if (!this.#dbFileExists()) await this.instantiate();
 
-        const result = await this.read();
-        if (!result.success) return result;
+        const json = await this.#IO_SERVICE.readFile({
+            path: this.#dbFile,
+            encoding: 'utf-8',
+        });
 
-        const { data } = result;
+        const data = JSON.parse(json);
         data.push(obj);
         await this.#IO_SERVICE.writeFile({
             path: this.#dbFile,
@@ -52,13 +55,13 @@ class DB {
     async read() {
         if (!this.#dbFileExists()) await this.instantiate();
 
-        const json = await this.#IO_SERVICE.readFile({
+        const lineGenerator = await this.#IO_SERVICE.readLines({
             path: this.#dbFile,
             encoding: 'utf-8',
         });
-        const data = JSON.parse(json);
-        return new Result({ message: READ_SUCCESSFUL, success: true }).setData(
-            data,
+        const reader = new DocReader(lineGenerator, (json) => JSON.parse(json));
+        return new Result({ message: READ_SUCCESSFUL, success: true }).setGen(
+            reader.read(),
         );
     }
     async update(_id, updatedObj) {
@@ -74,10 +77,12 @@ class DB {
         if (!_id) return new Result({ message: NO_ID, success: false });
         if (!this.#dbFileExists()) await this.instantiate();
 
-        const result = await this.read();
-        if (!result.success) return result;
+        const json = await this.#IO_SERVICE.readFile({
+            path: this.#dbFile,
+            encoding: 'utf-8',
+        });
 
-        const { data } = result;
+        const data = JSON.parse(json);
         const filteredData = data.filter((item) => item._id !== _id);
 
         if (data.length === filteredData.length)

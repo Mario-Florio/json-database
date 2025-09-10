@@ -1,3 +1,4 @@
+import DocReader from '../../core/entities/DocReader.js';
 import Document from '../../core/entities/Document.js';
 import DB from '../../infrastructure/IO-API/DB.js';
 import { uphold } from '../../shared/contracts/contracts.js';
@@ -20,8 +21,15 @@ class DocumentRepository {
     }
     async read() {
         const result = await this.#db.read();
-        if (result.success === true)
-            result.data = result.data.map((doc) => new Document(doc));
+        if (result.success === true) {
+            const reader = new DocReader(
+                result.gen,
+                (obj) => new Document(obj),
+            );
+            result.setGen(reader);
+            result.setData(Array.from(result.gen.read()));
+            result.removeGen();
+        }
         return result;
     }
     async update(_id, updatedDoc) {
