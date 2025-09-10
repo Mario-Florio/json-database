@@ -1,9 +1,12 @@
-
 function deepEqual(a, b) {
     if (a === b) return true;
 
-    if (typeof a !== 'object' || a === null ||
-        typeof b !== 'object' || b === null) {
+    if (
+        typeof a !== 'object' ||
+        a === null ||
+        typeof b !== 'object' ||
+        b === null
+    ) {
         return false; // primitives or mismatched types
     }
 
@@ -22,7 +25,7 @@ function deepEqual(a, b) {
     const bKeys = Object.keys(b);
     if (aKeys.length !== bKeys.length) return false;
     for (const key of aKeys) {
-        if (!b.hasOwnProperty(key)) return false;
+        if (!Object.prototype.hasOwnProperty.call(b, key)) return false;
         if (!deepEqual(a[key], b[key])) return false;
     }
     return true;

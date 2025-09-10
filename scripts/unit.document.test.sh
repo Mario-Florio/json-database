@@ -1,2 +1,2 @@
 
-node ./src/core/entities/__tests__/Document.test.js
+node ./__tests__/unit/entities/Document.test.js

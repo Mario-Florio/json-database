@@ -3,5 +3,5 @@ import model from './infrastructure/Model/Model.js';
 
 export default {
     Schema,
-    model
+    model,
 };

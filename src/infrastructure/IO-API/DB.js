@@ -1,4 +1,4 @@
-import IO_SERVICE from "./IO-Service.js";
+import IO_SERVICE from './IO-Service.js';
 import Result from '../../core/entities/Result.js';
 import config from '../../config.js';
 import {
@@ -10,7 +10,7 @@ import {
     DELETE_SUCCESSFUL,
     NO_DATA,
     NO_ID,
-    ITEM_NOT_FOUND
+    ITEM_NOT_FOUND,
 } from './response-tokens.js';
 
 const dbPath = process.env.DBPATH || config.DBPATH;
@@ -20,13 +20,17 @@ class DB {
     #IO_SERVICE;
 
     constructor(collectionName) {
-        this.#dbFile = dbPath+collectionName+'.json';
+        this.#dbFile = dbPath + collectionName + '.json';
         this.#IO_SERVICE = IO_SERVICE;
     }
     async instantiate() {
-        if (this.#dbFileExists()) return new Result({ message: DB_ALREADY_EXISTS, success: false });
+        if (this.#dbFileExists())
+            return new Result({ message: DB_ALREADY_EXISTS, success: false });
 
-        await this.#IO_SERVICE.writeFile({ path: this.#dbFile, data: JSON.stringify([]) });
+        await this.#IO_SERVICE.writeFile({
+            path: this.#dbFile,
+            data: JSON.stringify([]),
+        });
         return new Result({ message: INSTANTIATION_SUCCESSFUL, success: true });
     }
     async create(obj) {
@@ -38,17 +42,24 @@ class DB {
 
         const { data } = result;
         data.push(obj);
-        await this.#IO_SERVICE.writeFile({ path: this.#dbFile, data: JSON.stringify(data) });
+        await this.#IO_SERVICE.writeFile({
+            path: this.#dbFile,
+            data: JSON.stringify(data),
+        });
 
         return new Result({ message: SAVE_SUCCESSFUL, success: true });
     }
     async read() {
         if (!this.#dbFileExists()) await this.instantiate();
 
-        const json = await this.#IO_SERVICE.readFile({ path: this.#dbFile, encoding: 'utf-8' });
+        const json = await this.#IO_SERVICE.readFile({
+            path: this.#dbFile,
+            encoding: 'utf-8',
+        });
         const data = JSON.parse(json);
-        return new Result({ message: READ_SUCCESSFUL, success: true })
-                    .setData(data);
+        return new Result({ message: READ_SUCCESSFUL, success: true }).setData(
+            data,
+        );
     }
     async update(_id, updatedObj) {
         if (!_id) return new Result({ message: NO_ID, success: false });
@@ -67,20 +78,30 @@ class DB {
         if (!result.success) return result;
 
         const { data } = result;
-        const filteredData = data.filter(item => item._id !== _id);
+        const filteredData = data.filter((item) => item._id !== _id);
 
-        if (data.length === filteredData.length) return new Result({ message: ITEM_NOT_FOUND, success: false });
+        if (data.length === filteredData.length)
+            return new Result({ message: ITEM_NOT_FOUND, success: false });
 
-        await this.#IO_SERVICE.writeFile({ path: this.#dbFile, data: JSON.stringify(filteredData) });
-        
+        await this.#IO_SERVICE.writeFile({
+            path: this.#dbFile,
+            data: JSON.stringify(filteredData),
+        });
+
         return new Result({ message: DELETE_SUCCESSFUL, success: true });
     }
     #dbFileExists() {
         return this.#IO_SERVICE.existsSync({ path: this.#dbFile });
     }
     setIO_SERVICE(stubIOService) {
-        if (typeof stubIOService !== 'object' || typeof stubIOService.constructor !== 'function' || stubIOService.constructor.name !== 'STUB_IO_SERVICE')
-            throw new TypeError('stubIOService must be instance of STUB_IO_SERVICE');
+        if (
+            typeof stubIOService !== 'object' ||
+            typeof stubIOService.constructor !== 'function' ||
+            stubIOService.constructor.name !== 'STUB_IO_SERVICE'
+        )
+            throw new TypeError(
+                'stubIOService must be instance of STUB_IO_SERVICE',
+            );
 
         this.#IO_SERVICE = stubIOService;
     }

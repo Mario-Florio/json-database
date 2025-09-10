@@ -9,7 +9,8 @@ function model(collectionName, schema) {
     class Model {
         constructor(paramObj) {
             if (paramObj._id === undefined) this._id = uid();
-            if (paramObj.createdAt === undefined) this.createdAt = new Date().toString();
+            if (paramObj.createdAt === undefined)
+                this.createdAt = new Date().toString();
 
             for (const key in schema)
                 if (paramObj[key]) this[key] = paramObj[key];
@@ -21,8 +22,8 @@ function model(collectionName, schema) {
             if (!idIsValid(_id)) return null;
 
             const response = await controller.getOneDocument({
-                collectionId, 
-                keys: { _id: _id }
+                collectionId,
+                keys: { _id: _id },
             });
 
             if (response.success === false) return null;
@@ -31,23 +32,24 @@ function model(collectionName, schema) {
             return document && Model.#modelDocument(document);
         }
         static async find(classKeys) {
-
             const response = await controller.getDocuments({
                 collectionId,
-                keys: classKeys || {}
+                keys: classKeys || {},
             });
 
             if (response.success === false) return null;
             const documents = response.data;
 
-            return documents.map(document => document && Model.#modelDocument(document));
+            return documents.map(
+                (document) => document && Model.#modelDocument(document),
+            );
         }
         static async findOne(classKeys) {
             if (!keysAreValid(classKeys)) return null;
 
             const response = await controller.getOneDocument({
-                collectionId, 
-                keys: classKeys
+                collectionId,
+                keys: classKeys,
             });
 
             if (response.success === false) return null;
@@ -69,7 +71,7 @@ function model(collectionName, schema) {
                 _id,
                 schema,
                 data: document,
-                updatedKeys
+                updatedKeys,
             });
 
             return response;
@@ -87,7 +89,7 @@ function model(collectionName, schema) {
                 _id: document._id,
                 schema,
                 data: document,
-                updatedKeys
+                updatedKeys,
             });
 
             return response;
@@ -96,8 +98,11 @@ function model(collectionName, schema) {
         static async findByIdAndDelete(_id) {
             if (!idIsValid(_id)) return null;
 
-            const response = await controller.deleteDocument({ collectionId, _id });
-            
+            const response = await controller.deleteDocument({
+                collectionId,
+                _id,
+            });
+
             return response;
         }
         static async findOneAndDelete(classKeys) {
@@ -108,18 +113,17 @@ function model(collectionName, schema) {
 
             const response = await controller.deleteDocument({
                 collectionId,
-                _id: document._id
-            })
+                _id: document._id,
+            });
 
             return response;
         }
         // CREATE
         async save() {
-
             const response = await controller.createDocument({
                 collectionId,
                 schema,
-                data: this
+                data: this,
             });
 
             return response;
@@ -135,9 +139,9 @@ function model(collectionName, schema) {
         #setVirtuals(virtuals) {
             for (const virtual of virtuals) {
                 Object.defineProperty(this, virtual.name, {
-                    get: virtual.getFn, 
+                    get: virtual.getFn,
                     set: virtual.setFn,
-                    configurable: true
+                    configurable: true,
                 });
             }
         }

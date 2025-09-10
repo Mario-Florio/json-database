@@ -14,7 +14,7 @@ class Schema {
         this.#virtuals = [];
         guarantee(
             Object.keys(this).length === Object.keys(keyMetaData).length,
-            'Schema must have same amount of keys as keyMetaData'
+            'Schema must have same amount of keys as keyMetaData',
         );
     }
     virtual(name) {
@@ -52,7 +52,7 @@ class Schema {
         // Check that no extraneous fields exist on document
         for (const key of Object.keys(this)) {
             if (constKeys.includes(key)) continue;
-            if (!this.hasOwnProperty(key)) {
+            if (!Object.prototype.hasOwnProperty.call(this, key)) {
                 return false;
             }
         }

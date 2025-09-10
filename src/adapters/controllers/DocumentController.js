@@ -12,7 +12,8 @@ import { INPUT_IS_INVALID } from './response-tokens.js';
 
 async function instantiateCollection(paramObj) {
     try {
-        if (!inputIsValid(paramObj)) return new Result({ message: INPUT_IS_INVALID, success: false });
+        if (!inputIsValid(paramObj))
+            return new Result({ message: INPUT_IS_INVALID, success: false });
 
         const { collectionId } = paramObj;
 
@@ -28,7 +29,8 @@ async function instantiateCollection(paramObj) {
 
 async function createDocument(paramObj) {
     try {
-        if (!inputIsValid(paramObj)) return new Result({ message: INPUT_IS_INVALID, success: false });
+        if (!inputIsValid(paramObj))
+            return new Result({ message: INPUT_IS_INVALID, success: false });
 
         const { collectionId, data, schema } = paramObj;
 
@@ -44,7 +46,8 @@ async function createDocument(paramObj) {
 
 async function getDocuments(paramObj) {
     try {
-        if (!inputIsValid(paramObj)) return new Result({ message: INPUT_IS_INVALID, success: false });
+        if (!inputIsValid(paramObj))
+            return new Result({ message: INPUT_IS_INVALID, success: false });
 
         const { collectionId, keys } = paramObj;
 
@@ -60,7 +63,8 @@ async function getDocuments(paramObj) {
 
 async function getOneDocument(paramObj) {
     try {
-        if (!inputIsValid(paramObj)) return new Result({ message: INPUT_IS_INVALID, success: false });
+        if (!inputIsValid(paramObj))
+            return new Result({ message: INPUT_IS_INVALID, success: false });
 
         const { collectionId, keys } = paramObj;
 
@@ -76,7 +80,8 @@ async function getOneDocument(paramObj) {
 
 async function updateDocument(paramObj) {
     try {
-        if (!inputIsValid(paramObj)) return new Result({ message: INPUT_IS_INVALID, success: false });
+        if (!inputIsValid(paramObj))
+            return new Result({ message: INPUT_IS_INVALID, success: false });
 
         const { collectionId, _id, schema, data, updatedKeys } = paramObj;
 
@@ -87,7 +92,7 @@ async function updateDocument(paramObj) {
             _id,
             schema,
             data,
-            updatedKeys
+            updatedKeys,
         });
 
         return response;
@@ -98,7 +103,8 @@ async function updateDocument(paramObj) {
 
 async function deleteDocument(paramObj) {
     try {
-        if (!inputIsValid(paramObj)) return new Result({ message: INPUT_IS_INVALID, success: false });
+        if (!inputIsValid(paramObj))
+            return new Result({ message: INPUT_IS_INVALID, success: false });
 
         const { collectionId, _id } = paramObj;
 
@@ -126,5 +132,5 @@ export default {
     getDocuments,
     getOneDocument,
     updateDocument,
-    deleteDocument
-}
+    deleteDocument,
+};

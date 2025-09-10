@@ -1,10 +1,10 @@
 #!/bin/bash
 
-base="./src/core/use-cases/__tests__/UseCase.test.js"
-find="./src/core/use-cases/__tests__/FindDocuments.test.js"
-findOne="./src/core/use-cases/__tests__/FindOneDocument.test.js"
-update="./src/core/use-cases/__tests__/UpdateDocument.test.js"
-save="./src/core/use-cases/__tests__/SaveDocument.test.js"
+base="./__tests__/unit/use-cases/UseCase.test.js"
+find="./__tests__/unit/use-cases/FindDocuments.test.js"
+findOne="./__tests__/unit/use-cases/FindOneDocument.test.js"
+update="./__tests__/unit/use-cases/UpdateDocument.test.js"
+save="./__tests__/unit/use-cases/SaveDocument.test.js"
 
 files=(
     "$base"

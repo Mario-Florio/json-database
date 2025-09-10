@@ -1,4 +1,3 @@
-
 function idIsValid(_id) {
     if (!_id) return false;
     if (typeof _id !== 'string') return false;
@@ -11,7 +10,4 @@ function keysAreValid(keys) {
     return true;
 }
 
-export {
-    idIsValid,
-    keysAreValid
-};
+export { idIsValid, keysAreValid };

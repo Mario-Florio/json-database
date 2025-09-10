@@ -9,7 +9,7 @@ const rules = {
     required: {
         required: false,
         valid: [true, false],
-    }
+    },
 };
 
 function validateKeyMetaData(keyMetaData) {
@@ -22,16 +22,19 @@ function validateKeyMetaData(keyMetaData) {
 
 // UTILS
 function validateShape(keyMetaData) {
-    if (!isObject(keyMetaData)) throw new TypeError('keyMetaData must be a non-array object');
+    if (!isObject(keyMetaData))
+        throw new TypeError('keyMetaData must be a non-array object');
     for (const [key, metaData] of Object.entries(keyMetaData)) {
-        if (!isObject(metaData)) throw new TypeError(`keyMetaData.${key} must be a non-array object`);
+        if (!isObject(metaData))
+            throw new TypeError(
+                `keyMetaData.${key} must be a non-array object`,
+            );
     }
 }
 
 function validateMetaData(metaData) {
     for (const [key, val] of Object.entries(metaData)) {
-        if (!rules[key])
-            throw new Error(`${key} is not a valid prop`);
+        if (!rules[key]) throw new Error(`${key} is not a valid prop`);
 
         if (!rules[key].valid.includes(val))
             throw new TypeError(`${val} is not a valid ${key}`);
