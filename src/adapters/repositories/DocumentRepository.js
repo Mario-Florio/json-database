@@ -26,9 +26,7 @@ class DocumentRepository {
                 result.gen,
                 (obj) => new Document(obj),
             );
-            result.setGen(reader);
-            result.setData(Array.from(result.gen.read()));
-            result.removeGen();
+            result.setGen(reader.read());
         }
         return result;
     }
