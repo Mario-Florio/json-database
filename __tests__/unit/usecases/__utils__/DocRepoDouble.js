@@ -1,3 +1,5 @@
+import { Result } from '../imports';
+
 const MESSAGE = 'response message';
 
 class DocumentRepositoryDouble {
@@ -19,7 +21,10 @@ class DocumentRepositoryDouble {
     async read() {
         if (!Array.isArray(this.#db))
             return { message: MESSAGE, success: false };
-        return { message: MESSAGE, data: this.#db, success: true };
+
+        return new Result({ message: MESSAGE, success: true }).setGen(
+            this.docGen(),
+        );
     }
     async update(_id, updatedDoc) {
         if (!Array.isArray(this.#db))
@@ -34,6 +39,9 @@ class DocumentRepositoryDouble {
             return { message: MESSAGE, success: false };
         this.#db = this.#db.filter((document) => document._id !== _id);
         return { message: MESSAGE, success: true };
+    }
+    *docGen() {
+        for (const doc of this.#db) yield doc;
     }
 }
 

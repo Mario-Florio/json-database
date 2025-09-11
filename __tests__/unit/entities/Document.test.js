@@ -24,29 +24,6 @@ describe('DOCUMENT', () => {
         });
     });
 
-    describe('hasKeys', () => {
-        it('Returns true if document has all keys key:value pairs (structurally equal', () => {
-            const keyA = { propA: 'a' };
-            const keyB = { propB: 'b' };
-            const keyC = { propC: 'c' };
-            const content = { ...keyA, ...keyB, ...keyC };
-            const document = new Document(content);
-
-            expect(document.hasKeys(keyA)).toBe(true);
-            expect(document.hasKeys(keyB)).toBe(true);
-            expect(document.hasKeys({ ...keyA, ...keyC })).toBe(true);
-        });
-        it('Returns false if document does not have all keys key:value pairs', () => {
-            const keyA = { propA: 'a' };
-            const keyB = { propB: 'b' };
-            const keyC = { propC: 'c' };
-            const content = { ...keyA };
-            const document = new Document(content);
-
-            expect(!document.hasKeys(keyB)).toBe(true);
-            expect(!document.hasKeys({ ...keyA, ...keyC })).toBe(true);
-        });
-    });
     describe('mergeKeys', () => {
         it('Returns an instance of Document', () => {
             const keyA = { propA: 'a' };

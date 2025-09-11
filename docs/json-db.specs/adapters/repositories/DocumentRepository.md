@@ -67,7 +67,9 @@ Calls `this.#db` to return `Document` collection in database storage.
 None are determined.
 
 **Output (Postconditions):**
-- Returns array of `Documents`
+- Returns a non-array object
+  - contains `message` & `success` properties
+  - contains `generator` object yeilding `Document`s
 
 **Invariants (Maintained System Properties):**
 None are explicitly maintained by this method.
