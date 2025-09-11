@@ -3,8 +3,7 @@ name: Publish NPM Package
 on:
   push:
     branches:
-      - publish-test # change to main when actually publish
-  workflow_dispatch:   # remove when actually publishing
+      - main
 
 jobs:
   publish:
@@ -25,7 +24,7 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: Publish to npm (dry run)
-        run: npm publish --dry-run --access public
+      - name: Publish to npm
+        run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
