@@ -15,7 +15,7 @@
         "test:e2e": "jest --testPathPatterns=__tests__/e2e",
         "lint": "eslint . --ext .js",
         "lint:fix": "eslint . --ext .js --fix",
-        "format": "prettier --write \"**/*.js\"",
+        "format:write": "prettier --write \"**/*.js\"",
         "format:check": "prettier --check \"**/*.js\""
     },
     "keywords": [],
