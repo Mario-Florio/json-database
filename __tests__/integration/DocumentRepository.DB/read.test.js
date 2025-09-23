@@ -37,7 +37,8 @@ describe('DOC REPO READ', () => {
                 fill: { isTrue: true, amount: 10 },
             });
             const res = await docRepo.read();
-            for await (const document of res.gen) expect(await dbHas(document)).toBe(true);
+            for await (const document of res.gen)
+                expect(await dbHas(document)).toBe(true);
         });
         it('Returns a generator which yeilds Document instances', async () => {
             const docRepo = await getAndSetupDocRepo({

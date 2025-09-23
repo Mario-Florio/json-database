@@ -1,5 +1,13 @@
 import fs from 'fs';
-import { Document, Schema, Result, IO_SERVICE, config, deepEqual, uid } from '../import.js';
+import {
+    Document,
+    Schema,
+    Result,
+    IO_SERVICE,
+    config,
+    deepEqual,
+    uid,
+} from '../import.js';
 
 const dbPath = process.env.DBPATH || config.DBPATH;
 const collectionName = 'e2e-test' + uid();
@@ -51,7 +59,10 @@ function fillDb(options = { amount: 10 }) {
     if (!fileExists())
         throw new Error('Test Error: Database has not been instantiated');
     for (let i = 0; i < options.amount; i++)
-        fs.appendFileSync(collectionDbPath, JSON.stringify(new Document({ prop: `Document ${i}` })) + '\n');
+        fs.appendFileSync(
+            collectionDbPath,
+            JSON.stringify(new Document({ prop: `Document ${i}` })) + '\n',
+        );
 }
 
 function dbHas(document) {
@@ -84,10 +95,13 @@ function cleanDatabase() {
 }
 
 function parseJSONND(json) {
-    return json.split('\n').map(line => {
+    return json
+        .split('\n')
+        .map((line) => {
             if (!line.trim()) return null;
             return JSON.parse(line);
-        }).filter(line => line !== null);
+        })
+        .filter((line) => line !== null);
 }
 
 export {

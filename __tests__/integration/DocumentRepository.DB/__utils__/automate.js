@@ -91,10 +91,13 @@ function cleanDatabase() {
 
 // UTILS
 function parseJSONND(json) {
-    return json.split('\n').map(line => {
+    return json
+        .split('\n')
+        .map((line) => {
             if (!line.trim()) return null;
             return JSON.parse(line);
-        }).filter(line => line !== null);
+        })
+        .filter((line) => line !== null);
 }
 
 export {
