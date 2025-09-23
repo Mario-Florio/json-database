@@ -40,7 +40,7 @@ None identified.
 None determined.
 
 **Output (Postconditions):**
-- Yields generator objects
+- Yields promises for generator objects
 
 **Invariants (Maintained System Properties):**
 None are explicitly maintained by this method.

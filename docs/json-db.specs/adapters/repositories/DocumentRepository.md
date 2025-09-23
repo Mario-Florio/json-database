@@ -69,7 +69,7 @@ None are determined.
 **Output (Postconditions):**
 - Returns a non-array object
   - contains `message` & `success` properties
-  - contains `generator` object yeilding `Document`s
+  - contains `generator` object yeilding promises for `Document`s
 
 **Invariants (Maintained System Properties):**
 None are explicitly maintained by this method.
