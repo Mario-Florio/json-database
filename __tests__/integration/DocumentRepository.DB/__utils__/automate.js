@@ -27,7 +27,7 @@ async function getTargetDoc(
     const response = await docRepo.read();
 
     const documents = [];
-    for (const doc of response.gen) documents.push(doc);
+    for await (const doc of response.gen) documents.push(doc);
 
     const amount = documents.length;
 
@@ -73,17 +73,28 @@ function dbFileExists() {
     return fs.existsSync(collectionDbPath);
 }
 
-function dbHas(document) {
-    const json = fs.readFileSync(collectionDbPath, 'utf-8');
-    const data = JSON.parse(json);
+async function dbHas(document) {
+    const ndjson = fs.readFileSync(collectionDbPath, 'utf-8');
+    const data = parseJSONND(ndjson);
+    for (const doc of data) {
+        if (deepEqual(document, doc)) return true;
+    }
 
-    return data.some((obj) => deepEqual(document, obj));
+    return false;
 }
 
 function cleanDatabase() {
     if (fs.existsSync(collectionDbPath)) {
         fs.unlinkSync(collectionDbPath);
     }
+}
+
+// UTILS
+function parseJSONND(json) {
+    return json.split('\n').map(line => {
+            if (!line.trim()) return null;
+            return JSON.parse(line);
+        }).filter(line => line !== null);
 }
 
 export {

@@ -22,7 +22,7 @@ describe('DOC REPO DELETE', () => {
 
         await docRepo.delete(targetDoc._id);
 
-        expect(dbHas(targetDoc)).toBe(false);
+        expect(await dbHas(targetDoc)).toBe(false);
     });
     it('Returns object with message and truthy success fields', async () => {
         const docRepo = await getAndSetupDocRepo({

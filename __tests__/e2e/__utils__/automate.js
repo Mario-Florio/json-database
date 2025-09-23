@@ -1,5 +1,5 @@
 import fs from 'fs';
-import { Document, Schema, Result, config, deepEqual, uid } from '../import.js';
+import { Document, Schema, Result, IO_SERVICE, config, deepEqual, uid } from '../import.js';
 
 const dbPath = process.env.DBPATH || config.DBPATH;
 const collectionName = 'e2e-test' + uid();
@@ -30,7 +30,7 @@ function getTargetDoc(
         throw new Error('Test Error: Database has not been instantiated');
 
     const json = fs.readFileSync(collectionDbPath, 'utf-8');
-    const documents = JSON.parse(json);
+    const documents = parseJSONND(json);
     const amount = documents.length;
 
     if (
@@ -50,16 +50,14 @@ function getTargetDoc(
 function fillDb(options = { amount: 10 }) {
     if (!fileExists())
         throw new Error('Test Error: Database has not been instantiated');
-    const data = [];
     for (let i = 0; i < options.amount; i++)
-        data.push(new Document({ prop: `Document ${i}` }));
-    fs.writeFileSync(collectionDbPath, JSON.stringify(data));
+        fs.appendFileSync(collectionDbPath, JSON.stringify(new Document({ prop: `Document ${i}` })) + '\n');
 }
 
 function dbHas(document) {
     const { _id, ...documentWithNoId } = document;
     const json = fs.readFileSync(collectionDbPath, 'utf-8');
-    const data = JSON.parse(json);
+    const data = parseJSONND(json);
     for (const doc of data) {
         const { _id, ...docWithNoId } = doc;
         if (deepEqual(docWithNoId, documentWithNoId)) return true;
@@ -83,6 +81,13 @@ function cleanDatabase() {
     if (fs.existsSync(collectionDbPath)) {
         fs.unlinkSync(collectionDbPath);
     }
+}
+
+function parseJSONND(json) {
+    return json.split('\n').map(line => {
+            if (!line.trim()) return null;
+            return JSON.parse(line);
+        }).filter(line => line !== null);
 }
 
 export {

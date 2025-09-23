@@ -39,7 +39,7 @@ describe('DOC REPO CREATE', () => {
         const doc = getDoc(data);
         await docRepo.create(doc);
 
-        expect(dbHas(doc)).toBe(true);
+        expect(await dbHas(doc)).toBe(true);
     });
     it('Returns object with message and truthy success fields', async () => {
         const docRepo = await getAndSetupDocRepo();

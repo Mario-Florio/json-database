@@ -25,7 +25,7 @@ describe('DOC REPO UPDATE', () => {
 
         await docRepo.update(targetDoc._id, updatedDoc);
 
-        expect(dbHas(updatedDoc)).toBe(true);
+        expect(await dbHas(updatedDoc)).toBe(true);
     });
     it('Returns object with message and truthy success fields', async () => {
         const docRepo = await getAndSetupDocRepo({
