@@ -10,14 +10,6 @@ class Document {
             this[key] = content[key];
         }
     }
-    hasKeys(keys) {
-        must(
-            isObject(keys) || keys === undefined,
-            'Invalid Type — provided keys must be a non-array object or undefined',
-        );
-        const qb = new QueryBuilder(keys);
-        return qb.matches(this);
-    }
     mergeKeys(keys) {
         if (!isObject(keys))
             throw new TypeError('keys must be a non-array object');

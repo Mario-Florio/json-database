@@ -1,46 +1,81 @@
 import fs from 'fs';
 import fsPromises from 'fs/promises';
-
-const readFileSync = (paramObj) =>
-    fs.readFileSync(paramObj.path, paramObj.encoding);
-
-const writeFileSync = (paramObj) =>
-    fs.writeFileSync(paramObj.path, paramObj.data);
+import readline from 'node:readline/promises';
 
 const existsSync = (paramObj) => fs.existsSync(paramObj.path);
-
-const readFile = async (paramObj) =>
-    await fsPromises.readFile(paramObj.path, paramObj.encoding);
 
 const writeFile = async (paramObj) =>
     await fsPromises.writeFile(paramObj.path, paramObj.data);
 
-const readLines = async (paramObj) => {
-    try {
-        const json = await fsPromises.readFile(
-            paramObj.path,
-            paramObj.encoding,
-        );
-        const data = JSON.parse(json);
-        return lineGenerator(data);
-    } catch (err) {
-        return console.error(err);
-    }
-};
+const appendFile = async (paramObj) =>
+    await fsPromises.appendFile(paramObj.path, paramObj.data);
 
-// UTILS
-function* lineGenerator(data) {
-    for (const record of data) {
-        const line = JSON.stringify(record);
-        yield line;
+async function* readLines({ path }) {
+    const rl = getRl(path);
+
+    try {
+        for await (const line of rl) {
+            if (!line.trim()) continue;
+            yield line;
+        }
+    } finally {
+        rl.close();
     }
 }
 
+const writeLine = async (paramObj) => {
+    const { path, predicate, updater } = paramObj;
+    let itemFound = false;
+
+    const tempPath = path + '.tmp';
+    const out = fs.createWriteStream(tempPath);
+
+    const rl = getRl(path);
+
+    for await (const line of rl) {
+        if (!line.trim()) continue;
+
+        let obj = null;
+        try {
+            obj = JSON.parse(line);
+        } catch {
+            out.write(line + '\n');
+            continue;
+        }
+
+        if (predicate(obj)) {
+            itemFound = true;
+            const updated = updater ? updater(obj) : null;
+            if (updated) out.write(JSON.stringify(updated) + '\n');
+        } else {
+            out.write(line + '\n');
+        }
+    }
+
+    rl.close();
+    out.end();
+    await new Promise((res) => out.on('finish', res));
+
+    fs.renameSync(tempPath, path);
+
+    return { itemFound, success: true };
+};
+
+// UTILS
+function getRl(path) {
+    const stream = fs.createReadStream(path, { encoding: 'utf-8' });
+    const rl = readline.createInterface({
+        input: stream,
+        crlfDelay: Infinity,
+    });
+
+    return rl;
+}
+
 export default {
-    readFileSync,
-    writeFileSync,
     existsSync,
-    readFile,
     writeFile,
+    appendFile,
     readLines,
+    writeLine,
 };

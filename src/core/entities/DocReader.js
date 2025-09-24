@@ -16,8 +16,8 @@ class DocReader {
         this.#gen = generator;
         this.#transform = transformFn;
     }
-    *read() {
-        for (const doc of this.#gen) {
+    async *read() {
+        for await (const doc of this.#gen) {
             yield this.#transform(doc);
         }
     }

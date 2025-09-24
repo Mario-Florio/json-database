@@ -37,17 +37,17 @@ describe('DOC REPO READ', () => {
                 fill: { isTrue: true, amount: 10 },
             });
             const res = await docRepo.read();
-            expect(res.data.every((document) => dbHas(document))).toBe(true);
+            for await (const document of res.gen)
+                expect(await dbHas(document)).toBe(true);
         });
-        it('Returns an array of Document instances', async () => {
+        it('Returns a generator which yeilds Document instances', async () => {
             const docRepo = await getAndSetupDocRepo({
                 fill: { isTrue: true, amount: 10 },
             });
             const res = await docRepo.read();
-            expect(Array.isArray(res.data)).toBe(true);
-            expect(res.data.every((document) => isDocument(document))).toBe(
-                true,
-            );
+
+            for await (const document of res.gen)
+                expect(isDocument(document)).toBe(true);
         });
     });
 });

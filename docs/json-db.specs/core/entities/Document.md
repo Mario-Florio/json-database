@@ -3,7 +3,6 @@
 - [Document](#document)
   - [`class Document`](#class-document)
     - [`new Document(content)`](#new-documentcontent)
-    - [`this.hasKeys(keys)`](#thishaskeyskeys)
     - [`this.mergeKeys(keys)`](#thismergekeyskeys)
 
 [Index](../../index.md)
@@ -33,35 +32,6 @@ None explicitly maintained by this constructor.
 
 **Edge Cases:**
 None identified.
-
-----
-
-### `this.hasKeys(keys)`
-
-**Description:**
-Asserts whether `this` has specified key value pairs.
-
-**Inputs (Constraints / Preconditions):**
-
-- `keys` is non-array object
-
-**Output (Postconditions):**
-
-- Return type is boolean
-- Returns `true` if all `key: value` pairs in `keys` exist in `this` and are structurally equal (deep equality) <a href="#hasKeys-1" style="font-size: 0.8rem">1</a>
-
-**Invariants (Maintained System Properties):**
-No mutation to `this` (pure function).
-
-**Edge Cases:**
-
-- If `keys[key]` is an object or array, deep comparison is required
-
-**Refs:**
-
-- <span name="hasKeys-1" id="hasKeys-1">1</span> `for (const key of keys)`
-    - `Object.keys(this).includes(key) &&` 
-    - `JSON.stringify(this[key]) === JSON.stringify(keys[key])` *(naïve reference only)*
 
 ----
 

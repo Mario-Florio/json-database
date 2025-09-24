@@ -81,8 +81,10 @@ Filters out single `Document` from `DocumentRepository`.
 - Input is trusted to have gone through basic validation at *controller*
 
 **Output (Postconditions):**
-- Returns a single instance of `Document` or `null`
-- Returned instance of `Document` has all *key-val* pairs in `keys`
+- Returns a non-array object
+  - Contains `message` & `success` properties
+  - Contains `data` property with single instance of `Document` or `null`
+    - Returned instance of `Document` has all *key-val* pairs in `keys`
 
 **Invariants (Maintained System Properties):**
 - `this.repo` always return an instance of `Document`
@@ -106,8 +108,10 @@ Filters many `Document`s from `DocumentRepository`.
 - Input is trusted to have gone through basic validation at *controller*
 
 **Output (Postconditions):**
-- Returns an array of `Document` instances or an empty array
-- Every `Document` in returned array has all *key-val* pairs in `keys`
+- Returns a non-array object
+  - Contains `message` & `success` properties
+  - Contains `data` property with an array of `Document`s
+    - Every returned instance of `Document` has all *key-val* pairs in `keys`
 
 **Invariants (Maintained System Properties):**
 - `this.repo` always returns an array of `Document` instances

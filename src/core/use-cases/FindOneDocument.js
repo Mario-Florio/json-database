@@ -1,6 +1,6 @@
 import DocumentRepositoryUseCase from './UseCase.js';
 import Document from '../entities/Document.js';
-import { must, uphold, isObject } from './imports.js';
+import { must, uphold, QueryBuilder, isObject } from './imports.js';
 
 class FindOneDocument extends DocumentRepositoryUseCase {
     constructor(repo) {
@@ -20,19 +20,25 @@ class FindOneDocument extends DocumentRepositoryUseCase {
         const { keys } = paramObj;
 
         const response = await this.repo.read();
+        let data = null;
 
-        if (response.success) {
-            const { data } = response;
-            uphold(
-                data.every((document) => document instanceof Document),
-                'Invalid Type — DocumentRepository must only return Document instances',
-            );
+        if (response.success === true) {
+            const qb = new QueryBuilder(keys);
 
-            const document = data.find((document) => document.hasKeys(keys));
-            response.data = document ?? null;
+            for await (const document of response.gen) {
+                uphold(
+                    document instanceof Document,
+                    'Invalid Type — DocumentRepository must only return Document instances',
+                );
+
+                if (qb.matches(document)) {
+                    data = document;
+                    break;
+                }
+            }
         }
 
-        return response;
+        return response.setData(data ?? null);
     }
 }
 

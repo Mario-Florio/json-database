@@ -2,6 +2,7 @@ import documentController from '../../src/adapters/controllers/DocumentControlle
 import Document from '../../src/core/entities/Document.js';
 import Schema from '../../src/core/entities/Schema.js';
 import Result from '../../src/core/entities/Result.js';
+import IO_SERVICE from '../../src/infrastructure/IO-API/IO-Service.js';
 import config from '../../src/config.js';
 import isObject from '../../src/shared/__utils__/isObject.js';
 import deepEqual from '../../src/shared/__utils__/deepEqual.js';
@@ -24,6 +25,7 @@ export {
     Document,
     Schema,
     Result,
+    IO_SERVICE,
     config,
     deepEqual,
     isObject,

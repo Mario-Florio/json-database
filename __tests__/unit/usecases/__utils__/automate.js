@@ -35,8 +35,11 @@ async function getTargetDoc(
     repo,
     options = { index: { isTrue: false, value: new Number() } },
 ) {
-    const { data } = await repo.read();
-    const documents = data;
+    const response = await repo.read();
+
+    const documents = [];
+    for (const doc of response.gen) documents.push(doc);
+
     const amount = documents.length;
 
     if (

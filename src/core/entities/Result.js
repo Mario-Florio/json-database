@@ -1,3 +1,5 @@
+import { uphold, isGenerator } from './imports.js';
+
 class Result {
     constructor(paramObj) {
         this.message = paramObj.message;
@@ -12,6 +14,10 @@ class Result {
         return this;
     }
     setGen(gen) {
+        uphold(
+            isGenerator(gen),
+            'Invalid Type — gen must be a generator object',
+        );
         this.gen = gen;
         return this;
     }
