@@ -11,55 +11,63 @@ This project exposes a `Model` class which acts as an API for CRUD operations on
 ## Features
 
 - Simple JSON file persistence for local projects
-- ORM-like static methods for querying (`find`, `findById`, `findOne`, etc.)
+- ODM-like static methods for querying (`find`, `findById`, `findOne`, etc.)
 - Instance methods for creating and saving records
 - Flexible querying by arbitrary keys
 - Automatically generates unique IDs and timestamps for new records
 
 ## Setup
 
-Copy the `database/DB.js` and `models/ORM/Model.js` files into your project or include as a dependency.
+1. Clone repo (or copy) into project.
+2. Create folder for database files.
+3. Import `ODM` from `json-database/main.js`.
+4. Set `DBPATH` to folder for database files via `ODM.setConfig` (by default, `DBPATH` is set to 'database/collections/').
 
 ## Usage
 
 ```javascript
-const ODM = require('json-database/ODM/ODM.js');
+import ODM from 'json-database/main.js';
+
+// Set path to database collections
+ODM.setConfig({ DBPATH: 'database/collections/' });
 
 // Create Schema for Model
 const Schema = ODM.Schema;
-const SchemaType = new Schema({
-    prop: { type: 'string', required: true }
+const UserSchema = new Schema({
+    username: { type: 'string', required: true },
+    password: { type: 'string', required: true },
+    email: { type: 'string', required: true },
+    firstName: { type: 'string', required: true },
+    lastName: { type: 'string' },
+    age: { type: 'number' },
+    isActive: { type: 'boolean' }
 });
 
-// Create base Model class bound to a JSON file
-const Model = ODM.model('user', SchemaType);
-
-// Define your model by extending the base class
-class User extends Model {
-  constructor(username, password, email) {
-    super();
-    this.username = username;
-    this.password = password;
-    this.email = email;
-  }
-}
-
-// Setup model to instantiate query results
-Model.setupModel(User);
+// Create Model class bound to a JSON file
+const User = ODM.model('user', UserSchema);
 
 // Create new instance and save it
-const user = new User('username', 'password', 'email@domain.com');
-user.save();
+const newUser = new User({
+    username: 'alice123',
+    password: 'password',
+    firstName: 'Alice',
+    email: 'alice123@domain.com',
+    age: 27
+});
+await newUser.save();
 
-// Query by keys
-const users = User.find({ username: 'username' });
+// Find by keys
+const users = await User.find({ age: 27 });
 
 // Find by ID
-const userFoundByID = User.findById(user._id);
+const userFoundByID = await User.findById(users[0]._id);
+
+// Find by Operators
+const usersFoundByOp = await User.find({ age: { $gt: 20 } });
 
 // Update and delete
-User.findByIdAndUpdate(user._id, { password: 'password1234' });
-User.findByIdAndDelete(user._id);
+await User.findByIdAndUpdate(userFoundByID._id, { password: 'password1234' });
+await User.findByIdAndDelete(userFoundByID._id);
 ```
 
 ## API Reference
@@ -75,11 +83,10 @@ User.findByIdAndDelete(user._id);
 * `static findOneAndDelete(queryObject)` — Deletes first record matching query
 
 Notes and Limitations
-* The DB uses synchronous file I/O; performance may degrade on large datasets.
-* Update operation deletes then recreates the record; this is atomic in simple cases but not transactional.
-* No concurrency control; simultaneous writes may cause data corruption.
 * Designed for small local projects or prototyping.
 
 Testing
 
-End-to-end tests are provided and can be ran via shell script `e2e.test.sh`.
+* End-to-end — `npm run test:e2e`
+* Integration — `npm run test:integration`
+* Unit — `npm run test:unit`
