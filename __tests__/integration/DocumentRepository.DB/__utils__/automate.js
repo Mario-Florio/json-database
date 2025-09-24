@@ -2,14 +2,15 @@ import {
     DocumentRepository,
     Document,
     Result,
+    config,
     deepEqual,
     uid,
 } from '../imports.js';
 import fs from 'fs';
 
-const dbPath = process.env.DBPATH || './database/collections/';
+const dbPath = config.DBPATH;
 const collectionName = 'docrepo-db-test' + uid();
-const collectionDbPath = `${dbPath}${collectionName}.json`;
+const collectionDbPath = `${dbPath}${collectionName}.ndjson`;
 
 function getDocRepo() {
     const docRepo = new DocumentRepository(collectionName);
@@ -75,7 +76,7 @@ function dbFileExists() {
 
 async function dbHas(document) {
     const ndjson = fs.readFileSync(collectionDbPath, 'utf-8');
-    const data = parseJSONND(ndjson);
+    const data = parseNDJSON(ndjson);
     for (const doc of data) {
         if (deepEqual(document, doc)) return true;
     }
@@ -90,7 +91,7 @@ function cleanDatabase() {
 }
 
 // UTILS
-function parseJSONND(json) {
+function parseNDJSON(json) {
     return json
         .split('\n')
         .map((line) => {

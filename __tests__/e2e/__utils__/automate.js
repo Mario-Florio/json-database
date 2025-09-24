@@ -9,9 +9,9 @@ import {
     uid,
 } from '../import.js';
 
-const dbPath = process.env.DBPATH || config.DBPATH;
+const dbPath = config.DBPATH;
 const collectionName = 'e2e-test' + uid();
-const collectionDbPath = `${dbPath}${collectionName}.json`;
+const collectionDbPath = `${dbPath}${collectionName}.ndjson`;
 
 const types = [
     undefined,
@@ -38,7 +38,7 @@ function getTargetDoc(
         throw new Error('Test Error: Database has not been instantiated');
 
     const json = fs.readFileSync(collectionDbPath, 'utf-8');
-    const documents = parseJSONND(json);
+    const documents = parseNDJSON(json);
     const amount = documents.length;
 
     if (
@@ -68,7 +68,7 @@ function fillDb(options = { amount: 10 }) {
 function dbHas(document) {
     const { _id, ...documentWithNoId } = document;
     const json = fs.readFileSync(collectionDbPath, 'utf-8');
-    const data = parseJSONND(json);
+    const data = parseNDJSON(json);
     for (const doc of data) {
         const { _id, ...docWithNoId } = doc;
         if (deepEqual(docWithNoId, documentWithNoId)) return true;
@@ -94,7 +94,7 @@ function cleanDatabase() {
     }
 }
 
-function parseJSONND(json) {
+function parseNDJSON(json) {
     return json
         .split('\n')
         .map((line) => {

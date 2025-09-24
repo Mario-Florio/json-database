@@ -14,14 +14,14 @@ import {
 } from './response-tokens.js';
 import DocReader from '../../core/entities/DocReader.js';
 
-const dbPath = process.env.DBPATH || config.DBPATH;
+const dbPath = config.DBPATH;
 
 class DB {
     #dbFile;
     #IO_SERVICE;
 
     constructor(collectionName) {
-        this.#dbFile = dbPath + collectionName + '.json';
+        this.#dbFile = dbPath + collectionName + '.ndjson';
         this.#IO_SERVICE = IO_SERVICE;
     }
     async instantiate() {
