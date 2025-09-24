@@ -21,7 +21,7 @@ This project exposes a `Model` class which acts as an API for CRUD operations on
 **Prerequisites:**
 - node & npm installed
  
-2. Install npm package:
+1. Install npm package:
 ```bash
 npm i @mario_florio/json-database
 ```
