@@ -1,4 +1,4 @@
-import ODM from '../../src/main.js';
+import ODM from '../../main.js';
 import config from '../../src/config.js';
 import { uid } from '../e2e/import.js';
 import {
