@@ -18,10 +18,25 @@ This project exposes a `Model` class which acts as an API for CRUD operations on
 
 ## Setup
 
-1. Clone repo (or copy) into project.
-2. Create folder for database files.
-3. Import `ODM` from `json-database/main.js`.
-4. Set `DBPATH` to folder for database files via `ODM.setConfig` (by default, `DBPATH` is set to 'database/collections/').
+**Prerequisites:**
+- node & npm installed
+ 
+2. Install npm package:
+```bash
+npm i @mario_florio/json-database
+```
+2. Import `ODM`:
+```javascript
+import ODM from '@mario_florio/json-database';
+```
+3. Create folder for database files:
+```shell
+mkdir -p database/collections
+```
+4. Set `DBPATH` to folder for database files via `ODM.setConfig` (by default, `DBPATH` is set to 'database/collections/'):
+```javascript
+setConfig({ DBPATH: 'database/collections/' });
+``` 
 
 ## Usage
 

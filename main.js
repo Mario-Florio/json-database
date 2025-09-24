@@ -1,6 +1,6 @@
-import Schema from './core/entities/Schema.js';
-import model from './infrastructure/Model/Model.js';
-import config from './config.js';
+import Schema from './src/core/entities/Schema.js';
+import model from './src/infrastructure/Model/Model.js';
+import config from './src/config.js';
 
 function setConfig({ DBPATH }) {
     if (typeof DBPATH !== 'string') throw new Error('DBPATH must be a string');
