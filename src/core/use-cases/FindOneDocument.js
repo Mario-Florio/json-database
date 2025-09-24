@@ -22,19 +22,19 @@ class FindOneDocument extends DocumentRepositoryUseCase {
         const response = await this.repo.read();
         let data = null;
 
-        if (response.success === true) {
-            const qb = new QueryBuilder(keys);
+        if (response.success === false) return response.setData(data);
 
-            for await (const document of response.gen) {
-                uphold(
-                    document instanceof Document,
-                    'Invalid Type — DocumentRepository must only return Document instances',
-                );
+        const qb = new QueryBuilder(keys);
 
-                if (qb.matches(document)) {
-                    data = document;
-                    break;
-                }
+        for await (const document of response.gen) {
+            uphold(
+                document instanceof Document,
+                'Invalid Type — DocumentRepository must only return Document instances',
+            );
+
+            if (qb.matches(document)) {
+                data = document;
+                break;
             }
         }
 

@@ -21,14 +21,11 @@ class DocumentRepository {
     }
     async read() {
         const result = await this.#db.read();
-        if (result.success === true) {
-            const reader = new DocReader(
-                result.gen,
-                (obj) => new Document(obj),
-            );
-            result.setGen(reader.read());
-        }
-        return result;
+
+        if (result.success === false) return result;
+
+        const reader = new DocReader(result.gen, (obj) => new Document(obj));
+        return result.setGen(reader.read());
     }
     async update(_id, updatedDoc) {
         uphold(

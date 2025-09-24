@@ -22,22 +22,21 @@ class FindDocuments extends DocumentRepositoryUseCase {
         const response = await this.repo.read();
         const documents = [];
 
-        if (response.success === true) {
-            const qb = new QueryBuilder(keys);
+        if (response.success === false)
+            return response.removeGen().setData(documents);
 
-            for await (const document of response.gen) {
-                uphold(
-                    document instanceof Document,
-                    'Invalid Type — DocumentRepository must only return Document instances',
-                );
+        const qb = new QueryBuilder(keys);
 
-                qb.matches(document) && documents.push(document);
-            }
+        for await (const document of response.gen) {
+            uphold(
+                document instanceof Document,
+                'Invalid Type — DocumentRepository must only return Document instances',
+            );
 
-            response.removeGen();
+            qb.matches(document) && documents.push(document);
         }
 
-        return response.setData(documents);
+        return response.removeGen().setData(documents);
     }
 }
 
