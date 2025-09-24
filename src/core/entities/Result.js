@@ -1,4 +1,4 @@
-import { uphold, isGenerator } from './imports';
+import { uphold, isGenerator } from './imports.js';
 
 class Result {
     constructor(paramObj) {

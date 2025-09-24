@@ -25,7 +25,7 @@ class FindDocuments extends DocumentRepositoryUseCase {
         if (response.success === true) {
             const qb = new QueryBuilder(keys);
 
-            for (const document of response.gen) {
+            for await (const document of response.gen) {
                 uphold(
                     document instanceof Document,
                     'Invalid Type — DocumentRepository must only return Document instances',
