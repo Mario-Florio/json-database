@@ -20,13 +20,16 @@ This project exposes a `Model` class which acts as an API for CRUD operations on
 
 1. Clone repo (or copy) into project.
 2. Create folder for database files.
-3. Set `config.DBPATH` in `json-database/config.js` (or an *env var* `DBPATH`) to folder for database files.
-4. Import `ODM` from `json-database/main.js` where needed in project and use as needed (see *Usage*).
+3. Import `ODM` from `json-database/main.js`.
+4. Set `DBPATH` to folder for database files via `ODM.setConfig` (by default, `DBPATH` is set to 'database/collections/').
 
 ## Usage
 
 ```javascript
 import ODM from 'json-database/main.js';
+
+// Set path to database collections
+ODM.setConfig({ DBPATH: 'database/collections/' });
 
 // Create Schema for Model
 const Schema = ODM.Schema;
@@ -80,7 +83,6 @@ await User.findByIdAndDelete(userFoundByID._id);
 * `static findOneAndDelete(queryObject)` — Deletes first record matching query
 
 Notes and Limitations
-* Update operation deletes then recreates the record; this is atomic in simple cases but not transactional.
 * Designed for small local projects or prototyping.
 
 Testing

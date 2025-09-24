@@ -92,8 +92,6 @@ Use Cases handle core logic associated with data filtering and document handling
 
 ## Issues
   * ODM API is treated as an external client, but serves as a controller, orchestrating `DocumentController` functions—this is not an issue in itself, but if the ODM API is to be treated as central to the project, it should be further integrated into the layers and not treated as an external agent.
-  * Database performs dangerous and unperformant rewrites when modifying data.
 
 ## Future Installments
-  * Implement streaming for file reads to improve performance and address safety concerns.
   * Implement backup storage to further improve data safety.
