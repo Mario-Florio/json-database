@@ -41,7 +41,7 @@ setConfig({ DBPATH: 'database/collections/' });
 ## Usage
 
 ```javascript
-import ODM from 'json-database/main.js';
+import ODM from '@mario_florio/json-database';
 
 // Set path to database collections
 ODM.setConfig({ DBPATH: 'database/collections/' });
