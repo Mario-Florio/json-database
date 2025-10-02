@@ -12,7 +12,8 @@ function setConfig({ DBPATH, LOGGER, LOGGER_PRETTY_PRINT }) {
 
     if (DBPATH !== undefined) config.DBPATH = DBPATH;
     if (LOGGER !== undefined) config.LOGGER = LOGGER;
-    if (LOGGER_PRETTY_PRINT !== undefined) config.LOGGER_PRETTY_PRINT = LOGGER_PRETTY_PRINT;
+    if (LOGGER_PRETTY_PRINT !== undefined)
+        config.LOGGER_PRETTY_PRINT = LOGGER_PRETTY_PRINT;
 }
 
 export default {
