@@ -3,6 +3,7 @@ import ILogger from '../../core/ports/ILogger.js';
 import config from '../../config.js';
 
 const BLUE = '\x1b[36m';
+const GREEN = '\x1b[32m';
 const YELLOW = '\x1b[33m';
 const RED = '\x1b[31m';
 const RESET = '\x1b[0m';
@@ -24,40 +25,33 @@ class Logger {
         }
     }
 
-    info(message) {
-        const entry = { level: 'info', message, time: new Date().toISOString() };
+    info(message, meta = {}) {
+        const entry = new LogEntry('info', message, meta);
 
-        if (config.LOGGER_PRETTY_PRINT === true) {
-            this.#logger.info(this.prettyPrinter(entry));
-            return;
-        }
-
-        this.#logger.info(JSON.stringify(entry));
+        this.#logger.info(this.#formatEntry(entry));
     }
 
-    warn(message) {
-        const entry = { level: 'warn', message, time: new Date().toISOString() };
+    warn(message, meta = {}) {
+        const entry = new LogEntry('warn', message, meta);
 
-        if (config.LOGGER_PRETTY_PRINT === true) {
-            this.#logger.warn(this.prettyPrinter(entry));
-            return;
-        }
-
-        this.#logger.warn(JSON.stringify(entry));
+        this.#logger.warn(this.#formatEntry(entry));
     }
 
-    error(message) {
-        const entry = { level: 'error', message, time: new Date().toISOString() };
+    error(message, meta = {}) {
+        const entry = new LogEntry('error', message, meta);
 
-        if (config.LOGGER_PRETTY_PRINT === true) {
-            this.#logger.error(this.prettyPrinter(entry));
-            return;
-        }
-
-        this.#logger.error(JSON.stringify(entry));
+        this.#logger.error(this.#formatEntry(entry));
     }
 
-    prettyPrinter(object) {
+    #formatEntry(entry) {
+        if (config.LOGGER_PRETTY_PRINT === true) {
+            return this.#prettyPrint(entry);
+        } else {
+            return JSON.stringify(entry);
+        }
+    }
+
+    #prettyPrint(object) {
         if (typeof object !== 'object') {
             throw new Error('Input must be an object');
         }
@@ -74,10 +68,15 @@ class Logger {
 
         prettyStr += ' ' + object.message;
 
-        for (const [key, value] of Object.entries(object)) {
-            if (key !== 'level' && key !== 'message') {
-                prettyStr += ` | ${key}: ${value}`;
-            }
+        prettyStr += ` | ${GREEN}${object.time}${RESET}`;
+
+        const metaKeys = Object.keys(object.meta);
+        if (metaKeys.length === 0) return prettyStr;
+
+        prettyStr += '\n';
+
+        for (const [key, value] of Object.entries(object.meta)) {
+            prettyStr += ` | ${GREEN}${key}${RESET}: ${value}`;
         }
 
         return prettyStr;
@@ -92,6 +91,15 @@ class Logger {
 
     get logger() {
         return this.#logger;
+    }
+}
+
+class LogEntry {
+    constructor(level, message, meta = {}) {
+        this.level = level;
+        this.message = message;
+        this.time = new Date().toISOString();
+        this.meta = meta;
     }
 }
 
