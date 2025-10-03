@@ -66,6 +66,7 @@ JSON Databases architecture utilizes CA layers to abstract core logic (i.e. data
   * `Schema` — Responsible for determing data uniformity across collections of `Document`s; determines `Document` identity
   * `QueryBuilder` — Responsible for data filtering
   * `DocReader` — Responsible for data transimssion logic (I.e. data stream handling) and transformation of data shape
+  * `Operation` – Tracks metadata (e.g. type, unique ID) for each controller operation and holds payload
   * `Result` — Standardizes response objects across project; changes are centralized
 
 ### Use Cases
