@@ -66,14 +66,18 @@ function prettyPrint(object) {
     prettyStr += '\n    ';
 
     let lineLength = 0;
-    for (const [key, value] of Object.entries(object.meta)) {
+    const metaArr = Object.entries(object.meta);
+    let i = 0;
+    for (const [key, value] of metaArr) {
         lineLength += key.length + String(value).length + 5;
         prettyStr += `${greenWrapper(key)}: ${magentaWrapper(value)} | `;
 
-        if (lineLength > 80) {
+        if (i < metaArr.length - 1 && lineLength > 80) {
             prettyStr += '\n    ';
             lineLength = 0;
         }
+
+        i++;
     }
 
     return prettyStr;

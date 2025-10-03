@@ -1,3 +1,4 @@
+import ODM from '../../main.js';
 import documentController from '../../src/adapters/controllers/DocumentController.js';
 import Document from '../../src/core/entities/Document.js';
 import Schema from '../../src/core/entities/Schema.js';
@@ -20,6 +21,8 @@ import {
     NO_ID,
     ITEM_NOT_FOUND,
 } from '../../src/infrastructure/IO-API/response-tokens.js';
+
+ODM.setConfig({ ENV: 'test', LOGGER: null });
 
 export {
     documentController,
