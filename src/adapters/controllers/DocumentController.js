@@ -5,17 +5,29 @@ import FindDocuments from '../../core/use-cases/FindDocuments.js';
 import SaveDocument from '../../core/use-cases/SaveDocument.js';
 import UpdateDocument from '../../core/use-cases/UpdateDocument.js';
 import DeleteDocument from '../../core/use-cases/DeleteDocument.js';
+import Operation from '../../core/entities/Operation.js';
 import Result from '../../core/entities/Result.js';
 import ContractError from '../../shared/contracts/__utils__/ContractError.js';
 import inputIsValid from './__utils__/inputIsValid.js';
 import { INPUT_IS_INVALID } from './response-tokens.js';
+import { must } from '../../shared/contracts/contracts.js';
 
-async function instantiateCollection(paramObj) {
+async function instantiateCollection(operationObj) {
     try {
-        if (!inputIsValid(paramObj))
+        must(
+            operationObj instanceof Operation,
+            'Invalid Type – Input must be an Operation',
+        );
+        must(
+            operationObj.type === Operation.TYPES.INSTANTIATE_COLLECTION,
+            `Invalid Operation Type – ${operationObj.type} is not INSTANTIATE_COLLECTION`,
+        );
+        const { payload } = operationObj;
+
+        if (!inputIsValid(payload))
             return new Result({ message: INPUT_IS_INVALID, success: false });
 
-        const { collectionId } = paramObj;
+        const { collectionId } = payload;
 
         const repo = new DocumentRepository(collectionId);
         const useCase = new InstantiateCollection(repo);
@@ -27,12 +39,22 @@ async function instantiateCollection(paramObj) {
     }
 }
 
-async function createDocument(paramObj) {
+async function createDocument(operationObj) {
     try {
-        if (!inputIsValid(paramObj))
+        must(
+            operationObj instanceof Operation,
+            'Invalid Type – Input must be an Operation',
+        );
+        must(
+            operationObj.type === Operation.TYPES.CREATE_DOCUMENT,
+            `Invalid Operation Type – ${operationObj.type} is not CREATE_DOCUMENT`,
+        );
+        const { payload } = operationObj;
+
+        if (!inputIsValid(payload))
             return new Result({ message: INPUT_IS_INVALID, success: false });
 
-        const { collectionId, data, schema } = paramObj;
+        const { collectionId, data, schema } = payload;
 
         const repo = new DocumentRepository(collectionId);
         const useCase = new SaveDocument(repo);
@@ -44,12 +66,22 @@ async function createDocument(paramObj) {
     }
 }
 
-async function getDocuments(paramObj) {
+async function getDocuments(operationObj) {
     try {
-        if (!inputIsValid(paramObj))
+        must(
+            operationObj instanceof Operation,
+            'Invalid Type – Input must be an Operation',
+        );
+        must(
+            operationObj.type === Operation.TYPES.GET_DOCUMENTS,
+            `Invalid Operation Type – ${operationObj.type} is not GET_DOCUMENTS`,
+        );
+        const { payload } = operationObj;
+
+        if (!inputIsValid(payload))
             return new Result({ message: INPUT_IS_INVALID, success: false });
 
-        const { collectionId, keys } = paramObj;
+        const { collectionId, keys } = payload;
 
         const repo = new DocumentRepository(collectionId);
         const useCase = new FindDocuments(repo);
@@ -61,12 +93,22 @@ async function getDocuments(paramObj) {
     }
 }
 
-async function getOneDocument(paramObj) {
+async function getOneDocument(operationObj) {
     try {
-        if (!inputIsValid(paramObj))
+        must(
+            operationObj instanceof Operation,
+            'Invalid Type – Input must be an Operation',
+        );
+        must(
+            operationObj.type === Operation.TYPES.GET_ONE_DOCUMENT,
+            `Invalid Operation Type – ${operationObj.type} is not GET_ONE_DOCUMENT`,
+        );
+        const { payload } = operationObj;
+
+        if (!inputIsValid(payload))
             return new Result({ message: INPUT_IS_INVALID, success: false });
 
-        const { collectionId, keys } = paramObj;
+        const { collectionId, keys } = payload;
 
         const repo = new DocumentRepository(collectionId);
         const useCase = new FindOneDocument(repo);
@@ -78,12 +120,22 @@ async function getOneDocument(paramObj) {
     }
 }
 
-async function updateDocument(paramObj) {
+async function updateDocument(operationObj) {
     try {
-        if (!inputIsValid(paramObj))
+        must(
+            operationObj instanceof Operation,
+            'Invalid Type – Input must be an Operation',
+        );
+        must(
+            operationObj.type === Operation.TYPES.UPDATE_DOCUMENT,
+            `Invalid Operation Type – ${operationObj.type} is not UPDATE_DOCUMENT`,
+        );
+        const { payload } = operationObj;
+
+        if (!inputIsValid(payload))
             return new Result({ message: INPUT_IS_INVALID, success: false });
 
-        const { collectionId, _id, schema, data, updatedKeys } = paramObj;
+        const { collectionId, _id, schema, data, updatedKeys } = payload;
 
         const repo = new DocumentRepository(collectionId);
         const useCase = new UpdateDocument(repo);
@@ -101,12 +153,22 @@ async function updateDocument(paramObj) {
     }
 }
 
-async function deleteDocument(paramObj) {
+async function deleteDocument(operationObj) {
     try {
-        if (!inputIsValid(paramObj))
+        must(
+            operationObj instanceof Operation,
+            'Invalid Type – Input must be an Operation',
+        );
+        must(
+            operationObj.type === Operation.TYPES.DELETE_DOCUMENT,
+            `Invalid Operation Type – ${operationObj.type} is not DELETE_DOCUMENT`,
+        );
+        const { payload } = operationObj;
+
+        if (!inputIsValid(payload))
             return new Result({ message: INPUT_IS_INVALID, success: false });
 
-        const { collectionId, _id } = paramObj;
+        const { collectionId, _id } = payload;
 
         const repo = new DocumentRepository(collectionId);
         const useCase = new DeleteDocument(repo);

@@ -10,6 +10,7 @@ import {
 } from './__utils__/automate.js';
 import {
     documentController,
+    Operation,
     isObject,
     UPDATE_SUCCESSFUL,
     NO_ID,
@@ -21,7 +22,11 @@ const schema = getSchema();
 const updatedKeys = { prop: 'This prop has been updated' };
 
 async function setupCollection() {
-    await documentController.instantiateCollection({ collectionId });
+    const operation = new Operation({
+        type: Operation.TYPES.INSTANTIATE_COLLECTION,
+        payload: { collectionId },
+    });
+    await documentController.instantiateCollection(operation);
     fillDb();
 }
 
@@ -33,13 +38,11 @@ describe('UPDATE', () => {
         it('Updates correct document with accurate values in database', async () => {
             const data = getTargetDoc();
             const { _id } = data;
-            await documentController.updateDocument({
-                collectionId,
-                _id,
-                schema,
-                data,
-                updatedKeys,
+            const operation = new Operation({
+                type: Operation.TYPES.UPDATE_DOCUMENT,
+                payload: { collectionId, _id, schema, data, updatedKeys },
             });
+            await documentController.updateDocument(operation);
 
             const updatedDoc = {};
             for (const key of Object.keys(data)) {
@@ -53,25 +56,21 @@ describe('UPDATE', () => {
         it('Returns successful Result object', async () => {
             const data = getTargetDoc();
             const { _id } = data;
-            const res = await documentController.updateDocument({
-                collectionId,
-                _id,
-                schema,
-                data,
-                updatedKeys,
+            const operation = new Operation({
+                type: Operation.TYPES.UPDATE_DOCUMENT,
+                payload: { collectionId, _id, schema, data, updatedKeys },
             });
+            const res = await documentController.updateDocument(operation);
             expect(isResultObject(res)).toBe(true);
         });
         it('Returns Result object with update successful message', async () => {
             const data = getTargetDoc();
             const { _id } = data;
-            const res = await documentController.updateDocument({
-                collectionId,
-                _id,
-                schema,
-                data,
-                updatedKeys,
+            const operation = new Operation({
+                type: Operation.TYPES.UPDATE_DOCUMENT,
+                payload: { collectionId, _id, schema, data, updatedKeys },
             });
+            const res = await documentController.updateDocument(operation);
             expect(res.message).toBe(UPDATE_SUCCESSFUL);
         });
     });
@@ -91,61 +90,51 @@ describe('UPDATE', () => {
             const invalidKeys = types.filter((type) => !isObject(type));
 
             for (const collectionId of invalidCollectionIds) {
-                const res = await documentController.updateDocument({
-                    collectionId,
-                    _id,
-                    schema,
-                    data,
-                    updatedKeys,
+                const operation = new Operation({
+                    type: Operation.TYPES.UPDATE_DOCUMENT,
+                    payload: { collectionId, _id, schema, data, updatedKeys },
                 });
+                const res = await documentController.updateDocument(operation);
                 expect(res.message).toBe(INPUT_IS_INVALID);
                 expect(res.success).toBe(false);
             }
 
             for (const _id of invalidIds) {
-                const res = await documentController.updateDocument({
-                    collectionId,
-                    _id,
-                    schema,
-                    data,
-                    updatedKeys,
+                const operation = new Operation({
+                    type: Operation.TYPES.UPDATE_DOCUMENT,
+                    payload: { collectionId, _id, schema, data, updatedKeys },
                 });
+                const res = await documentController.updateDocument(operation);
                 expect(res.message).toBe(INPUT_IS_INVALID);
                 expect(res.success).toBe(false);
             }
 
             for (const schema of invalidSchemas) {
-                const res = await documentController.updateDocument({
-                    collectionId,
-                    _id,
-                    schema,
-                    data,
-                    updatedKeys,
+                const operation = new Operation({
+                    type: Operation.TYPES.UPDATE_DOCUMENT,
+                    payload: { collectionId, _id, schema, data, updatedKeys },
                 });
+                const res = await documentController.updateDocument(operation);
                 expect(res.message).toBe(INPUT_IS_INVALID);
                 expect(res.success).toBe(false);
             }
 
             for (const data of invalidDatas) {
-                const res = await documentController.updateDocument({
-                    collectionId,
-                    _id,
-                    schema,
-                    data,
-                    updatedKeys,
+                const operation = new Operation({
+                    type: Operation.TYPES.UPDATE_DOCUMENT,
+                    payload: { collectionId, _id, schema, data, updatedKeys },
                 });
+                const res = await documentController.updateDocument(operation);
                 expect(res.message).toBe(INPUT_IS_INVALID);
                 expect(res.success).toBe(false);
             }
 
             for (const updatedKeys of invalidKeys) {
-                const res = await documentController.updateDocument({
-                    collectionId,
-                    _id,
-                    schema,
-                    data,
-                    updatedKeys,
+                const operation = new Operation({
+                    type: Operation.TYPES.UPDATE_DOCUMENT,
+                    payload: { collectionId, _id, schema, data, updatedKeys },
                 });
+                const res = await documentController.updateDocument(operation);
                 expect(res.message).toBe(INPUT_IS_INVALID);
                 expect(res.success).toBe(false);
             }
@@ -157,13 +146,17 @@ describe('UPDATE', () => {
         afterEach(() => cleanDatabase());
 
         it('Returns database no-id-given message if _id is an empty string', async () => {
-            const res = await documentController.updateDocument({
-                collectionId,
-                _id: '',
-                schema,
-                data: {},
-                updatedKeys,
+            const operation = new Operation({
+                type: Operation.TYPES.UPDATE_DOCUMENT,
+                payload: {
+                    collectionId,
+                    _id: '',
+                    schema,
+                    data: {},
+                    updatedKeys,
+                },
             });
+            const res = await documentController.updateDocument(operation);
             expect(res.message).toBe(NO_ID);
             expect(res.success).toBe(false);
         });

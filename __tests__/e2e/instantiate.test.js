@@ -7,6 +7,7 @@ import {
 } from './__utils__/automate.js';
 import {
     documentController,
+    Operation,
     INSTANTIATION_SUCCESSFUL,
     INPUT_IS_INVALID,
     DB_ALREADY_EXISTS,
@@ -19,19 +20,29 @@ describe('INSTANTIATE', () => {
         afterEach(() => cleanDatabase());
 
         it('Creates a file named after collection id', async () => {
-            await documentController.instantiateCollection({ collectionId });
+            const operation = new Operation({
+                type: Operation.TYPES.INSTANTIATE_COLLECTION,
+                payload: { collectionId },
+            });
+            await documentController.instantiateCollection(operation);
             expect(fileExists()).toBe(true);
         });
         it('Returns successful Result object', async () => {
-            const res = await documentController.instantiateCollection({
-                collectionId,
+            const operation = new Operation({
+                type: Operation.TYPES.INSTANTIATE_COLLECTION,
+                payload: { collectionId },
             });
+            const res =
+                await documentController.instantiateCollection(operation);
             expect(isResultObject(res)).toBe(true);
         });
         it('Returns Result object with instantiation successful message', async () => {
-            const res = await documentController.instantiateCollection({
-                collectionId,
+            const operation = new Operation({
+                type: Operation.TYPES.INSTANTIATE_COLLECTION,
+                payload: { collectionId },
             });
+            const res =
+                await documentController.instantiateCollection(operation);
             expect(res.message).toBe(INSTANTIATION_SUCCESSFUL);
         });
     });
@@ -45,21 +56,26 @@ describe('INSTANTIATE', () => {
             );
 
             for (const collectionId of invalidCollectionIds) {
-                const res = await documentController.instantiateCollection({
-                    collectionId,
+                const operation = new Operation({
+                    type: Operation.TYPES.INSTANTIATE_COLLECTION,
+                    payload: { collectionId },
                 });
+                const res =
+                    await documentController.instantiateCollection(operation);
 
                 expect(res.message).toBe(INPUT_IS_INVALID);
             }
         });
 
         it('Returns database exists message if file with collection id already exists', async () => {
-            await documentController.instantiateCollection({ collectionId });
-            const res = await documentController.instantiateCollection({
-                collectionId,
+            const operation = new Operation({
+                type: Operation.TYPES.INSTANTIATE_COLLECTION,
+                payload: { collectionId },
             });
+            await documentController.instantiateCollection(operation);
+            const res =
+                await documentController.instantiateCollection(operation);
 
-            console.log(res);
             expect(res.message).toBe(DB_ALREADY_EXISTS);
         });
     });

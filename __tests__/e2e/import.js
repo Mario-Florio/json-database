@@ -1,6 +1,7 @@
 import documentController from '../../src/adapters/controllers/DocumentController.js';
 import Document from '../../src/core/entities/Document.js';
 import Schema from '../../src/core/entities/Schema.js';
+import Operation from '../../src/core/entities/Operation.js';
 import Result from '../../src/core/entities/Result.js';
 import IO_SERVICE from '../../src/infrastructure/IO-API/IO-Service.js';
 import config from '../../src/config.js';
@@ -24,6 +25,7 @@ export {
     documentController,
     Document,
     Schema,
+    Operation,
     Result,
     IO_SERVICE,
     config,
