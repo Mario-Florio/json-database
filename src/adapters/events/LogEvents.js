@@ -1,6 +1,6 @@
 import Operation from '../../core/entities/Operation.js';
 import EventEmitter from 'node:events';
-import Logger from '../Logger/Logger.js';
+import Logger from '../../infrastructure/Logger/Logger.js';
 import config from '../../config.js';
 
 const runningOps = new Map();
@@ -10,11 +10,12 @@ class LogEventEmitter extends EventEmitter {
         ATTEMPT: 'ATTEMPT',
         SUCCESS: 'SUCCESS',
         FAILED: 'FAILED',
+        ERROR: 'ERROR',
     };
 
-    emit(event, ...args) {
+    emit(event, operation, ...args) {
         if (config.ENV === 'test') return false;
-        return super.emit(event, ...args);
+        return super.emit(event, operation, ...args);
     }
 }
 
@@ -44,6 +45,13 @@ logEventEmitter.on(logEventEmitter.events.FAILED, (operation) => {
         operationId: operation.id,
         operationType: operation.type,
         collectionId: operation.payload.collectionId,
+    });
+});
+
+logEventEmitter.on(logEventEmitter.events.ERROR, (operation, err) => {
+    Logger.error(err.message, {
+        operationId: operation.id,
+        stack: err.stack,
     });
 });
 
