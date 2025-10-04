@@ -7,8 +7,7 @@ import UpdateDocument from '../../core/use-cases/UpdateDocument.js';
 import DeleteDocument from '../../core/use-cases/DeleteDocument.js';
 import Operation from '../../core/entities/Operation.js';
 import Result from '../../core/entities/Result.js';
-import logEventEmitter from '../../infrastructure/LogEvents.js/LogEvents.js';
-import Logger from '../../infrastructure/Logger/Logger.js';
+import logEventEmitter from '../events/LogEvents.js';
 import ContractError from '../../shared/contracts/__utils__/ContractError.js';
 import inputIsValid from './__utils__/inputIsValid.js';
 import { INPUT_IS_INVALID } from './response-tokens.js';
@@ -27,17 +26,15 @@ async function instantiateCollection(operationObj) {
 
         logEventEmitter.emit(logEventEmitter.events.ATTEMPT, operationObj);
 
-        const { payload } = operationObj;
-
-        if (!inputIsValid(payload))
+        if (!inputIsValid(operationObj.payload))
             return new Result({ message: INPUT_IS_INVALID, success: false });
 
-        const { collectionId } = payload;
+        const { collectionId } = operationObj.payload;
 
         const repo = new DocumentRepository(collectionId);
-        const useCase = new InstantiateCollection(repo);
+        const useCase = new InstantiateCollection(repo, logEventEmitter);
 
-        const response = await useCase.execute();
+        const response = await useCase.execute(operationObj);
         if (response.success) {
             logEventEmitter.emit(logEventEmitter.events.SUCCESS, operationObj);
         } else {
@@ -63,17 +60,15 @@ async function createDocument(operationObj) {
 
         logEventEmitter.emit(logEventEmitter.events.ATTEMPT, operationObj);
 
-        const { payload } = operationObj;
-
-        if (!inputIsValid(payload))
+        if (!inputIsValid(operationObj.payload))
             return new Result({ message: INPUT_IS_INVALID, success: false });
 
-        const { collectionId, data, schema } = payload;
+        const { collectionId } = operationObj.payload;
 
         const repo = new DocumentRepository(collectionId);
-        const useCase = new SaveDocument(repo);
+        const useCase = new SaveDocument(repo, logEventEmitter);
 
-        const response = await useCase.execute({ data, schema });
+        const response = await useCase.execute(operationObj);
         if (response.success) {
             logEventEmitter.emit(logEventEmitter.events.SUCCESS, operationObj);
         } else {
@@ -99,17 +94,15 @@ async function getDocuments(operationObj) {
 
         logEventEmitter.emit(logEventEmitter.events.ATTEMPT, operationObj);
 
-        const { payload } = operationObj;
-
-        if (!inputIsValid(payload))
+        if (!inputIsValid(operationObj.payload))
             return new Result({ message: INPUT_IS_INVALID, success: false });
 
-        const { collectionId, keys } = payload;
+        const { collectionId } = operationObj.payload;
 
         const repo = new DocumentRepository(collectionId);
-        const useCase = new FindDocuments(repo);
+        const useCase = new FindDocuments(repo, logEventEmitter);
 
-        const response = await useCase.execute({ keys });
+        const response = await useCase.execute(operationObj);
         if (response.success) {
             logEventEmitter.emit(logEventEmitter.events.SUCCESS, operationObj);
         } else {
@@ -135,17 +128,15 @@ async function getOneDocument(operationObj) {
 
         logEventEmitter.emit(logEventEmitter.events.ATTEMPT, operationObj);
 
-        const { payload } = operationObj;
-
-        if (!inputIsValid(payload))
+        if (!inputIsValid(operationObj.payload))
             return new Result({ message: INPUT_IS_INVALID, success: false });
 
-        const { collectionId, keys } = payload;
+        const { collectionId } = operationObj.payload;
 
         const repo = new DocumentRepository(collectionId);
-        const useCase = new FindOneDocument(repo);
+        const useCase = new FindOneDocument(repo, logEventEmitter);
 
-        const response = await useCase.execute({ keys });
+        const response = await useCase.execute(operationObj);
         if (response.success) {
             logEventEmitter.emit(logEventEmitter.events.SUCCESS, operationObj);
         } else {
@@ -171,22 +162,15 @@ async function updateDocument(operationObj) {
 
         logEventEmitter.emit(logEventEmitter.events.ATTEMPT, operationObj);
 
-        const { payload } = operationObj;
-
-        if (!inputIsValid(payload))
+        if (!inputIsValid(operationObj.payload))
             return new Result({ message: INPUT_IS_INVALID, success: false });
 
-        const { collectionId, _id, schema, data, updatedKeys } = payload;
+        const { collectionId } = operationObj.payload;
 
         const repo = new DocumentRepository(collectionId);
-        const useCase = new UpdateDocument(repo);
+        const useCase = new UpdateDocument(repo, logEventEmitter);
 
-        const response = await useCase.execute({
-            _id,
-            schema,
-            data,
-            updatedKeys,
-        });
+        const response = await useCase.execute(operationObj);
 
         if (response.success) {
             logEventEmitter.emit(logEventEmitter.events.SUCCESS, operationObj);
@@ -213,17 +197,15 @@ async function deleteDocument(operationObj) {
 
         logEventEmitter.emit(logEventEmitter.events.ATTEMPT, operationObj);
 
-        const { payload } = operationObj;
-
-        if (!inputIsValid(payload))
+        if (!inputIsValid(operationObj.payload))
             return new Result({ message: INPUT_IS_INVALID, success: false });
 
-        const { collectionId, _id } = payload;
+        const { collectionId } = operationObj.payload;
 
         const repo = new DocumentRepository(collectionId);
-        const useCase = new DeleteDocument(repo);
+        const useCase = new DeleteDocument(repo, logEventEmitter);
 
-        const response = await useCase.execute({ _id });
+        const response = await useCase.execute(operationObj);
         if (response.success) {
             logEventEmitter.emit(logEventEmitter.events.SUCCESS, operationObj);
         } else {
@@ -240,10 +222,7 @@ async function deleteDocument(operationObj) {
 
 function errorHandler(err, operationObj) {
     if (err instanceof ContractError) throw new ContractError(err.message);
-    Logger.error(err.message, {
-        operationId: operationObj.id,
-        stack: err.stack,
-    });
+    logEventEmitter.emit(logEventEmitter.events.ERROR, operationObj, err);
     return new Result({ message: err.message, success: false });
 }
 

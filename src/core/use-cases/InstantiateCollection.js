@@ -1,11 +1,11 @@
 import DocumentRepositoryUseCase from './UseCase.js';
 
 class InstantiateCollection extends DocumentRepositoryUseCase {
-    constructor(repo) {
-        super(repo);
+    constructor(repo, logEvents) {
+        super(repo, logEvents);
     }
 
-    async execute() {
+    async execute(operationObj) {
         const response = await this.repo.instantiate();
         return response;
     }

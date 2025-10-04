@@ -1,11 +1,11 @@
 import DocumentRepositoryUseCase from './UseCase.js';
 
 class DeleteDocument extends DocumentRepositoryUseCase {
-    constructor(repo) {
-        super(repo);
+    constructor(repo, logEvents) {
+        super(repo, logEvents);
     }
-    async execute(paramObj) {
-        const { _id } = paramObj;
+    async execute(operationObj) {
+        const { _id } = operationObj.payload;
 
         const response = await this.repo.delete(_id);
         return response;
