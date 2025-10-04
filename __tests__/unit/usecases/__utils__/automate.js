@@ -11,6 +11,7 @@ import {
     UPDATE,
 } from '../imports.js';
 import DocumentRepositoryDouble from './DocRepoDouble.js';
+import logEventEmitterDouble from './LogEventsDouble.js';
 
 async function setupUseCase(type) {
     const repo = new DocumentRepositoryDouble();
@@ -19,13 +20,13 @@ async function setupUseCase(type) {
 
     switch (type) {
         case FIND:
-            return new FindDocuments(repo);
+            return new FindDocuments(repo, logEventEmitterDouble);
         case FIND_ONE:
-            return new FindOneDocument(repo);
+            return new FindOneDocument(repo, logEventEmitterDouble);
         case SAVE:
-            return new SaveDocument(repo);
+            return new SaveDocument(repo, logEventEmitterDouble);
         case UPDATE:
-            return new UpdateDocument(repo);
+            return new UpdateDocument(repo, logEventEmitterDouble);
         default:
             return null;
     }

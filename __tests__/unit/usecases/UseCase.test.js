@@ -3,6 +3,7 @@ import {
     IDocumentRepository,
     implementsInterface,
 } from './imports.js';
+import logEventEmitterDouble from './__utils__/LogEventsDouble.js';
 
 describe('DOC REPO USE CASE', () => {
     describe('constructor', () => {
@@ -16,7 +17,7 @@ describe('DOC REPO USE CASE', () => {
             }
 
             const validRepo = new ValidDocumentRepository();
-            const validDocRepoUseCase = new DocumentRepoUseCase(validRepo);
+            const validDocRepoUseCase = new DocumentRepoUseCase(validRepo, logEventEmitterDouble);
             expect(validDocRepoUseCase).toBeTruthy();
         });
     });

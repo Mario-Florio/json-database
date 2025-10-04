@@ -6,6 +6,7 @@ import SaveDocument from '../../../src/core/use-cases/SaveDocument.js';
 import UpdateDocument from '../../../src/core/use-cases/UpdateDocument.js';
 import Document from '../../../src/core/entities/Document.js';
 import Schema from '../../../src/core/entities/Schema.js';
+import Operation from '../../../src/core/entities/Operation.js';
 import Result from '../../../src/core/entities/Result.js';
 import implementsInterface from '../../../src/core/use-cases/__utils__/implementsInterface.js';
 import isObject from '../../../src/shared/__utils__/isObject.js';
@@ -24,6 +25,7 @@ export {
     UpdateDocument,
     Document,
     Schema,
+    Operation,
     Result,
     implementsInterface,
     isObject,
