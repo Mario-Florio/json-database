@@ -3,6 +3,14 @@ import EventEmitter from 'node:events';
 import Logger from '../../infrastructure/Logger/Logger.js';
 import config from '../../config.js';
 
+const DB_HITS = {
+    INSTANTIATIATE_COLLECTION: 0,
+    CREATE_DOCUMENT: 0,
+    READ_DOCUMENT: 0,
+    UPDATE_DOCUMENT: 0,
+    DELETE_DOCUMENT: 0,
+};
+
 const retentionPolicies = {
     production: [
         (event, operation) => event === 'ATTEMPT', // Don't log ATTEMPT events
@@ -19,6 +27,7 @@ class LogEventEmitter extends EventEmitter {
         FAILED: 'FAILED',
         CORE: 'CORE',
         REPO: 'REPO',
+        DB_HITS: 'DB_HITS',
         ERROR: 'ERROR',
     };
 
@@ -70,6 +79,23 @@ logEventEmitter.on(logEventEmitter.events.REPO, (operation) => {
         operationType: operation.type,
         collectionId: operation.payload.collectionId,
     });
+});
+
+logEventEmitter.on(logEventEmitter.events.DB_HITS, (operation) => {
+    const count = logDbHit(operation);
+    if (count !== null) {
+        Logger.info(getLogDbHitMsg(operation, count), {
+            operationId: operation.id,
+            operationType: operation.type,
+            collectionId: operation.payload.collectionId,
+        });
+    } else {
+        Logger.warn('DB Hit: Unknown operation type', {
+            operationId: operation.id,
+            operationType: operation.type,
+            collectionId: operation.payload.collectionId,
+        });
+    }
 });
 
 logEventEmitter.on(logEventEmitter.events.ERROR, (operation, err) => {
@@ -162,6 +188,33 @@ function getLogRepoMsg(operation) {
             return 'Repo Infiltrated: delete';
         default:
             return 'Unknown Repo Infiltration';
+    }
+}
+
+function getLogDbHitMsg(operation, count) {
+    switch (operation.type) {
+        case Operation.TYPES.CREATE_DOCUMENT:
+            return `DB Hit: create - ${count}`;
+        case Operation.TYPES.GET_ONE_DOCUMENT:
+            return `DB Hit: read - ${count}`;
+        case Operation.TYPES.GET_DOCUMENTS:
+            return `DB Hit: read - ${count}`;
+        case Operation.TYPES.UPDATE_DOCUMENT:
+            return `DB Hit: update - ${count}`;
+        case Operation.TYPES.DELETE_DOCUMENT:
+            return `DB Hit: delete - ${count}`;
+        default:
+            return `DB Hit: unknown - ${count}`;
+    }
+}
+
+function logDbHit(operation) {
+    if (Object.prototype.hasOwnProperty.call(DB_HITS, operation.type)) {
+        DB_HITS[operation.type]++;
+        return DB_HITS[operation.type];
+    } else if (operation.type === Operation.TYPES.GET_ONE_DOCUMENT || operation.type === Operation.TYPES.GET_DOCUMENTS) {
+        DB_HITS.READ_DOCUMENT++;
+        return DB_HITS.READ_DOCUMENT;
     }
 }
 
