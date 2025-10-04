@@ -7,7 +7,7 @@ import UpdateDocument from '../../core/use-cases/UpdateDocument.js';
 import DeleteDocument from '../../core/use-cases/DeleteDocument.js';
 import Operation from '../../core/entities/Operation.js';
 import Result from '../../core/entities/Result.js';
-import logEventEmitter from '../events/LogEvents.js';
+import logEventEmitter from '../../infrastructure/logging/logEventEmitter.js';
 import ContractError from '../../shared/contracts/__utils__/ContractError.js';
 import inputIsValid from './__utils__/inputIsValid.js';
 import { INPUT_IS_INVALID } from './response-tokens.js';

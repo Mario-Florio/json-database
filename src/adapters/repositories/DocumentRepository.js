@@ -1,6 +1,6 @@
 import DocReader from '../../core/entities/DocReader.js';
 import Document from '../../core/entities/Document.js';
-import logEventEmitter from '../events/LogEvents.js';
+import logEventEmitter from '../../infrastructure/logging/logEventEmitter.js';
 import DB from '../../infrastructure/IO-API/DB.js';
 import { uphold } from '../../shared/contracts/contracts.js';
 

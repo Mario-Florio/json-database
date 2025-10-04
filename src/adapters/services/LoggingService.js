@@ -1,7 +1,5 @@
 import Operation from '../../core/entities/Operation.js';
-import EventEmitter from 'node:events';
-import Logger from '../../infrastructure/Logger/Logger.js';
-import config from '../../config.js';
+import Logger from '../../infrastructure/logging/Logger.js';
 
 const DB_HITS = {
     INSTANTIATIATE_COLLECTION: 0,
@@ -11,78 +9,48 @@ const DB_HITS = {
     DELETE_DOCUMENT: 0,
 };
 
-const retentionPolicies = {
-    production: [
-        (event, operation) => event === 'ATTEMPT', // Don't log ATTEMPT events
-        (event, operation) => event === 'CORE', // Don't log CORE events
-    ],
-    development: [],
-    test: [(event, operation) => true],
-};
-
-class LogEventEmitter extends EventEmitter {
-    events = {
-        ATTEMPT: 'ATTEMPT',
-        SUCCESS: 'SUCCESS',
-        FAILED: 'FAILED',
-        CORE: 'CORE',
-        REPO: 'REPO',
-        DB_HITS: 'DB_HITS',
-        ERROR: 'ERROR',
-    };
-
-    emit(event, operation, ...args) {
-        for (const policy of retentionPolicies[config.ENV])
-            if (policy(event, operation)) return false;
-
-        return super.emit(event, operation, ...args);
-    }
-}
-
-const logEventEmitter = new LogEventEmitter().setMaxListeners(20);
-
-logEventEmitter.on(logEventEmitter.events.ATTEMPT, (operation) => {
+const logAttempt = (operation) => {
     Logger.info(getLogAttemptMsg(operation), {
         operationId: operation.id,
         operationType: operation.type,
         collectionId: operation.payload.collectionId,
     });
-});
+};
 
-logEventEmitter.on(logEventEmitter.events.SUCCESS, (operation) => {
+const logSuccess = (operation) => {
     Logger.info(getLogSuccessMsg(operation), {
         operationId: operation.id,
         operationType: operation.type,
         collectionId: operation.payload.collectionId,
     });
-});
+};
 
-logEventEmitter.on(logEventEmitter.events.FAILED, (operation) => {
+const logFailed = (operation) => {
     Logger.warn(getLogFailedMsg(operation), {
         operationId: operation.id,
         operationType: operation.type,
         collectionId: operation.payload.collectionId,
     });
-});
+};
 
-logEventEmitter.on(logEventEmitter.events.CORE, (operation) => {
+const logCore = (operation) => {
     Logger.info(getLogCoreMsg(operation), {
         operationId: operation.id,
         operationType: operation.type,
         collectionId: operation.payload.collectionId,
     });
-});
+};
 
-logEventEmitter.on(logEventEmitter.events.REPO, (operation) => {
+const logRepo = (operation) => {
     Logger.info(getLogRepoMsg(operation), {
         operationId: operation.id,
         operationType: operation.type,
         collectionId: operation.payload.collectionId,
     });
-});
+};
 
-logEventEmitter.on(logEventEmitter.events.DB_HITS, (operation) => {
-    const count = logDbHit(operation);
+const logDbHit = (operation) => {
+    const count = incrementDbHit(operation);
     if (count !== null) {
         Logger.info(getLogDbHitMsg(operation, count), {
             operationId: operation.id,
@@ -96,14 +64,14 @@ logEventEmitter.on(logEventEmitter.events.DB_HITS, (operation) => {
             collectionId: operation.payload.collectionId,
         });
     }
-});
+};
 
-logEventEmitter.on(logEventEmitter.events.ERROR, (operation, err) => {
+const logError = (operation, err) => {
     Logger.error(err.message, {
         operationId: operation.id,
         stack: err.stack,
     });
-});
+};
 
 // UTILS
 function getLogAttemptMsg(operation) {
@@ -208,14 +176,25 @@ function getLogDbHitMsg(operation, count) {
     }
 }
 
-function logDbHit(operation) {
+function incrementDbHit(operation) {
     if (Object.prototype.hasOwnProperty.call(DB_HITS, operation.type)) {
         DB_HITS[operation.type]++;
         return DB_HITS[operation.type];
-    } else if (operation.type === Operation.TYPES.GET_ONE_DOCUMENT || operation.type === Operation.TYPES.GET_DOCUMENTS) {
+    } else if (
+        operation.type === Operation.TYPES.GET_ONE_DOCUMENT ||
+        operation.type === Operation.TYPES.GET_DOCUMENTS
+    ) {
         DB_HITS.READ_DOCUMENT++;
         return DB_HITS.READ_DOCUMENT;
     }
 }
 
-export default logEventEmitter;
+export default {
+    logAttempt,
+    logSuccess,
+    logFailed,
+    logCore,
+    logRepo,
+    logDbHit,
+    logError,
+};
