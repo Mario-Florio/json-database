@@ -18,6 +18,7 @@ class DocumentRepoUseCase {
             );
 
         this.#repo = documentRepository;
+        this.#logEvents = logEvents;
     }
     get repo() {
         return this.#repo;

@@ -6,6 +6,8 @@ class InstantiateCollection extends DocumentRepositoryUseCase {
     }
 
     async execute(operationObj) {
+        this.logEvents.emit(this.logEvents.events.CORE, operationObj);
+        
         const response = await this.repo.instantiate();
         return response;
     }

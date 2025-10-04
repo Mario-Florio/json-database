@@ -1,7 +1,8 @@
 import DocumentRepositoryUseCase from './UseCase.js';
 import Document from '../entities/Document.js';
+import QueryBuilder from '../entities/QueryBuilder.js';
 import Operation from '../entities/Operation.js';
-import { must, uphold, QueryBuilder, isObject } from './imports.js';
+import { must, uphold, isObject } from './imports.js';
 
 class FindOneDocument extends DocumentRepositoryUseCase {
     constructor(repo, logEvents) {
@@ -9,6 +10,8 @@ class FindOneDocument extends DocumentRepositoryUseCase {
     }
 
     async execute(operationObj) {
+        this.logEvents.emit(this.logEvents.events.CORE, operationObj);
+
         must(
             operationObj instanceof Operation,
             'Invalid Type — operationObj must be an instance of Operation',

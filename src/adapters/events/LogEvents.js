@@ -10,6 +10,7 @@ class LogEventEmitter extends EventEmitter {
         ATTEMPT: 'ATTEMPT',
         SUCCESS: 'SUCCESS',
         FAILED: 'FAILED',
+        CORE: 'CORE',
         ERROR: 'ERROR',
     };
 
@@ -42,6 +43,14 @@ logEventEmitter.on(logEventEmitter.events.SUCCESS, (operation) => {
 logEventEmitter.on(logEventEmitter.events.FAILED, (operation) => {
     if (runningOps.has(operation.id)) runningOps.delete(operation.id);
     Logger.warn(getLogFailedMsg(operation), {
+        operationId: operation.id,
+        operationType: operation.type,
+        collectionId: operation.payload.collectionId,
+    });
+});
+
+logEventEmitter.on(logEventEmitter.events.CORE, (operation) => {
+    Logger.info(getLogCoreMsg(operation), {
         operationId: operation.id,
         operationType: operation.type,
         collectionId: operation.payload.collectionId,
@@ -104,6 +113,23 @@ function getLogFailedMsg(operation) {
             return 'Delete Failed: Document not deleted';
         default:
             return 'Unknown Failure';
+    }
+}
+
+function getLogCoreMsg(operation) {
+    switch (operation.type) {
+        case Operation.TYPES.CREATE_DOCUMENT:
+            return 'Core Infiltrated: SaveDocument Use Case';
+        case Operation.TYPES.GET_ONE_DOCUMENT:
+            return 'Core Infiltrated: FindOneDocument Use Case';
+        case Operation.TYPES.GET_DOCUMENTS:
+            return 'Core Infiltrated: FindDocuments Use Case';
+        case Operation.TYPES.UPDATE_DOCUMENT:
+            return 'Core Infiltrated: UpdateDocument Use Case';
+        case Operation.TYPES.DELETE_DOCUMENT:
+            return 'Core Infiltrated: DeleteDocument UseCase';
+        default:
+            return 'Unknown Core Infiltration';
     }
 }
 

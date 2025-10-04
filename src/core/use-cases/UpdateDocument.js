@@ -12,6 +12,8 @@ class UpdateDocument extends DocumentRepositoryUseCase {
     }
 
     async execute(operationObj) {
+        this.logEvents.emit(this.logEvents.events.CORE, operationObj);
+
         must(
             operationObj instanceof Operation,
             'Invalid Type — operationObj must be an instance of Operation',
