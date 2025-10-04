@@ -17,7 +17,10 @@ describe('DOC REPO USE CASE', () => {
             }
 
             const validRepo = new ValidDocumentRepository();
-            const validDocRepoUseCase = new DocumentRepoUseCase(validRepo, logEventEmitterDouble);
+            const validDocRepoUseCase = new DocumentRepoUseCase(
+                validRepo,
+                logEventEmitterDouble,
+            );
             expect(validDocRepoUseCase).toBeTruthy();
         });
     });
