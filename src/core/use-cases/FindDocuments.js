@@ -27,7 +27,7 @@ class FindDocuments extends DocumentRepositoryUseCase {
 
         const { keys } = operationObj.payload;
 
-        const response = await this.repo.read();
+        const response = await this.repo.read(operationObj);
         const documents = [];
 
         if (response.success === false)

@@ -5,7 +5,7 @@ import {
     dbHas,
     cleanDatabase,
 } from './__utils__/automate.js';
-import { READ_SUCCESSFUL } from './imports.js';
+import { Operation, READ_SUCCESSFUL } from './imports.js';
 
 describe('DOC REPO READ', () => {
     describe('Happy path', () => {
@@ -15,28 +15,48 @@ describe('DOC REPO READ', () => {
             const docRepo = await getAndSetupDocRepo({
                 fill: { isTrue: true, amount: 10 },
             });
-            const res = await docRepo.read();
+
+            const operationObj = new Operation({
+                type: Operation.TYPES.GET_DOCUMENTS,
+                payload: {},
+            });
+            const res = await docRepo.read(operationObj);
             expect(isResult(res)).toBe(true);
         });
         it('Returns a read successful message', async () => {
             const docRepo = await getAndSetupDocRepo({
                 fill: { isTrue: true, amount: 10 },
             });
-            const res = await docRepo.read();
+            const operationObj = new Operation({
+                type: Operation.TYPES.GET_DOCUMENTS,
+                payload: {},
+            });
+            const res = await docRepo.read(operationObj);
+
             expect(res.message).toBe(READ_SUCCESSFUL);
         });
         it('Returns successful', async () => {
             const docRepo = await getAndSetupDocRepo({
                 fill: { isTrue: true, amount: 10 },
             });
-            const res = await docRepo.read();
+            const operationObj = new Operation({
+                type: Operation.TYPES.GET_DOCUMENTS,
+                payload: {},
+            });
+            const res = await docRepo.read(operationObj);
+
             expect(res.success).toBe(true);
         });
         it('Returns existing records in database file', async () => {
             const docRepo = await getAndSetupDocRepo({
                 fill: { isTrue: true, amount: 10 },
             });
-            const res = await docRepo.read();
+            const operationObj = new Operation({
+                type: Operation.TYPES.GET_DOCUMENTS,
+                payload: {},
+            });
+            const res = await docRepo.read(operationObj);
+
             for await (const document of res.gen)
                 expect(await dbHas(document)).toBe(true);
         });
@@ -44,7 +64,11 @@ describe('DOC REPO READ', () => {
             const docRepo = await getAndSetupDocRepo({
                 fill: { isTrue: true, amount: 10 },
             });
-            const res = await docRepo.read();
+            const operationObj = new Operation({
+                type: Operation.TYPES.GET_DOCUMENTS,
+                payload: {},
+            });
+            const res = await docRepo.read(operationObj);
 
             for await (const document of res.gen)
                 expect(isDocument(document)).toBe(true);

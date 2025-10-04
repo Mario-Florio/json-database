@@ -5,6 +5,7 @@ import {
     UpdateDocument,
     Document,
     Schema,
+    Operation,
     FIND,
     FIND_ONE,
     SAVE,
@@ -36,7 +37,11 @@ async function getTargetDoc(
     repo,
     options = { index: { isTrue: false, value: new Number() } },
 ) {
-    const response = await repo.read();
+    const operationObj = new Operation({
+        type: Operation.TYPES.GET_DOCUMENTS,
+        payload: {},
+    });
+    const response = await repo.read(operationObj);
 
     const documents = [];
     for (const doc of response.gen) documents.push(doc);
@@ -75,8 +80,12 @@ function getDoc(data) {
 // UTILS
 async function fillRepo(repo, amount = 10) {
     for (let i = 0; i < amount; i++) {
-        const doc = getDoc({ prop: `item ${i + 1}` });
-        await repo.create(doc);
+        const document = getDoc({ prop: `item ${i + 1}` });
+        const operationObj = new Operation({
+            type: Operation.TYPES.CREATE_DOCUMENT,
+            payload: { document },
+        });
+        await repo.create(operationObj);
     }
 }
 

@@ -2,6 +2,7 @@ import {
     DocumentRepository,
     Document,
     Result,
+    Operation,
     config,
     deepEqual,
     uid,
@@ -25,7 +26,11 @@ async function getTargetDoc(
     docRepo,
     options = { index: { isTrue: false, value: new Number() } },
 ) {
-    const response = await docRepo.read();
+    const operationObj = new Operation({
+        type: Operation.TYPES.GET_DOCUMENTS,
+        payload: {},
+    });
+    const response = await docRepo.read(operationObj);
 
     const documents = [];
     for await (const doc of response.gen) documents.push(doc);
@@ -49,16 +54,26 @@ async function getTargetDoc(
 async function getAndSetupDocRepo(
     options = { fill: { isTrue: false, amount: 10 } },
 ) {
+    const operationObj = new Operation({
+        type: Operation.TYPES.INSTANTIATE_COLLECTION,
+        payload: {},
+    });
     const docRepo = getDocRepo();
-    await docRepo.instantiate();
+    await docRepo.instantiate(operationObj);
     if (options.fill.isTrue) await fillDocRepo(docRepo, options.fill.amount);
     return docRepo;
 }
 
 async function fillDocRepo(docRepo, amount = 10) {
     for (let i = 0; i < amount; i++) {
-        const doc = getDoc({ prop: `item ${i + 1}` });
-        await docRepo.create(doc);
+        const document = getDoc({ prop: `item ${i + 1}` });
+
+        const operationObj = new Operation({
+            type: Operation.TYPES.CREATE_DOCUMENT,
+            payload: { document },
+        });
+
+        await docRepo.create(operationObj);
     }
 }
 

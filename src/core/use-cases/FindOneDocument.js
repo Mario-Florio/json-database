@@ -27,7 +27,7 @@ class FindOneDocument extends DocumentRepositoryUseCase {
 
         const { keys } = operationObj.payload;
 
-        const response = await this.repo.read();
+        const response = await this.repo.read(operationObj);
         let data = null;
 
         if (response.success === false) return response.setData(data);

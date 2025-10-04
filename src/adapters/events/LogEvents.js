@@ -3,7 +3,14 @@ import EventEmitter from 'node:events';
 import Logger from '../../infrastructure/Logger/Logger.js';
 import config from '../../config.js';
 
-const runningOps = new Map();
+const retentionPolicies = {
+    production: [
+        (event, operation) => event === 'ATTEMPT', // Don't log ATTEMPT events
+        (event, operation) => event === 'CORE', // Don't log CORE events
+    ],
+    development: [],
+    test: [(event, operation) => true],
+};
 
 class LogEventEmitter extends EventEmitter {
     events = {
@@ -11,11 +18,14 @@ class LogEventEmitter extends EventEmitter {
         SUCCESS: 'SUCCESS',
         FAILED: 'FAILED',
         CORE: 'CORE',
+        REPO: 'REPO',
         ERROR: 'ERROR',
     };
 
     emit(event, operation, ...args) {
-        if (config.ENV === 'test') return false;
+        for (const policy of retentionPolicies[config.ENV])
+            if (policy(event, operation)) return false;
+
         return super.emit(event, operation, ...args);
     }
 }
@@ -23,7 +33,6 @@ class LogEventEmitter extends EventEmitter {
 const logEventEmitter = new LogEventEmitter().setMaxListeners(20);
 
 logEventEmitter.on(logEventEmitter.events.ATTEMPT, (operation) => {
-    runningOps.set(operation.id, operation);
     Logger.info(getLogAttemptMsg(operation), {
         operationId: operation.id,
         operationType: operation.type,
@@ -32,7 +41,6 @@ logEventEmitter.on(logEventEmitter.events.ATTEMPT, (operation) => {
 });
 
 logEventEmitter.on(logEventEmitter.events.SUCCESS, (operation) => {
-    if (runningOps.has(operation.id)) runningOps.delete(operation.id);
     Logger.info(getLogSuccessMsg(operation), {
         operationId: operation.id,
         operationType: operation.type,
@@ -41,7 +49,6 @@ logEventEmitter.on(logEventEmitter.events.SUCCESS, (operation) => {
 });
 
 logEventEmitter.on(logEventEmitter.events.FAILED, (operation) => {
-    if (runningOps.has(operation.id)) runningOps.delete(operation.id);
     Logger.warn(getLogFailedMsg(operation), {
         operationId: operation.id,
         operationType: operation.type,
@@ -51,6 +58,14 @@ logEventEmitter.on(logEventEmitter.events.FAILED, (operation) => {
 
 logEventEmitter.on(logEventEmitter.events.CORE, (operation) => {
     Logger.info(getLogCoreMsg(operation), {
+        operationId: operation.id,
+        operationType: operation.type,
+        collectionId: operation.payload.collectionId,
+    });
+});
+
+logEventEmitter.on(logEventEmitter.events.REPO, (operation) => {
+    Logger.info(getLogRepoMsg(operation), {
         operationId: operation.id,
         operationType: operation.type,
         collectionId: operation.payload.collectionId,
@@ -130,6 +145,23 @@ function getLogCoreMsg(operation) {
             return 'Core Infiltrated: DeleteDocument UseCase';
         default:
             return 'Unknown Core Infiltration';
+    }
+}
+
+function getLogRepoMsg(operation) {
+    switch (operation.type) {
+        case Operation.TYPES.CREATE_DOCUMENT:
+            return 'Repo Infiltrated: create';
+        case Operation.TYPES.GET_ONE_DOCUMENT:
+            return 'Repo Infiltrated: read';
+        case Operation.TYPES.GET_DOCUMENTS:
+            return 'Repo Infiltrated: read';
+        case Operation.TYPES.UPDATE_DOCUMENT:
+            return 'Repo Infiltrated: update';
+        case Operation.TYPES.DELETE_DOCUMENT:
+            return 'Repo Infiltrated: delete';
+        default:
+            return 'Unknown Repo Infiltration';
     }
 }
 
