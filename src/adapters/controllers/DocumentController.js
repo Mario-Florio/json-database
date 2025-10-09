@@ -13,6 +13,8 @@ import inputIsValid from './__utils__/inputIsValid.js';
 import { INPUT_IS_INVALID } from './response-tokens.js';
 import { must } from '../../shared/contracts/contracts.js';
 
+const { ATTEMPT, SUCCESS, FAILURE, ERROR } = LogTaskDispatcher.logTasks;
+
 async function instantiateCollection(operationObj) {
     try {
         must(
@@ -25,10 +27,7 @@ async function instantiateCollection(operationObj) {
         );
 
         const logTaskDispatcher = new LogTaskDispatcher();
-        logTaskDispatcher.dispatch(
-            LogTaskDispatcher.logTasks.ATTEMPT,
-            operationObj,
-        );
+        logTaskDispatcher.dispatch(ATTEMPT, operationObj);
 
         if (!inputIsValid(operationObj.payload))
             return new Result({ message: INPUT_IS_INVALID, success: false });
@@ -38,15 +37,9 @@ async function instantiateCollection(operationObj) {
 
         const response = await useCase.execute(operationObj.payload);
         if (response.success) {
-            logTaskDispatcher.dispatch(
-                LogTaskDispatcher.logTasks.SUCCESS,
-                operationObj,
-            );
+            logTaskDispatcher.dispatch(SUCCESS, operationObj);
         } else {
-            logTaskDispatcher.dispatch(
-                LogTaskDispatcher.logTasks.FAILURE,
-                operationObj,
-            );
+            logTaskDispatcher.dispatch(FAILURE, operationObj);
         }
 
         return response;
@@ -67,10 +60,7 @@ async function createDocument(operationObj) {
         );
 
         const logTaskDispatcher = new LogTaskDispatcher();
-        logTaskDispatcher.dispatch(
-            LogTaskDispatcher.logTasks.ATTEMPT,
-            operationObj,
-        );
+        logTaskDispatcher.dispatch(ATTEMPT, operationObj);
 
         if (!inputIsValid(operationObj.payload))
             return new Result({ message: INPUT_IS_INVALID, success: false });
@@ -80,15 +70,9 @@ async function createDocument(operationObj) {
 
         const response = await useCase.execute(operationObj.payload);
         if (response.success) {
-            logTaskDispatcher.dispatch(
-                LogTaskDispatcher.logTasks.SUCCESS,
-                operationObj,
-            );
+            logTaskDispatcher.dispatch(SUCCESS, operationObj);
         } else {
-            logTaskDispatcher.dispatch(
-                LogTaskDispatcher.logTasks.FAILURE,
-                operationObj,
-            );
+            logTaskDispatcher.dispatch(FAILURE, operationObj);
         }
 
         return response;
@@ -109,10 +93,7 @@ async function getDocuments(operationObj) {
         );
 
         const logTaskDispatcher = new LogTaskDispatcher();
-        logTaskDispatcher.dispatch(
-            LogTaskDispatcher.logTasks.ATTEMPT,
-            operationObj,
-        );
+        logTaskDispatcher.dispatch(ATTEMPT, operationObj);
 
         if (!inputIsValid(operationObj.payload))
             return new Result({ message: INPUT_IS_INVALID, success: false });
@@ -122,15 +103,9 @@ async function getDocuments(operationObj) {
 
         const response = await useCase.execute(operationObj.payload);
         if (response.success) {
-            logTaskDispatcher.dispatch(
-                LogTaskDispatcher.logTasks.SUCCESS,
-                operationObj,
-            );
+            logTaskDispatcher.dispatch(SUCCESS, operationObj);
         } else {
-            logTaskDispatcher.dispatch(
-                LogTaskDispatcher.logTasks.FAILURE,
-                operationObj,
-            );
+            logTaskDispatcher.dispatch(FAILURE, operationObj);
         }
 
         return response;
@@ -151,10 +126,7 @@ async function getOneDocument(operationObj) {
         );
 
         const logTaskDispatcher = new LogTaskDispatcher();
-        logTaskDispatcher.dispatch(
-            LogTaskDispatcher.logTasks.ATTEMPT,
-            operationObj,
-        );
+        logTaskDispatcher.dispatch(ATTEMPT, operationObj);
 
         if (!inputIsValid(operationObj.payload))
             return new Result({ message: INPUT_IS_INVALID, success: false });
@@ -164,15 +136,9 @@ async function getOneDocument(operationObj) {
 
         const response = await useCase.execute(operationObj.payload);
         if (response.success) {
-            logTaskDispatcher.dispatch(
-                LogTaskDispatcher.logTasks.SUCCESS,
-                operationObj,
-            );
+            logTaskDispatcher.dispatch(SUCCESS, operationObj);
         } else {
-            logTaskDispatcher.dispatch(
-                LogTaskDispatcher.logTasks.FAILURE,
-                operationObj,
-            );
+            logTaskDispatcher.dispatch(FAILURE, operationObj);
         }
 
         return response;
@@ -193,10 +159,7 @@ async function updateDocument(operationObj) {
         );
 
         const logTaskDispatcher = new LogTaskDispatcher();
-        logTaskDispatcher.dispatch(
-            LogTaskDispatcher.logTasks.ATTEMPT,
-            operationObj,
-        );
+        logTaskDispatcher.dispatch(ATTEMPT, operationObj);
 
         if (!inputIsValid(operationObj.payload))
             return new Result({ message: INPUT_IS_INVALID, success: false });
@@ -207,15 +170,9 @@ async function updateDocument(operationObj) {
         const response = await useCase.execute(operationObj.payload);
 
         if (response.success) {
-            logTaskDispatcher.dispatch(
-                LogTaskDispatcher.logTasks.SUCCESS,
-                operationObj,
-            );
+            logTaskDispatcher.dispatch(SUCCESS, operationObj);
         } else {
-            logTaskDispatcher.dispatch(
-                LogTaskDispatcher.logTasks.FAILURE,
-                operationObj,
-            );
+            logTaskDispatcher.dispatch(FAILURE, operationObj);
         }
 
         return response;
@@ -236,10 +193,7 @@ async function deleteDocument(operationObj) {
         );
 
         const logTaskDispatcher = new LogTaskDispatcher();
-        logTaskDispatcher.dispatch(
-            LogTaskDispatcher.logTasks.ATTEMPT,
-            operationObj,
-        );
+        logTaskDispatcher.dispatch(ATTEMPT, operationObj);
 
         if (!inputIsValid(operationObj.payload))
             return new Result({ message: INPUT_IS_INVALID, success: false });
@@ -249,15 +203,9 @@ async function deleteDocument(operationObj) {
 
         const response = await useCase.execute(operationObj.payload);
         if (response.success) {
-            logTaskDispatcher.dispatch(
-                LogTaskDispatcher.logTasks.SUCCESS,
-                operationObj,
-            );
+            logTaskDispatcher.dispatch(SUCCESS, operationObj);
         } else {
-            logTaskDispatcher.dispatch(
-                LogTaskDispatcher.logTasks.FAILURE,
-                operationObj,
-            );
+            logTaskDispatcher.dispatch(FAILURE, operationObj);
         }
 
         return response;
@@ -271,11 +219,7 @@ async function deleteDocument(operationObj) {
 function errorHandler(err, operationObj) {
     if (err instanceof ContractError) throw new ContractError(err.message);
     const logTaskDispatcher = new LogTaskDispatcher();
-    logTaskDispatcher.dispatch(
-        LogTaskDispatcher.logTasks.ERROR,
-        operationObj,
-        err,
-    );
+    logTaskDispatcher.dispatch(ERROR, operationObj, err);
     return new Result({ message: err.message, success: false });
 }
 
