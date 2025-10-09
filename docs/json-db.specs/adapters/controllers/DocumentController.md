@@ -2,17 +2,17 @@
 
 - [Document Controller](#document-controller)
   - [`documentController`](#documentcontroller)
-    - [`getOneDocument(paramObj)`](#getonedocumentparamobj)
-    - [`getDocuments(paramObj)`](#getdocumentsparamobj)
-    - [`createDocument(paramObj)`](#createdocumentparamobj)
-    - [`updateDocument(paramObj)`](#updatedocumentparamobj)
-    - [`deleteDocument(paramObj)`](#deletedocumentparamobj)
+    - [`getOneDocument(operationObj)`](#getonedocumentoperationobj)
+    - [`getDocuments(operationObj)`](#getdocumentsoperationobj)
+    - [`createDocument(operationObj)`](#createdocumentoperationobj)
+    - [`updateDocument(operationObj)`](#updatedocumentoperationobj)
+    - [`deleteDocument(operationObj)`](#deletedocumentoperationobj)
 
 ----
 
 ## `documentController`
 
-### `getOneDocument(paramObj)`
+### `getOneDocument(operationObj)`
 
 **Description:**
 
@@ -22,9 +22,9 @@ Entry point to system:
 - Handles errors
 
 **Inputs (Constraints / Preconditions):**
-- `paramObj` is non-array object
-- `paramObj` contains props:
-    - `collectionId` — type is string
+- `operationObj` is instance of `Operation`
+- `operationObj.type` is `Operation.TYPES.GET_ONE_DOCUMENT`
+- `operationObj.payload` contains props:
     - `keys` — is non-array object
 
 **Output (Postconditions):**
@@ -47,7 +47,7 @@ None are explicitly maintained by this function.
 
 ----
 
-### `getDocuments(paramObj)`
+### `getDocuments(operationObj)`
 
 **Description:**
 
@@ -57,10 +57,10 @@ Entry point to system:
 - Handles errors
 
 **Inputs (Constraints / Preconditions):**
-- `paramObj` is non-array object
-- `paramObj` contains props:
-    - `collectionId` — type is string
-    - `keys` — is non-array object or null
+- `operationObj` is instance of `Operation`
+- `operationObj.type` is `Operation.TYPES.GET_DOCUMENTs`
+- `operationObj.payload` contains props:
+    - `keys` — is non-array object
 
 **Output (Postconditions):**
 - Returns `Result` object
@@ -82,7 +82,7 @@ None are explicitly maintained by this function.
 
 ----
 
-### `createDocument(paramObj)`
+### `createDocument(operationObj)`
 
 **Description:**
 
@@ -92,9 +92,9 @@ Entry point to system:
 - Handles errors
 
 **Inputs (Constraints / Preconditions):**
-- `paramObj` is non-array object
-- `paramObj` contains props:
-    - `collectionId` — type is string
+- `operationObj` is instance of `Operation`
+- `operationObj.type` is `Operation.TYPES.GET_DOCUMENTs`
+- `operationObj.payload` contains props:
     - `data` — is non-array object
     - `schema` — is instance of `Schema`
 
@@ -121,7 +121,7 @@ None are explicitly maintained by this function.
 
 ----
 
-### `updateDocument(paramObj)`
+### `updateDocument(operationObj)`
 
 **Description:**
 
@@ -131,9 +131,9 @@ Entry point to system:
 - Handles errors
 
 **Inputs (Constraints / Preconditions):**
-- `paramObj` is non-array object
-- `paramObj` contains props:
-    - `collectionId` — type is string
+- `operationObj` is instance of `Operation`
+- `operationObj.type` is `Operation.TYPES.GET_DOCUMENTs`
+- `operationObj.payload` contains props:
     - `_id` — type is string
     - `data` — is non-array object
     - `schema` — is instance of `Schema`
@@ -162,7 +162,7 @@ None are explicitly maintained by this function.
 
 ----
 
-### `deleteDocument(paramObj)`
+### `deleteDocument(operationObj)`
 
 **Description:**
 
@@ -172,9 +172,9 @@ Entry point to system:
 - Handles errors
 
 **Inputs (Constraints / Preconditions):**
-- `paramObj` is non-array object
-- `paramObj` contains props:
-    - `collectionId` — type is string
+- `operationObj` is instance of `Operation`
+- `operationObj.type` is `Operation.TYPES.GET_DOCUMENTs`
+- `operationObj.payload` contains props:
     - `_id` — type is string
 
 **Output (Postconditions):**

@@ -39,11 +39,11 @@
 
 ### Controllers
 - [Document Controller](./adapters/controllers/DocumentController.md)
-    - [getOneDocument](./adapters/controllers/DocumentController.md#getonedocumentparamobj)
-    - [getDocuments](./adapters/controllers/DocumentController.md#getdocumentsparamobj)
-    - [createDocument](./adapters/controllers/DocumentController.md#createdocumentparamobj)
-    - [updateDocument](./adapters/controllers/DocumentController.md#updatedocumentparamobj)
-    - [deleteDocument](./adapters/controllers/DocumentController.md#deletedocumentparamobj)
+    - [getOneDocument](./adapters/controllers/DocumentController.md#getonedocumentoperationobj)
+    - [getDocuments](./adapters/controllers/DocumentController.md#getdocumentsoperationobj)
+    - [createDocument](./adapters/controllers/DocumentController.md#createdocumentoperationobj)
+    - [updateDocument](./adapters/controllers/DocumentController.md#updatedocumentoperationobj)
+    - [deleteDocument](./adapters/controllers/DocumentController.md#deletedocumentoperationobj)
 
 ### Repositories
 - [Document Repository](./adapters/repositories/DocumentRepository.md)
