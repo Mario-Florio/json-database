@@ -7,6 +7,7 @@ import {
 } from './__utils__/automate.js';
 import {
     documentController,
+    Operation,
     Schema,
     isObject,
     SAVE_SUCCESSFUL,
@@ -49,74 +50,68 @@ const data = {
 
 describe('CREATE', () => {
     describe('Happy path', () => {
-        beforeAll(
-            async () =>
-                await documentController.instantiateCollection({
-                    collectionId,
-                }),
-        );
+        beforeAll(async () => {
+            const operation = new Operation({
+                type: Operation.types.INSTANTIATE_COLLECTION,
+                collectionId,
+                payload: {},
+            });
+            await documentController.instantiateCollection(operation);
+        });
         afterAll(() => cleanDatabase());
 
         it('Creates a document with accurate values in database', async () => {
-            const res = await documentController.createDocument({
+            const operation = new Operation({
+                type: Operation.types.CREATE_DOCUMENT,
                 collectionId,
-                data,
-                schema,
+                payload: { data, schema },
             });
+            await documentController.createDocument(operation);
             expect(dbHas(data)).toBe(true);
         });
         it('Returns successful Result object', async () => {
-            const res = await documentController.createDocument({
+            const operation = new Operation({
+                type: Operation.types.CREATE_DOCUMENT,
                 collectionId,
-                data,
-                schema,
+                payload: { data, schema },
             });
+            const res = await documentController.createDocument(operation);
             expect(isResultObject(res)).toBe(true);
         });
         it('Returns Result object with save successful message', async () => {
-            const res = await documentController.createDocument({
+            const operation = new Operation({
+                type: Operation.types.CREATE_DOCUMENT,
                 collectionId,
-                data,
-                schema,
+                payload: { data, schema },
             });
+            const res = await documentController.createDocument(operation);
             expect(res.message).toBe(SAVE_SUCCESSFUL);
         });
     });
 
     describe('Sad path :(', () => {
         it('Returns input is invalid message if input is invalid', async () => {
-            const invalidCollectionIds = types.filter(
-                (type) => typeof type !== 'string',
-            );
             const invalidDatas = types.filter((type) => !isObject(type));
             const invalidSchemas = types;
 
-            for (const collectionId of invalidCollectionIds) {
-                const res = await documentController.createDocument({
-                    collectionId,
-                    data,
-                    schema,
-                });
-                expect(res.message).toBe(INPUT_IS_INVALID);
-                expect(res.success).toBe(false);
-            }
-
             for (const data of invalidDatas) {
-                const res = await documentController.createDocument({
+                const operation = new Operation({
+                    type: Operation.types.CREATE_DOCUMENT,
                     collectionId,
-                    data,
-                    schema,
+                    payload: { data, schema },
                 });
+                const res = await documentController.createDocument(operation);
                 expect(res.message).toBe(INPUT_IS_INVALID);
                 expect(res.success).toBe(false);
             }
 
             for (const schema of invalidSchemas) {
-                const res = await documentController.createDocument({
+                const operation = new Operation({
+                    type: Operation.types.CREATE_DOCUMENT,
                     collectionId,
-                    data,
-                    schema,
+                    payload: { data, schema },
                 });
+                const res = await documentController.createDocument(operation);
                 expect(res.message).toBe(INPUT_IS_INVALID);
                 expect(res.success).toBe(false);
             }

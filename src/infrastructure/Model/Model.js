@@ -1,4 +1,5 @@
 import documentController from '../../adapters/controllers/DocumentController.js';
+import Operation from '../../core/entities/Operation.js';
 import uid from '../../shared/__utils__/uid.js';
 import { idIsValid, keysAreValid } from './__utils__/ModelHelpers.js';
 
@@ -21,10 +22,13 @@ function model(collectionName, schema) {
         static async findById(_id) {
             if (!idIsValid(_id)) return null;
 
-            const response = await controller.getOneDocument({
+            const operation = new Operation({
+                type: Operation.types.GET_ONE_DOCUMENT,
                 collectionId,
-                keys: { _id: _id },
+                payload: { keys: { _id } },
             });
+
+            const response = await controller.getOneDocument(operation);
 
             if (response.success === false) return null;
             const document = response.data;
@@ -32,10 +36,12 @@ function model(collectionName, schema) {
             return document && Model.#modelDocument(document);
         }
         static async find(classKeys) {
-            const response = await controller.getDocuments({
+            const operation = new Operation({
+                type: Operation.types.GET_DOCUMENTS,
                 collectionId,
-                keys: classKeys || {},
+                payload: { keys: classKeys || {} },
             });
+            const response = await controller.getDocuments(operation);
 
             if (response.success === false) return null;
             const documents = response.data;
@@ -47,10 +53,13 @@ function model(collectionName, schema) {
         static async findOne(classKeys) {
             if (!keysAreValid(classKeys)) return null;
 
-            const response = await controller.getOneDocument({
+            const operation = new Operation({
+                type: Operation.types.GET_ONE_DOCUMENT,
                 collectionId,
-                keys: classKeys,
+                payload: { keys: classKeys },
             });
+
+            const response = await controller.getOneDocument(operation);
 
             if (response.success === false) return null;
             const document = response.data;
@@ -66,13 +75,18 @@ function model(collectionName, schema) {
 
             if (!document) return null;
 
-            const response = await controller.updateDocument({
+            const operation = new Operation({
+                type: Operation.types.UPDATE_DOCUMENT,
                 collectionId,
-                _id,
-                schema,
-                data: document,
-                updatedKeys,
+                payload: {
+                    _id,
+                    schema,
+                    data: document,
+                    updatedKeys,
+                },
             });
+
+            const response = await controller.updateDocument(operation);
 
             return response;
         }
@@ -84,13 +98,18 @@ function model(collectionName, schema) {
 
             if (!document) return null;
 
-            const response = await controller.updateDocument({
+            const operation = new Operation({
+                type: Operation.types.UPDATE_DOCUMENT,
                 collectionId,
-                _id: document._id,
-                schema,
-                data: document,
-                updatedKeys,
+                payload: {
+                    _id: document._id,
+                    schema,
+                    data: document,
+                    updatedKeys,
+                },
             });
+
+            const response = await controller.updateDocument(operation);
 
             return response;
         }
@@ -98,10 +117,13 @@ function model(collectionName, schema) {
         static async findByIdAndDelete(_id) {
             if (!idIsValid(_id)) return null;
 
-            const response = await controller.deleteDocument({
+            const operation = new Operation({
+                type: Operation.types.DELETE_DOCUMENT,
                 collectionId,
-                _id,
+                payload: { _id },
             });
+
+            const response = await controller.deleteDocument(operation);
 
             return response;
         }
@@ -111,20 +133,25 @@ function model(collectionName, schema) {
             const document = await Model.findOne(classKeys);
             if (!document) return { message: 'Item was not found' };
 
-            const response = await controller.deleteDocument({
+            const operation = new Operation({
+                type: Operation.types.DELETE_DOCUMENT,
                 collectionId,
-                _id: document._id,
+                payload: { _id: document._id },
             });
+
+            const response = await controller.deleteDocument(operation);
 
             return response;
         }
         // CREATE
         async save() {
-            const response = await controller.createDocument({
+            const operation = new Operation({
+                type: Operation.types.CREATE_DOCUMENT,
                 collectionId,
-                schema,
-                data: this,
+                payload: { schema, data: this },
             });
+
+            const response = await controller.createDocument(operation);
 
             return response;
         }
