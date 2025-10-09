@@ -66,6 +66,7 @@ JSON Databases architecture utilizes CA layers to abstract core logic (i.e. data
   * `Schema` — Responsible for determing data uniformity across collections of `Document`s; determines `Document` identity
   * `QueryBuilder` — Responsible for data filtering
   * `DocReader` — Responsible for data transimssion logic (I.e. data stream handling) and transformation of data shape
+  * `Operation` – Tracks metadata (I.e. type, unique ID, collection ID) for each controller operation and holds payload (any necessary data for operation to function)
   * `Result` — Standardizes response objects across project; changes are centralized
 
 ### Use Cases
@@ -80,15 +81,21 @@ Use Cases handle core logic associated with data filtering and document handling
 
 ### Ports
   * `IDocumentRepository` — Standard interface for *Use Cases* to be mapped to; enforces contract on *Interface/Adapters* `DocumentRepository`
+  * `ILogTaskDispatcher` – Standard interface for `LogTaskDispatcher` methods to be mapped to within core; enforces contract on *Interface/Adapters* `LogTaskDispatcher`
 
 ### Interface Adapters
   * `DocumentController` — Maps client request to *Use Cases* and injects repository dependency
   * `DocumentRepository` — Accesses IO API and standardizes output into `Document`s for *Use Case* layer; inverts dependency (IO Service)
+  * Logging Service:
+    * `AbstractLogger` – Abstraction for logger injection; calls concrete loggers methods
+    * `LogTask` – Base class for log tasks to be extended from; invokes `AbstractLogger`
+    * `LogTaskDispatcher` – Polymorphic dispatcher for log tasks; invokes `LogTask` extensions
 
 ### Frameworks/Drivers (External Agents)
   * `ODM` — Client ODM API which utilizes JSON DB for storage and data filtering
   * `DB` — IO API for managing persistent storage, accessing `IO_Service`, and parsing raw data to JavaScript objects
     * `IO_SERVICE` — IO Service which handles reads and writes 
+  * `SimpleLogger` – Minimal logger for default logging functionality; capable of structured (json) and pretty printed formats; allows for injection of `out` (I.e. console), though injected dependency must implement standard log API (I.e. info, warn, error)
 
 ## Issues
   * ODM API is treated as an external client, but serves as a controller, orchestrating `DocumentController` functions—this is not an issue in itself, but if the ODM API is to be treated as central to the project, it should be further integrated into the layers and not treated as an external agent.

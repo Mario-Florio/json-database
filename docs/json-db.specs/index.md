@@ -16,6 +16,11 @@
 - [DocReader](./core/entities/DocReader.md)
     - [constructor](./core/entities/DocReader.md#new-docreadergenerator-transformfn--doc--doc)
     - [read](./core/entities/DocReader.md#thisread)
+- [Operation](./core/entities/Operation.md)
+    - [constructor](./core/entities/Operation.md#new-operation-type-collectionid-payload-)
+    - [payload setter](./core/entities/Operation.md#set-payloaddata)
+- [Result](./core/entities/Result.md)
+    - [setGen](./core/entities/Result.md#thissetgengen)
 
 ### [Use Cases](./core/use-cases/usecases.md)
 - [DocumentRepoUseCase](./core/use-cases/usecases.md#class-documentrepousecase)
@@ -46,6 +51,13 @@
     - [create](./adapters/repositories/DocumentRepository.md#thiscreatedocument)
     - [read](./adapters/repositories/DocumentRepository.md#thisread)
     - [update](./adapters/repositories/DocumentRepository.md#thisupdate_id-updateddoc)
+
+### Services
+- [Logging Service](./adapters/services/LoggingService.md)
+    - [LogTask](./adapters/services/LoggingService.md#class-logtask)
+        - [constructor](./adapters/services/LoggingService.md#new-logtasklogger)
+    - [LogTaskDispatcher](./adapters/services/LoggingService.md#class-logtaskdispatcher)
+        - [dispatch](./adapters/services/LoggingService.md#thisdispatchlogtask-operation-args)
 
 ----
 
