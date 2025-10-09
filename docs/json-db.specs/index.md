@@ -24,16 +24,16 @@
 
 ### [Use Cases](./core/use-cases/usecases.md)
 - [DocumentRepoUseCase](./core/use-cases/usecases.md#class-documentrepousecase)
-    - [constructor](./core/use-cases/usecases.md#new-documentrepousecasedocumentrepository)
+    - [constructor](./core/use-cases/usecases.md#new-documentrepousecasedocumentrepository-logtaskdispatcher)
     - [implementsInterface](./core/use-cases/usecases.md#implementsinterfaceinstance-interfaceclass)
 - [FindOneDocument](./core/use-cases/usecases.md#class-findonedocument-extends-documentrepousecase)
-    - [execute](./core/use-cases/usecases.md#thisexecuteparamobj)
+    - [execute](./core/use-cases/usecases.md#thisexecuteoperationobj)
 - [FindDocuments](./core/use-cases/usecases.md#class-finddocuments-extends-documentrepousecase)
-    - [execute](./core/use-cases/usecases.md#thisexecuteparamobj-1)
+    - [execute](./core/use-cases/usecases.md#thisexecuteoperationobj-1)
 - [SaveDocument](./core/use-cases/usecases.md#class-savedocument-extends-documentrepousecase)
-    - [execute](./core/use-cases/usecases.md#thisexecuteparamobj-2)
+    - [execute](./core/use-cases/usecases.md#thisexecuteoperationobj-2)
 - [UpdateDocument](./core/use-cases/usecases.md#class-updatedocument-extends-documentrepousecase)
-    - [execute](./core/use-cases/usecases.md#thisexecuteparamobj-3)
+    - [execute](./core/use-cases/usecases.md#thisexecuteoperationobj-3)
 
 ## Interface Adapters
 
