@@ -28,6 +28,7 @@ class SimpleLogger {
 
     setPrettyPrint(bool) {
         this.#pretty_print = bool;
+        return this;
     }
 }
 
@@ -44,7 +45,7 @@ class LogEntry {
         if (pretty_print === true) {
             return prettyPrint(this);
         } else {
-            return JSON.stringify(this);
+            return JSON.stringify(this) + '\n';
         }
     }
 }
