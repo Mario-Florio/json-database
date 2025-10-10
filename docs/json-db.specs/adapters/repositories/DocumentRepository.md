@@ -3,9 +3,9 @@
 - [Document Repository](#document-repository)
   - [`class DocumentRepository`](#class-documentrepository)
     - [`new DocumentRepository(collectionName)`](#new-documentrepositorycollectionname)
-    - [`this.create(document)`](#thiscreatedocument)
-    - [`this.read()`](#thisread)
-    - [`this.update(_id, updatedDoc)`](#thisupdate_id-updateddoc)
+    - [`this.create(operationObj)`](#thiscreateoperationobj)
+    - [`this.read(operationObj)`](#thisreadoperationobj)
+    - [`this.update(operationObj)`](#thisupdateoperationobj)
 
 ----
 
@@ -34,14 +34,17 @@ None are determined.
 
 ----
 
-### `this.create(document)`
+### `this.create(operationObj)`
 
 **Description:**
 Calls `this.#db` to add `Document` to database storage.
 
 **Inputs (Constraints / Preconditions):**
 
-- `document` must be instance of `Document`
+- `operationObj` is instance of `Operation`
+- `operationObj.type` is `Operation.types.SAVE_DOCUMENT`
+- `operationObj.payload` contains props:
+    - `document` – is instance of `Document`
 - Input is trusted to have gone through basic validation at *controller*
 
 **Output (Postconditions):**
@@ -58,13 +61,14 @@ None are determined.
 
 ----
 
-### `this.read()`
+### `this.read(operationObj)`
 
 **Description:**
 Calls `this.#db` to return `Document` collection in database storage.
 
 **Inputs (Constraints / Preconditions):**
-None are determined.
+- `operationObj` is instance of `Operation`
+- `operationObj.type` is `Operation.types.GET_DOCUMENTS` or `Operation.types.GET_ONE_DOCUMENT`
 
 **Output (Postconditions):**
 - Returns a non-array object
@@ -79,15 +83,18 @@ None are determined.
 
 ----
 
-### `this.update(_id, updatedDoc)`
+### `this.update(operationObj)`
 
 **Description:**
 Calls `this.#db` to update existing `Document` in database storage.
 
 **Inputs (Constraints / Preconditions):**
 
-- `_id` type is string
-- `updatedDoc` must be instance of `Document`
+- `operationObj` is instance of `Operation`
+- `operationObj.type` is `Operation.types.UPDATE_DOCUMENT`
+- `operationObj.payload` contains props:
+    - `_id` – is type string
+    - `updatedDoc` must be instance of `Document`
 - Input is trusted to have gone through basic validation at *controller*
 
 **Output (Postconditions):**

@@ -48,9 +48,9 @@
 ### Repositories
 - [Document Repository](./adapters/repositories/DocumentRepository.md)
     - [constructor](./adapters/repositories/DocumentRepository.md#new-documentrepositorycollectionname)
-    - [create](./adapters/repositories/DocumentRepository.md#thiscreatedocument)
-    - [read](./adapters/repositories/DocumentRepository.md#thisread)
-    - [update](./adapters/repositories/DocumentRepository.md#thisupdate_id-updateddoc)
+    - [create](./adapters/repositories/DocumentRepository.md#thiscreateoperationobj)
+    - [read](./adapters/repositories/DocumentRepository.md#thisreadoperationobj)
+    - [update](./adapters/repositories/DocumentRepository.md#thisupdateoperationobj)
 
 ### Services
 - [Logging Service](./adapters/services/LoggingService.md)
