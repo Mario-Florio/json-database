@@ -38,6 +38,10 @@ class LogTaskDispatcher {
         return LogTaskDispatcher.#logTasks;
     }
 
+    get logTasks() {
+        return LogTaskDispatcher.#logTasks
+    }
+
     dispatch(logTask, operation, ...args) {
         must(
             isSubclassOf(logTask, LogTask),

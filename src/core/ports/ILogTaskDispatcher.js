@@ -1,9 +1,12 @@
 class ILogTaskDispatcher {
-    static #logTypes = {};
-    static get logTypes() {
-        return this.#logTypes;
+    static #logTasks = {};
+    static get logTasks() {
+        return ILogTaskDispatcher.#logTasks;
     }
-    dispatch(logType, operation, ...args) {}
+    get logTasks() {
+        return ILogTaskDispatcher.#logTasks;
+    }
+    dispatch(logTask, operation, ...args) {}
 }
 
 export default ILogTaskDispatcher;
