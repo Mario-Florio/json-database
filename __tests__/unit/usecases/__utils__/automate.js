@@ -11,21 +11,23 @@ import {
     UPDATE,
 } from '../imports.js';
 import DocumentRepositoryDouble from './DocRepoDouble.js';
+import LogTaskDispatcherDouble from './LogTaskDispatcherDouble.js';
 
 async function setupUseCase(type) {
     const repo = new DocumentRepositoryDouble();
+    const logTaskDispatcher = new LogTaskDispatcherDouble();
     await repo.instantiate();
     await fillRepo(repo);
 
     switch (type) {
         case FIND:
-            return new FindDocuments(repo);
+            return new FindDocuments(repo, logTaskDispatcher);
         case FIND_ONE:
-            return new FindOneDocument(repo);
+            return new FindOneDocument(repo, logTaskDispatcher);
         case SAVE:
-            return new SaveDocument(repo);
+            return new SaveDocument(repo, logTaskDispatcher);
         case UPDATE:
-            return new UpdateDocument(repo);
+            return new UpdateDocument(repo, logTaskDispatcher);
         default:
             return null;
     }

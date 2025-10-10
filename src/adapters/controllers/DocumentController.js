@@ -33,9 +33,9 @@ async function instantiateCollection(operationObj) {
             return new Result({ message: INPUT_IS_INVALID, success: false });
 
         const repo = new DocumentRepository(operationObj.collectionId);
-        const useCase = new InstantiateCollection(repo, LogTaskDispatcher);
+        const useCase = new InstantiateCollection(repo, logTaskDispatcher);
 
-        const response = await useCase.execute(operationObj.payload);
+        const response = await useCase.execute(operationObj);
         if (response.success) {
             logTaskDispatcher.dispatch(SUCCESS, operationObj);
         } else {
@@ -66,9 +66,9 @@ async function createDocument(operationObj) {
             return new Result({ message: INPUT_IS_INVALID, success: false });
 
         const repo = new DocumentRepository(operationObj.collectionId);
-        const useCase = new SaveDocument(repo, LogTaskDispatcher);
+        const useCase = new SaveDocument(repo, logTaskDispatcher);
 
-        const response = await useCase.execute(operationObj.payload);
+        const response = await useCase.execute(operationObj);
         if (response.success) {
             logTaskDispatcher.dispatch(SUCCESS, operationObj);
         } else {
@@ -99,9 +99,9 @@ async function getDocuments(operationObj) {
             return new Result({ message: INPUT_IS_INVALID, success: false });
 
         const repo = new DocumentRepository(operationObj.collectionId);
-        const useCase = new FindDocuments(repo, LogTaskDispatcher);
+        const useCase = new FindDocuments(repo, logTaskDispatcher);
 
-        const response = await useCase.execute(operationObj.payload);
+        const response = await useCase.execute(operationObj);
         if (response.success) {
             logTaskDispatcher.dispatch(SUCCESS, operationObj);
         } else {
@@ -132,9 +132,9 @@ async function getOneDocument(operationObj) {
             return new Result({ message: INPUT_IS_INVALID, success: false });
 
         const repo = new DocumentRepository(operationObj.collectionId);
-        const useCase = new FindOneDocument(repo, LogTaskDispatcher);
+        const useCase = new FindOneDocument(repo, logTaskDispatcher);
 
-        const response = await useCase.execute(operationObj.payload);
+        const response = await useCase.execute(operationObj);
         if (response.success) {
             logTaskDispatcher.dispatch(SUCCESS, operationObj);
         } else {
@@ -165,9 +165,9 @@ async function updateDocument(operationObj) {
             return new Result({ message: INPUT_IS_INVALID, success: false });
 
         const repo = new DocumentRepository(operationObj.collectionId);
-        const useCase = new UpdateDocument(repo, LogTaskDispatcher);
+        const useCase = new UpdateDocument(repo, logTaskDispatcher);
 
-        const response = await useCase.execute(operationObj.payload);
+        const response = await useCase.execute(operationObj);
 
         if (response.success) {
             logTaskDispatcher.dispatch(SUCCESS, operationObj);
@@ -199,9 +199,9 @@ async function deleteDocument(operationObj) {
             return new Result({ message: INPUT_IS_INVALID, success: false });
 
         const repo = new DocumentRepository(operationObj.collectionId);
-        const useCase = new DeleteDocument(repo, LogTaskDispatcher);
+        const useCase = new DeleteDocument(repo, logTaskDispatcher);
 
-        const response = await useCase.execute(operationObj.payload);
+        const response = await useCase.execute(operationObj);
         if (response.success) {
             logTaskDispatcher.dispatch(SUCCESS, operationObj);
         } else {

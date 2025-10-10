@@ -1,5 +1,5 @@
 import { setupUseCase, getSchema } from './__utils__/automate.js';
-import { SAVE, isObject } from './imports.js';
+import { Operation, SAVE, isObject } from './imports.js';
 
 describe('SAVE DOCUMENTS', () => {
     it('Returns a non-array object with message and truthy success fields', async () => {
@@ -7,12 +7,13 @@ describe('SAVE DOCUMENTS', () => {
         const schema = getSchema();
         const data = { _id: 'id', prop: 'item 11' };
 
-        const paramObj = {
-            schema,
-            data,
-        };
+        const operationObj = new Operation({
+            type: Operation.types.CREATE_DOCUMENT,
+            collectionId: '',
+            payload: { schema, data },
+        });
 
-        const response = await useCase.execute(paramObj);
+        const response = await useCase.execute(operationObj);
 
         expect(isObject(response)).toBe(true);
         expect(response.message).toBeTruthy();
@@ -26,12 +27,13 @@ describe('SAVE DOCUMENTS', () => {
             // doesn't contain collections 'prop'
         };
 
-        const paramObj = {
-            schema,
-            data,
-        };
+        const operationObj = new Operation({
+            type: Operation.types.CREATE_DOCUMENT,
+            collectionId: '',
+            payload: { schema, data },
+        });
 
-        const response = await useCase.execute(paramObj);
+        const response = await useCase.execute(operationObj);
 
         expect(isObject(response)).toBe(true);
         expect(response.message).toBeTruthy();

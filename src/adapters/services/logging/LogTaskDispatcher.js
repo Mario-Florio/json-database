@@ -39,7 +39,7 @@ class LogTaskDispatcher {
     }
 
     get logTasks() {
-        return LogTaskDispatcher.#logTasks
+        return LogTaskDispatcher.#logTasks;
     }
 
     dispatch(logTask, operation, ...args) {

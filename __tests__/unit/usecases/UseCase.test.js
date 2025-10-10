@@ -6,7 +6,7 @@ import {
 
 describe('DOC REPO USE CASE', () => {
     describe('constructor', () => {
-        it('Returns valid use case instance if repo implements IDocumentRepository', () => {
+        it('Returns valid use case instance if repo implements IDocumentRepository and ILogTaskDispatcher', () => {
             class ValidDocumentRepository {
                 instantiate() {}
                 create() {}
@@ -15,8 +15,23 @@ describe('DOC REPO USE CASE', () => {
                 delete() {}
             }
 
+            class ValidLogTaskDispatcher {
+                static #logTasks = {};
+                static get logTasks() {
+                    return ValidLogTaskDispatcher.#logTasks;
+                }
+                get logTasks() {
+                    return ValidLogTaskDispatcher.#logTasks;
+                }
+                dispatch(logTask, operation, ...args) {}
+            }
+
             const validRepo = new ValidDocumentRepository();
-            const validDocRepoUseCase = new DocumentRepoUseCase(validRepo);
+            const validLogTaskDispatcher = new ValidLogTaskDispatcher();
+            const validDocRepoUseCase = new DocumentRepoUseCase(
+                validRepo,
+                validLogTaskDispatcher,
+            );
             expect(validDocRepoUseCase).toBeTruthy();
         });
     });

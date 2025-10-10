@@ -1,23 +1,30 @@
 import DocumentRepositoryUseCase from './UseCase.js';
 import Document from '../entities/Document.js';
-import { must, uphold, QueryBuilder, isObject } from './imports.js';
+import QueryBuilder from '../entities/QueryBuilder.js';
+import Operation from '../entities/Operation.js';
+import { must, uphold, isObject } from './imports.js';
 
 class FindDocuments extends DocumentRepositoryUseCase {
-    constructor(repo) {
-        super(repo);
+    constructor(repo, logTaskDispatcher) {
+        super(repo, logTaskDispatcher);
     }
 
-    async execute(paramObj) {
+    async execute(operationObj) {
         must(
-            isObject(paramObj),
-            'Invalid Type — paramObj must be a non-array object',
+            operationObj instanceof Operation,
+            'Invalid Type — operationObj must be an instance of Operation',
         );
         must(
-            isObject(paramObj.keys),
-            'Invalid Type — paramObj.keys must be a non-array object',
+            isObject(operationObj.payload),
+            'Invalid Type — operationObj.payload must be a non-array object',
+        );
+        must(
+            isObject(operationObj.payload.keys),
+            'Invalid Type — operatoinObj.payload.keys must be a non-array object',
         );
 
-        const { keys } = paramObj;
+        const { CORE } = this.logTaskDispatcher.logTasks;
+        this.logTaskDispatcher.dispatch(CORE, operationObj);
 
         const response = await this.repo.read();
         const documents = [];
@@ -25,6 +32,7 @@ class FindDocuments extends DocumentRepositoryUseCase {
         if (response.success === false)
             return response.removeGen().setData(documents);
 
+        const { keys } = operationObj.payload;
         const qb = new QueryBuilder(keys);
 
         for await (const document of response.gen) {
