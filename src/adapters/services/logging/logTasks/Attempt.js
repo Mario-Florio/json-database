@@ -12,6 +12,8 @@ class Attempt extends LogTask {
 
     #getMsg(operation) {
         switch (operation.type) {
+            case Operation.types.INSTANTIATE_COLLECTION:
+                return 'Instantiation Attempt: Instantiating collection';
             case Operation.types.CREATE_DOCUMENT:
                 return 'Create Attempt: Creating document';
             case Operation.types.GET_ONE_DOCUMENT:

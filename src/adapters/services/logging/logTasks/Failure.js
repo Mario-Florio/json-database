@@ -12,6 +12,8 @@ class Failure extends LogTask {
 
     #getMsg(operation) {
         switch (operation.type) {
+            case Operation.types.INSTANTIATE_COLLECTION:
+                return 'Instantiation Failed: Collection not instantiated';
             case Operation.types.CREATE_DOCUMENT:
                 return 'Create Failed: Document not created';
             case Operation.types.GET_ONE_DOCUMENT:

@@ -51,7 +51,7 @@ class LogTaskDispatcher {
             if (policy(logTask, operation)) return false;
 
         const logger = new AbstractLogger(config.LOGGER || console);
-        new logTask(logger).log(operation, args);
+        new logTask(logger).log(operation, ...args);
     }
 }
 

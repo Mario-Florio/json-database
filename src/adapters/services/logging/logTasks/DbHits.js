@@ -19,7 +19,7 @@ class DbHits extends LogTask {
                 collectionId: operation.collectionId,
             });
         } else {
-            this.logger.warn('DB Hit: Unknown operation type', {
+            this.logger.warn('DB Hit – Unknown operation type', {
                 operationId: operation.id,
                 operationType: operation.type,
                 collectionId: operation.collectionId,
@@ -29,15 +29,17 @@ class DbHits extends LogTask {
 
     #getMsg(operation, count) {
         switch (operation.type) {
+            case Operation.types.INSTANTIATE_COLLECTION:
+                return `DB Hit - instantiate: ${count}`;
             case Operation.types.CREATE_DOCUMENT:
-                return `DB Hit: create - ${count}`;
+                return `DB Hit - create: ${count}`;
             case Operation.types.GET_ONE_DOCUMENT:
             case Operation.types.GET_DOCUMENTS:
-                return `DB Hit: read - ${count}`;
+                return `DB Hit - read: ${count}`;
             case Operation.types.UPDATE_DOCUMENT:
-                return `DB Hit: update - ${count}`;
+                return `DB Hit - update: ${count}`;
             case Operation.types.DELETE_DOCUMENT:
-                return `DB Hit: delete - ${count}`;
+                return `DB Hit - delete: ${count}`;
             default:
                 return null;
         }

@@ -12,6 +12,8 @@ class Success extends LogTask {
 
     #getMsg(operation) {
         switch (operation.type) {
+            case Operation.types.INSTANTIATE_COLLECTION:
+                return 'Instantiation Successful: Collection instantiated';
             case Operation.types.CREATE_DOCUMENT:
                 return 'Create Successful: Document created';
             case Operation.types.GET_ONE_DOCUMENT:

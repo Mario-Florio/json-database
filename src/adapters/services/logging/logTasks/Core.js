@@ -12,6 +12,8 @@ class Core extends LogTask {
 
     #getMsg(operation) {
         switch (operation.type) {
+            case Operation.types.INSTANTIATE_COLLECTION:
+                return 'Core Infiltrated: InstantiateCollection Use Case';
             case Operation.types.CREATE_DOCUMENT:
                 return 'Core Infiltrated: SaveDocument Use Case';
             case Operation.types.GET_ONE_DOCUMENT:

@@ -12,6 +12,8 @@ class Repo extends LogTask {
 
     #getMsg(operation) {
         switch (operation.type) {
+            case Operation.types.INSTANTIATE_COLLECTION:
+                return 'Repo Infiltrated: instantiate';
             case Operation.types.CREATE_DOCUMENT:
                 return 'Repo Infiltrated: create';
             case Operation.types.GET_ONE_DOCUMENT:
