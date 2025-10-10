@@ -39,7 +39,8 @@ class SaveDocument extends DocumentRepositoryUseCase {
 
         if (!isValid) return { message: DOC_IS_INVALID, success: false };
 
-        const response = await this.repo.create(document);
+        operationObj.payload = { document };
+        const response = await this.repo.create(operationObj);
         return response;
     }
 }

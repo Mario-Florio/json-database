@@ -6,19 +6,20 @@ class DocumentRepositoryDouble {
     #db;
 
     constructor(collectionName) {}
-    async instantiate() {
+    async instantiate(operationObj) {
         if (Array.isArray(this.#db))
             return { message: MESSAGE, success: false };
         this.#db = [];
         return { message: MESSAGE, success: true };
     }
-    async create(document) {
+    async create(operationObj) {
+        const { document } = operationObj.payload;
         if (!Array.isArray(this.#db))
             return { message: MESSAGE, success: false };
         this.#db.push(document);
         return { message: MESSAGE, success: true };
     }
-    async read() {
+    async read(operationObj) {
         if (!Array.isArray(this.#db))
             return { message: MESSAGE, success: false };
 
@@ -26,7 +27,9 @@ class DocumentRepositoryDouble {
             this.docGen(),
         );
     }
-    async update(_id, updatedDoc) {
+    async update(operationObj) {
+        const { _id, updatedDoc } = operationObj.payload;
+
         if (!Array.isArray(this.#db))
             return { message: MESSAGE, success: false };
         this.#db = this.#db.map((document) =>
@@ -34,7 +37,8 @@ class DocumentRepositoryDouble {
         );
         return { message: MESSAGE, success: true };
     }
-    async delete(_id) {
+    async delete(operationObj) {
+        const { _id } = operationObj.payload;
         if (!Array.isArray(this.#db))
             return { message: MESSAGE, success: false };
         this.#db = this.#db.filter((document) => document._id !== _id);

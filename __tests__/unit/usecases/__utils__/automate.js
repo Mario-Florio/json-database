@@ -5,6 +5,7 @@ import {
     UpdateDocument,
     Document,
     Schema,
+    Operation,
     FIND,
     FIND_ONE,
     SAVE,
@@ -16,7 +17,12 @@ import LogTaskDispatcherDouble from './LogTaskDispatcherDouble.js';
 async function setupUseCase(type) {
     const repo = new DocumentRepositoryDouble();
     const logTaskDispatcher = new LogTaskDispatcherDouble();
-    await repo.instantiate();
+    const operationObj = new Operation({
+        type: Operation.types.INSTANTIATE_COLLECTION,
+        collectionId: '',
+        payload: {},
+    });
+    await repo.instantiate(operationObj);
     await fillRepo(repo);
 
     switch (type) {
@@ -37,7 +43,12 @@ async function getTargetDoc(
     repo,
     options = { index: { isTrue: false, value: new Number() } },
 ) {
-    const response = await repo.read();
+    const operationObj = new Operation({
+        type: Operation.types.GET_DOCUMENTS,
+        collectionId: '',
+        payload: {},
+    });
+    const response = await repo.read(operationObj);
 
     const documents = [];
     for (const doc of response.gen) documents.push(doc);
@@ -76,8 +87,13 @@ function getDoc(data) {
 // UTILS
 async function fillRepo(repo, amount = 10) {
     for (let i = 0; i < amount; i++) {
-        const doc = getDoc({ prop: `item ${i + 1}` });
-        await repo.create(doc);
+        const document = getDoc({ prop: `item ${i + 1}` });
+        const operationObj = new Operation({
+            type: Operation.types.INSTANTIATE_COLLECTION,
+            collectionId: '',
+            payload: { document },
+        });
+        await repo.create(operationObj);
     }
 }
 

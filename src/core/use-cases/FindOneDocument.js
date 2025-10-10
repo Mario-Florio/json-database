@@ -26,7 +26,7 @@ class FindOneDocument extends DocumentRepositoryUseCase {
         const { CORE } = this.logTaskDispatcher.logTasks;
         this.logTaskDispatcher.dispatch(CORE, operationObj);
 
-        const response = await this.repo.read();
+        const response = await this.repo.read(operationObj);
         let data = null;
 
         if (response.success === false) return response.setData(data);

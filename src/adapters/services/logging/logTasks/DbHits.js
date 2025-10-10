@@ -1,8 +1,13 @@
 import LogTask from './LogTask.js';
 import { Operation } from '../imports.js';
 
-const DB_HITS = {};
-for (const opType of Object.values(Operation.types)) DB_HITS[opType] = 0;
+const DB_HITS = {
+    INSTANTIATIATE_COLLECTION: 0,
+    CREATE_DOCUMENT: 0,
+    READ_DOCUMENT: 0,
+    UPDATE_DOCUMENT: 0,
+    DELETE_DOCUMENT: 0,
+};
 
 class DbHits extends LogTask {
     log(operation) {

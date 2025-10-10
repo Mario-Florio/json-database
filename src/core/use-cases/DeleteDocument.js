@@ -19,8 +19,7 @@ class DeleteDocument extends DocumentRepositoryUseCase {
         const { CORE } = this.logTaskDispatcher.logTasks;
         this.logTaskDispatcher.dispatch(CORE, operationObj);
 
-        const { _id } = operationObj.payload;
-        const response = await this.repo.delete(_id);
+        const response = await this.repo.delete(operationObj);
         return response;
     }
 }

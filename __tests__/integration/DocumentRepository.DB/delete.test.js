@@ -1,10 +1,12 @@
 import {
     getDocRepo,
+    getOperationObj,
     getTargetDoc,
     getAndSetupDocRepo,
     dbHas,
     cleanDatabase,
 } from './__utils__/automate.js';
+import { Operation } from './imports.js';
 
 const NON_EXISTENT_ID = 'non-existent id';
 
@@ -20,7 +22,10 @@ describe('DOC REPO DELETE', () => {
             index: { isTrue: true, value: 5 },
         });
 
-        await docRepo.delete(targetDoc._id);
+        const operationObj = getOperationObj(Operation.types.DELETE_DOCUMENT, {
+            _id: targetDoc._id,
+        });
+        await docRepo.delete(operationObj);
 
         expect(await dbHas(targetDoc)).toBe(false);
     });
@@ -33,7 +38,10 @@ describe('DOC REPO DELETE', () => {
             index: { isTrue: true, value: 5 },
         });
 
-        const response = await docRepo.delete(targetDoc._id);
+        const operationObj = getOperationObj(Operation.types.DELETE_DOCUMENT, {
+            _id: targetDoc._id,
+        });
+        const response = await docRepo.delete(operationObj);
 
         expect(response.message).toBeTruthy();
         expect(response.success).toBe(true);
@@ -41,7 +49,10 @@ describe('DOC REPO DELETE', () => {
     it('If database file does not exist, returns object with message and falsy success fields', async () => {
         const docRepo = getDocRepo(); // plain doc repo - database file not instantiated
 
-        const response = await docRepo.delete(NON_EXISTENT_ID);
+        const operationObj = getOperationObj(Operation.types.DELETE_DOCUMENT, {
+            _id: NON_EXISTENT_ID,
+        });
+        const response = await docRepo.delete(operationObj);
 
         expect(response.message).toBeTruthy();
         expect(response.success).toBe(false);
@@ -49,7 +60,11 @@ describe('DOC REPO DELETE', () => {
     it('If not given id, returns object with message and falsy success fields', async () => {
         const docRepo = await getAndSetupDocRepo();
 
-        const response = await docRepo.delete();
+        const operationObj = getOperationObj(Operation.types.DELETE_DOCUMENT, {
+            /* no _id field */
+        });
+
+        const response = await docRepo.delete(operationObj);
 
         expect(response.message).toBeTruthy();
         expect(response.success).toBe(false);
@@ -57,7 +72,10 @@ describe('DOC REPO DELETE', () => {
     it('If targeted record does not exist, returns object with message and falsy success fields', async () => {
         const docRepo = await getAndSetupDocRepo();
 
-        const response = await docRepo.delete(NON_EXISTENT_ID);
+        const operationObj = getOperationObj(Operation.types.DELETE_DOCUMENT, {
+            _id: NON_EXISTENT_ID,
+        });
+        const response = await docRepo.delete(operationObj);
 
         expect(response.message).toBeTruthy();
         expect(response.success).toBe(false);

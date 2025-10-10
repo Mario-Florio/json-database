@@ -47,7 +47,8 @@ class UpdateDocument extends DocumentRepositoryUseCase {
 
         if (!isValid) return { message: DOC_IS_INVALID, success: false };
 
-        const response = await this.repo.update(_id, updatedDoc);
+        operationObj.payload = { _id, updatedDoc };
+        const response = await this.repo.update(operationObj);
         return response;
     }
 }

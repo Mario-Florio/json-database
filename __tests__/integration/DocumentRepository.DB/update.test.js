@@ -5,7 +5,9 @@ import {
     getAndSetupDocRepo,
     dbHas,
     cleanDatabase,
+    getOperationObj,
 } from './__utils__/automate.js';
+import { Operation } from './imports.js';
 
 const NON_EXISTENT_ID = 'non-existent id';
 
@@ -23,7 +25,11 @@ describe('DOC REPO UPDATE', () => {
         const updatedKeys = { prop: 'updated value' };
         const updatedDoc = targetDoc.mergeKeys(updatedKeys);
 
-        await docRepo.update(targetDoc._id, updatedDoc);
+        const operationObj = getOperationObj(Operation.types.UPDATE_DOCUMENT, {
+            _id: targetDoc._id,
+            updatedDoc,
+        });
+        await docRepo.update(operationObj);
 
         expect(await dbHas(updatedDoc)).toBe(true);
     });
@@ -38,7 +44,11 @@ describe('DOC REPO UPDATE', () => {
         const updatedKeys = { prop: 'updated value' };
         const updatedDoc = targetDoc.mergeKeys(updatedKeys);
 
-        const response = await docRepo.update(targetDoc._id, updatedDoc);
+        const operationObj = getOperationObj(Operation.types.UPDATE_DOCUMENT, {
+            _id: targetDoc._id,
+            updatedDoc,
+        });
+        const response = await docRepo.update(operationObj);
 
         expect(response.message).toBeTruthy();
         expect(response.success).toBe(true);
@@ -46,7 +56,12 @@ describe('DOC REPO UPDATE', () => {
     it('If database file does not exist, returns object with message and falsy success fields', async () => {
         const docRepo = getDocRepo(); // plain doc repo - database file not instantiated
 
-        const response = await docRepo.update('id', getDoc({}));
+        const operationObj = getOperationObj(Operation.types.UPDATE_DOCUMENT, {
+            _id: NON_EXISTENT_ID,
+            updatedDoc: getDoc({}),
+        });
+
+        const response = await docRepo.update(operationObj);
 
         expect(response.message).toBeTruthy();
         expect(response.success).toBe(false);
@@ -62,7 +77,11 @@ describe('DOC REPO UPDATE', () => {
         const updatedKeys = { prop: 'updated value' };
         const updatedDoc = targetDoc.mergeKeys(updatedKeys);
 
-        const response = await docRepo.update(null, updatedDoc);
+        const operationObj = getOperationObj(Operation.types.UPDATE_DOCUMENT, {
+            /* no _id field */ updatedDoc,
+        });
+
+        const response = await docRepo.update(operationObj);
 
         expect(response.message).toBeTruthy();
         expect(response.success).toBe(false);
@@ -70,7 +89,12 @@ describe('DOC REPO UPDATE', () => {
     it('If targeted record does not exist, returns object with message and falsy success fields', async () => {
         const docRepo = await getAndSetupDocRepo();
 
-        const response = await docRepo.update(NON_EXISTENT_ID, getDoc({}));
+        const operationObj = getOperationObj(Operation.types.UPDATE_DOCUMENT, {
+            _id: NON_EXISTENT_ID,
+            updatedDoc: getDoc({}),
+        });
+
+        const response = await docRepo.update(operationObj);
 
         expect(response.message).toBeTruthy();
         expect(response.success).toBe(false);

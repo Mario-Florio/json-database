@@ -20,7 +20,7 @@ class InstantiateCollection extends DocumentRepositoryUseCase {
         const { CORE } = this.logTaskDispatcher.logTasks;
         this.logTaskDispatcher.dispatch(CORE, operationObj);
 
-        const response = await this.repo.instantiate();
+        const response = await this.repo.instantiate(operationObj);
 
         return response;
     }
