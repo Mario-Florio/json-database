@@ -15,14 +15,12 @@ import {
 } from './response-tokens.js';
 import DocReader from '../../core/entities/DocReader.js';
 
-const dbPath = config.DBPATH;
-
 class DB {
     #dbFile;
     #IO_SERVICE;
 
     constructor(collectionName) {
-        this.#dbFile = path.join(dbPath, collectionName + '.ndjson');
+        this.#dbFile = path.join(config.DBPATH, collectionName + '.ndjson');
         this.#IO_SERVICE = IO_SERVICE;
     }
     async instantiate() {
