@@ -4,7 +4,6 @@ import {
     Document,
     Schema,
     Result,
-    IO_SERVICE,
     config,
     deepEqual,
     uid,

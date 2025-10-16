@@ -1,5 +1,4 @@
 import {
-    types,
     getCollectionId,
     fileExists,
     isResultObject,
@@ -9,7 +8,6 @@ import {
     documentController,
     Operation,
     INSTANTIATION_SUCCESSFUL,
-    INPUT_IS_INVALID,
     DB_ALREADY_EXISTS,
 } from './import.js';
 
