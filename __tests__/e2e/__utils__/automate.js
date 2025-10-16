@@ -1,13 +1,6 @@
 import path from 'node:path';
 import fs from 'fs';
-import {
-    Document,
-    Schema,
-    Result,
-    config,
-    deepEqual,
-    uid,
-} from '../import.js';
+import { Document, Schema, Result, config, deepEqual, uid } from '../import.js';
 
 const dbPath = config.DBPATH;
 const collectionName = 'e2e-test' + uid();
