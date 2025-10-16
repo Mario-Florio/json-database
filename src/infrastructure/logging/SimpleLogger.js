@@ -45,7 +45,7 @@ class LogEntry {
         if (pretty_print === true) {
             return prettyPrint(this);
         } else {
-            return JSON.stringify(this) + '\n';
+            return JSON.stringify(this);
         }
     }
 }

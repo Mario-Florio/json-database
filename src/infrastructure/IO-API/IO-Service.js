@@ -10,6 +10,9 @@ const writeFile = async (paramObj) =>
 const appendFile = async (paramObj) =>
     await fsPromises.appendFile(paramObj.path, paramObj.data);
 
+const appendFileSync = async (paramObj) =>
+    fs.appendFileSync(paramObj.path, paramObj.data);
+
 async function* readLines({ path }) {
     const rl = getRl(path);
 
@@ -76,6 +79,7 @@ export default {
     existsSync,
     writeFile,
     appendFile,
+    appendFileSync,
     readLines,
     writeLine,
 };
