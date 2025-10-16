@@ -1,3 +1,4 @@
+import path from 'node:path';
 import fs from 'fs';
 import {
     Document,
@@ -11,7 +12,7 @@ import {
 
 const dbPath = config.DBPATH;
 const collectionName = 'e2e-test' + uid();
-const collectionDbPath = `${dbPath}${collectionName}.ndjson`;
+const collectionDbPath = path.join(dbPath, collectionName + '.ndjson');
 
 const types = [
     undefined,

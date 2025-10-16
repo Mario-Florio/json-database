@@ -7,11 +7,12 @@ import {
     deepEqual,
     uid,
 } from '../imports.js';
+import path from 'node:path';
 import fs from 'fs';
 
 const dbPath = config.DBPATH;
 const collectionName = 'docrepo-db-test' + uid();
-const collectionDbPath = `${dbPath}${collectionName}.ndjson`;
+const collectionDbPath = path.join(dbPath, collectionName + '.ndjson');
 
 function getDocRepo() {
     const docRepo = new DocumentRepository(collectionName);
