@@ -4,7 +4,6 @@ import Document from '../../src/core/entities/Document.js';
 import Schema from '../../src/core/entities/Schema.js';
 import Operation from '../../src/core/entities/Operation.js';
 import Result from '../../src/core/entities/Result.js';
-import IO_SERVICE from '../../src/infrastructure/IO-API/IO-Service.js';
 import config from '../../src/config.js';
 import isObject from '../../src/shared/__utils__/isObject.js';
 import deepEqual from '../../src/shared/__utils__/deepEqual.js';
@@ -17,12 +16,10 @@ import {
     READ_SUCCESSFUL,
     UPDATE_SUCCESSFUL,
     DELETE_SUCCESSFUL,
-    NO_DATA,
     NO_ID,
-    ITEM_NOT_FOUND,
 } from '../../src/infrastructure/IO-API/response-tokens.js';
 
-ODM.setConfig({ ENV: 'test', LOGGER: null });
+ODM.setConfig({ ENV: 'test' });
 
 export {
     documentController,
@@ -30,7 +27,6 @@ export {
     Schema,
     Operation,
     Result,
-    IO_SERVICE,
     config,
     deepEqual,
     isObject,
@@ -41,8 +37,6 @@ export {
     READ_SUCCESSFUL,
     UPDATE_SUCCESSFUL,
     DELETE_SUCCESSFUL,
-    NO_DATA,
     NO_ID,
-    ITEM_NOT_FOUND,
     INPUT_IS_INVALID,
 };

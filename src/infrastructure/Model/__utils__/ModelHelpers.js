@@ -1,3 +1,13 @@
+function collectionNameIsValid(collectionName) {
+    const MAX_LENGTH = 100;
+    const MIN_LENGTH = 1;
+    if (!collectionName) return false;
+    if (typeof collectionName !== 'string') return false;
+    if (collectionName.length > MAX_LENGTH) return false;
+    if (collectionName.length < MIN_LENGTH) return false;
+    return true;
+}
+
 function idIsValid(_id) {
     if (!_id) return false;
     if (typeof _id !== 'string') return false;
@@ -10,4 +20,4 @@ function keysAreValid(keys) {
     return true;
 }
 
-export { idIsValid, keysAreValid };
+export { collectionNameIsValid, idIsValid, keysAreValid };

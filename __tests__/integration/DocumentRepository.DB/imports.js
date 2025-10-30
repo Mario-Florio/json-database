@@ -8,7 +8,7 @@ import deepEqual from '../../../src/shared/__utils__/deepEqual.js';
 import uid from '../../../src/shared/__utils__/uid.js';
 import { READ_SUCCESSFUL } from '../../../src/infrastructure/IO-API/response-tokens.js';
 
-ODM.setConfig({ ENV: 'test', LOGGER: null });
+ODM.setConfig({ ENV: 'test' });
 
 export {
     DocumentRepository,

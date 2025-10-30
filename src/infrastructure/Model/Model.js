@@ -1,9 +1,15 @@
 import documentController from '../../adapters/controllers/DocumentController.js';
 import Operation from '../../core/entities/Operation.js';
 import uid from '../../shared/__utils__/uid.js';
-import { idIsValid, keysAreValid } from './__utils__/ModelHelpers.js';
+import {
+    collectionNameIsValid,
+    idIsValid,
+    keysAreValid,
+} from './__utils__/ModelHelpers.js';
 
 function model(collectionName, schema) {
+    if (!collectionNameIsValid(collectionName))
+        throw new Error('collectionName is invalid');
     const collectionId = collectionName;
     const controller = documentController;
 
