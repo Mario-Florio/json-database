@@ -6,6 +6,6 @@ import {
     ITEM_NOT_FOUND,
 } from '../../src/infrastructure/IO-API/response-tokens.js';
 
-ODM.setConfig({ ENV: 'test', LOGGER: null });
+ODM.setConfig({ ENV: 'test' });
 
 export { ODM, config, uid, DELETE_SUCCESSFUL, ITEM_NOT_FOUND };

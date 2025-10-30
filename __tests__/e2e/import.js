@@ -19,7 +19,7 @@ import {
     NO_ID,
 } from '../../src/infrastructure/IO-API/response-tokens.js';
 
-ODM.setConfig({ ENV: 'test', LOGGER: null });
+ODM.setConfig({ ENV: 'test' });
 
 export {
     documentController,
