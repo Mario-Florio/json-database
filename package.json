@@ -1,7 +1,7 @@
 {
     "type": "module",
     "name": "@mario_florio/json-database",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "A lightweight JSON file–based database wrapper providing a simple ODM-like interface for Node.js projects.",
     "main": "main.js",
     "files": [
