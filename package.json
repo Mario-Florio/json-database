@@ -15,6 +15,7 @@
         "test": "jest",
         "test:watch": "jest --watch",
         "test:unit": "jest --testPathPatterns=__tests__/unit",
+        "test:unit:setconfig": "jest --testPathPatterns=__tests__/unit/main/setConfig.test.js",
         "test:unit:doc": "jest --testPathPatterns=__tests__/unit/entities/Document.test.js",
         "test:unit:schema": "jest --testPathPatterns=__tests__/unit/entities/Schema.test.js",
         "test:unit:usecases": "jest --testPathPatterns=__tests__/unit/usecases",
