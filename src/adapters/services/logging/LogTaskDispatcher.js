@@ -23,6 +23,8 @@ const filterPolicies = {
     // Define policies for different environments via filter functions
     production: [
         (logTask, operation) => logTask === logTasks.ATTEMPT, // Don't log ATTEMPT logTask
+        (logTask, operation) => logTask === logTasks.SUCCESS, // Don't log SUCCESS logTask
+        (logTask, operation) => logTask === logTasks.FAILURE, // Don't log FAILURE logTask
         (logTask, operation) => logTask === logTasks.CORE, // Don't log CORE logTask
         (logTask, operation) => logTask === logTasks.REPO, // Don't log REPO logTask
         (logTask, operation) => logTask === logTasks.DB_HITS, // Don't log DB_HITS logTask
