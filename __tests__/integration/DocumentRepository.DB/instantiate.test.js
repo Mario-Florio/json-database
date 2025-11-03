@@ -1,8 +1,8 @@
 import {
-    getDocRepo,
-    getAndSetupDocRepo,
-    dbFileExists,
     cleanDatabase,
+    dbFileExists,
+    getAndSetupDocRepo,
+    getDocRepo,
     getOperationObj,
 } from './__utils__/automate.js';
 import { Operation } from './imports.js';

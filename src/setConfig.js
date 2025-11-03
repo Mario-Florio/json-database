@@ -1,12 +1,12 @@
-import config from './config.js';
 import path from 'node:path';
+import config from './config.js';
 
 const MAX_DIR_LEN_DBPATH = 100;
 const MAX_DIR_LEN_LOGPATH = 100;
 const MIN_DIR_LEN_DBPATH = 1;
 const MIN_DIR_LEN_LOGPATH = 1;
 
-function setConfig({ DBPATH, ENV, LOGGER, LOGPATH } = {}) {
+export default function setConfig({ DBPATH, ENV, LOGGER, LOGPATH } = {}) {
     const errMsgs = [];
 
     if (DBPATH !== undefined) {
@@ -160,5 +160,3 @@ function isFirstAndOnly(i, arr) {
 function isLast(i, arr) {
     return i === arr.length - 1;
 }
-
-export default setConfig;

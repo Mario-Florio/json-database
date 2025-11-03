@@ -1,4 +1,4 @@
-function deepEqual(a, b) {
+export default function deepEqual(a, b) {
     if (a === b) return true;
 
     if (
@@ -30,5 +30,3 @@ function deepEqual(a, b) {
     }
     return true;
 }
-
-export default deepEqual;

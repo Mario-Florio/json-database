@@ -1,10 +1,10 @@
 import {
+    cleanDatabase,
+    dbHas,
     getAndSetupDocRepo,
+    getOperationObj,
     isDocument,
     isResult,
-    dbHas,
-    cleanDatabase,
-    getOperationObj,
 } from './__utils__/automate.js';
 import { Operation, READ_SUCCESSFUL } from './imports.js';
 

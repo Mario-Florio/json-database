@@ -1,7 +1,7 @@
 import constKeys from './__utils__/constKeys.js';
-import { isObject, uid, must } from './imports.js';
+import { isObject, must, uid } from './imports.js';
 
-class Document {
+export default class Document {
     constructor(content) {
         must(isObject(content), 'Invalid Type — content must be object');
         if (content._id === undefined) this._id = uid();
@@ -20,5 +20,3 @@ class Document {
         return this;
     }
 }
-
-export default Document;

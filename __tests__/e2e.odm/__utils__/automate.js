@@ -1,6 +1,6 @@
-import { ODM, config, uid } from '../imports.js';
+import fs from 'node:fs';
 import path from 'node:path';
-import fs from 'fs';
+import { ODM, uid, config } from '../imports.js';
 
 const dbPath = config.DBPATH;
 const collectionName = 'db-test' + uid();

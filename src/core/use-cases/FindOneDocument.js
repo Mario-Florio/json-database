@@ -1,10 +1,10 @@
-import DocumentRepositoryUseCase from './UseCase.js';
 import Document from '../entities/Document.js';
-import QueryBuilder from '../entities/QueryBuilder.js';
 import Operation from '../entities/Operation.js';
-import { must, uphold, isObject } from './imports.js';
+import QueryBuilder from '../entities/QueryBuilder.js';
+import DocumentRepositoryUseCase from './UseCase.js';
+import { isObject, must, uphold } from './imports.js';
 
-class FindOneDocument extends DocumentRepositoryUseCase {
+export default class FindOneDocument extends DocumentRepositoryUseCase {
     constructor(repo, logEvents) {
         super(repo, logEvents);
     }
@@ -49,5 +49,3 @@ class FindOneDocument extends DocumentRepositoryUseCase {
         return response.setData(data ?? null);
     }
 }
-
-export default FindOneDocument;

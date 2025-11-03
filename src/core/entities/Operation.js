@@ -1,9 +1,9 @@
-import { must, uid, isObject } from './imports.js';
+import { isObject, must, uid } from './imports.js';
 
 // Operation object for Controller methods
 // Tracks metadata (e.g. type, unique ID) for each operation
 // Not to be confused with Query operations in QueryBuilder.js
-class Operation {
+export default class Operation {
     static #types = {
         INSTANTIATE_COLLECTION: 'INSTANTIATE_COLLECTION',
         CREATE_DOCUMENT: 'CREATE_DOCUMENT',
@@ -60,5 +60,3 @@ class Operation {
         this.#payload = data;
     }
 }
-
-export default Operation;

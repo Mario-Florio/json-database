@@ -1,14 +1,14 @@
 import {
-    getCollectionId,
-    fileExists,
-    isResultObject,
     cleanDatabase,
+    fileExists,
+    getCollectionId,
+    isResultObject,
 } from './__utils__/automate.js';
 import {
-    documentController,
     Operation,
-    INSTANTIATION_SUCCESSFUL,
+    documentController,
     DB_ALREADY_EXISTS,
+    INSTANTIATION_SUCCESSFUL,
 } from './import.js';
 
 const collectionId = getCollectionId();

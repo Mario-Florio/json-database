@@ -5,7 +5,7 @@ const MAGENTA = '\x1b[35m';
 const RED = '\x1b[31m';
 const RESET = '\x1b[0m';
 
-function prettyPrint(object) {
+export default function prettyPrint(object) {
     if (typeof object !== 'object') {
         throw new Error('Input must be an object');
     }
@@ -41,6 +41,7 @@ function prettyPrint(object) {
     return prettyStr;
 }
 
+// UTILS
 function getPrefixLabel(str) {
     switch (str.toLowerCase()) {
         case 'info':
@@ -73,5 +74,3 @@ function yellowWrapper(str) {
 function redWrapper(str) {
     return `${RED}${str}${RESET}`;
 }
-
-export default prettyPrint;

@@ -1,5 +1,5 @@
-import fs from 'fs';
-import fsPromises from 'fs/promises';
+import fs from 'node:fs';
+import fsPromises from 'node:fs/promises';
 import readline from 'node:readline/promises';
 
 const existsSync = (paramObj) => fs.existsSync(paramObj.path);

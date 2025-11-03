@@ -1,10 +1,10 @@
 import {
-    setupSchema,
+    cleanDatabase,
     getModelInstances,
     getPropsArr,
-    cleanDatabase,
+    setupSchema,
 } from './__utils__/automate.js';
-import { DELETE_SUCCESSFUL, ITEM_NOT_FOUND } from './imports.js';
+import { ITEM_NOT_FOUND, DELETE_SUCCESSFUL } from './imports.js';
 
 describe('FIND ONE AND DELETE', () => {
     afterEach(() => cleanDatabase());

@@ -1,5 +1,5 @@
-import { setupUseCase, getSchema } from './__utils__/automate.js';
-import { Operation, SAVE, isObject } from './imports.js';
+import { getSchema, setupUseCase } from './__utils__/automate.js';
+import { Operation, isObject, SAVE } from './imports.js';
 
 describe('SAVE DOCUMENTS', () => {
     it('Returns a non-array object with message and truthy success fields', async () => {

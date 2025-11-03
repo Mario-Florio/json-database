@@ -1,11 +1,11 @@
 import {
-    getDocRepo,
-    getDoc,
-    getTargetDoc,
-    getAndSetupDocRepo,
-    dbHas,
     cleanDatabase,
+    dbHas,
+    getAndSetupDocRepo,
+    getDoc,
+    getDocRepo,
     getOperationObj,
+    getTargetDoc,
 } from './__utils__/automate.js';
 import { Operation } from './imports.js';
 

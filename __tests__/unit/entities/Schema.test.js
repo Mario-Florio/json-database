@@ -1,4 +1,4 @@
-import { Schema, Document, typeCheckMap, isObject } from './imports.js';
+import { Document, Schema, typeCheckMap, isObject } from './imports.js';
 
 const TYPE = 'type';
 const requiredProps = [TYPE];

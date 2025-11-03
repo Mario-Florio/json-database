@@ -1,8 +1,8 @@
 import {
-    setupSchema,
+    cleanDatabase,
     getModelInstances,
     getPropsArr,
-    cleanDatabase,
+    setupSchema,
 } from './__utils__/automate.js';
 
 describe('FIND ONE AND UPDATE', () => {

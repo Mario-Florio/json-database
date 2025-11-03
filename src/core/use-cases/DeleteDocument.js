@@ -1,8 +1,8 @@
-import DocumentRepositoryUseCase from './UseCase.js';
 import Operation from '../entities/Operation.js';
+import DocumentRepositoryUseCase from './UseCase.js';
 import { isObject, must } from './imports.js';
 
-class DeleteDocument extends DocumentRepositoryUseCase {
+export default class DeleteDocument extends DocumentRepositoryUseCase {
     constructor(repo, logTaskDispatcher) {
         super(repo, logTaskDispatcher);
     }
@@ -23,5 +23,3 @@ class DeleteDocument extends DocumentRepositoryUseCase {
         return response;
     }
 }
-
-export default DeleteDocument;

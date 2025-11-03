@@ -1,8 +1,8 @@
-import implementsInterface from './__utils__/implementsInterface.js';
 import IDocumentRepository from '../ports/IDocumentRepository.js';
 import ILogTaskDispatcher from '../ports/ILogTaskDispatcher.js';
+import implementsInterface from './__utils__/implementsInterface.js';
 
-class DocumentRepoUseCase {
+export default class DocumentRepoUseCase {
     #repo;
     #logTaskDispatcher;
 
@@ -27,5 +27,3 @@ class DocumentRepoUseCase {
         return this.#logTaskDispatcher;
     }
 }
-
-export default DocumentRepoUseCase;

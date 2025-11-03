@@ -1,6 +1,6 @@
+import fs from 'node:fs';
 import path from 'node:path';
-import fs from 'fs';
-import { Document, Schema, Result, config, deepEqual, uid } from '../import.js';
+import { Document, Result, Schema, deepEqual, uid, config } from '../import.js';
 
 const dbPath = config.DBPATH;
 const collectionName = 'e2e-test' + uid();
@@ -87,6 +87,7 @@ function cleanDatabase() {
     }
 }
 
+// UTILS
 function parseNDJSON(json) {
     return json
         .split('\n')

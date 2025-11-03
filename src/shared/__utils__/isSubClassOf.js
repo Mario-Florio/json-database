@@ -1,4 +1,4 @@
-function isSubclassOf(sub, sup) {
+export default function isSubclassOf(sub, sup) {
     if (typeof sub !== 'function' || typeof sup !== 'function') return false;
     let proto = Object.getPrototypeOf(sub);
     while (proto) {
@@ -7,5 +7,3 @@ function isSubclassOf(sub, sup) {
     }
     return false;
 }
-
-export default isSubclassOf;

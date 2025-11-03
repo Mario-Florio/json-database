@@ -8,12 +8,12 @@ import DeleteDocument from '../../core/use-cases/DeleteDocument.js';
 import Operation from '../../core/entities/Operation.js';
 import Result from '../../core/entities/Result.js';
 import LogTaskDispatcher from '../services/logging/LogTaskDispatcher.js';
-import ContractError from '../../shared/contracts/__utils__/ContractError.js';
+import errorHandler from './__utils__/errHandler.js';
 import inputIsValid from './__utils__/inputIsValid.js';
 import { INPUT_IS_INVALID } from './response-tokens.js';
 import { must } from '../../shared/contracts/contracts.js';
 
-const { ATTEMPT, SUCCESS, FAILURE, ERROR } = LogTaskDispatcher.logTasks;
+const { ATTEMPT, SUCCESS, FAILURE } = LogTaskDispatcher.logTasks;
 
 async function instantiateCollection(operationObj) {
     try {
@@ -212,15 +212,6 @@ async function deleteDocument(operationObj) {
     } catch (err) {
         return errorHandler(err, operationObj);
     }
-}
-
-// UTILS
-
-function errorHandler(err, operationObj) {
-    if (err instanceof ContractError) throw new ContractError(err.message);
-    const logTaskDispatcher = new LogTaskDispatcher();
-    logTaskDispatcher.dispatch(ERROR, operationObj, err);
-    return new Result({ message: err.message, success: false });
 }
 
 export default {

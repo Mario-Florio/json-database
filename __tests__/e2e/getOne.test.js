@@ -1,18 +1,18 @@
 import {
-    types,
-    getCollectionId,
-    fillDb,
-    dbHas,
-    isResultObject,
-    isDocument,
     cleanDatabase,
+    dbHas,
+    fillDb,
+    getCollectionId,
+    isDocument,
+    isResultObject,
+    types,
 } from './__utils__/automate.js';
 import {
-    documentController,
     Operation,
+    documentController,
     isObject,
-    READ_SUCCESSFUL,
     INPUT_IS_INVALID,
+    READ_SUCCESSFUL,
 } from './import.js';
 
 const collectionId = getCollectionId();

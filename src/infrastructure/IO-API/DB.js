@@ -1,7 +1,7 @@
 import path from 'node:path';
-import IO_SERVICE from './IO-Service.js';
+import DocReader from '../../core/entities/DocReader.js';
 import Result from '../../core/entities/Result.js';
-import config from '../../config.js';
+import IO_SERVICE from './IO-Service.js';
 import {
     DB_ALREADY_EXISTS,
     INSTANTIATION_SUCCESSFUL,
@@ -13,9 +13,9 @@ import {
     NO_ID,
     ITEM_NOT_FOUND,
 } from './response-tokens.js';
-import DocReader from '../../core/entities/DocReader.js';
+import config from '../../config.js';
 
-class DB {
+export default class DB {
     #dbFile;
     #IO_SERVICE;
 
@@ -102,5 +102,3 @@ class DB {
         this.#IO_SERVICE = stubIOService;
     }
 }
-
-export default DB;

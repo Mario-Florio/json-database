@@ -1,14 +1,14 @@
+import path from 'node:path';
+import fs from 'node:fs';
 import {
-    DocumentRepository,
     Document,
-    Result,
     Operation,
-    config,
+    Result,
+    DocumentRepository,
     deepEqual,
     uid,
+    config,
 } from '../imports.js';
-import path from 'node:path';
-import fs from 'fs';
 
 const dbPath = config.DBPATH;
 const collectionName = 'docrepo-db-test' + uid();

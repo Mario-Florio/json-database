@@ -1,4 +1,4 @@
-import { setupUseCase, isDocument } from './__utils__/automate.js';
+import { isDocument, setupUseCase } from './__utils__/automate.js';
 import { Operation, FIND } from './imports.js';
 
 describe('FIND DOCUMENTS', () => {

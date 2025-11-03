@@ -1,9 +1,9 @@
 import {
+    cleanDatabase,
+    dbHas,
+    getAndSetupDocRepo,
     getDoc,
     getOperationObj,
-    getAndSetupDocRepo,
-    dbHas,
-    cleanDatabase,
 } from './__utils__/automate.js';
 import { Operation } from './imports.js';
 

@@ -1,5 +1,5 @@
-import documentController from '../../adapters/controllers/DocumentController.js';
 import Operation from '../../core/entities/Operation.js';
+import documentController from '../../adapters/controllers/DocumentController.js';
 import uid from '../../shared/__utils__/uid.js';
 import {
     collectionNameIsValid,
@@ -7,7 +7,7 @@ import {
     keysAreValid,
 } from './__utils__/ModelHelpers.js';
 
-function model(collectionName, schema) {
+export default function model(collectionName, schema) {
     if (!collectionNameIsValid(collectionName))
         throw new Error('collectionName is invalid');
     const collectionId = collectionName;
@@ -182,5 +182,3 @@ function model(collectionName, schema) {
 
     return Model;
 }
-
-export default model;

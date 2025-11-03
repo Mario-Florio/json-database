@@ -1,12 +1,12 @@
 import Document from '../entities/Document.js';
-import Schema from '../entities/Schema.js';
 import Operation from '../entities/Operation.js';
+import Schema from '../entities/Schema.js';
 import DocumentRepositoryUseCase from './UseCase.js';
-import { must, uphold, isObject } from './imports.js';
+import { isObject, must, uphold } from './imports.js';
 
 const DOC_IS_INVALID = 'Document is invalid representation of schema';
 
-class UpdateDocument extends DocumentRepositoryUseCase {
+export default class UpdateDocument extends DocumentRepositoryUseCase {
     constructor(repo, logTaskDispatcher) {
         super(repo, logTaskDispatcher);
     }
@@ -52,5 +52,3 @@ class UpdateDocument extends DocumentRepositoryUseCase {
         return response;
     }
 }
-
-export default UpdateDocument;

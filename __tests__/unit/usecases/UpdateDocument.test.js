@@ -1,5 +1,5 @@
-import { setupUseCase, getSchema, getTargetDoc } from './__utils__/automate.js';
-import { Operation, UPDATE, isObject } from './imports.js';
+import { getSchema, getTargetDoc, setupUseCase } from './__utils__/automate.js';
+import { Operation, isObject, UPDATE } from './imports.js';
 
 describe('UPDATE DOCUMENTS', () => {
     it('Returns a non-array object with message and success fields', async () => {

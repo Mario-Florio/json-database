@@ -2,7 +2,7 @@ import path from 'node:path';
 import IO_SERVICE from '../IO-API/IO-Service.js';
 import config from '../../config.js';
 
-class FileStream {
+export default class FileStream {
     #path;
     #IO_SERVICE;
 
@@ -32,5 +32,3 @@ class FileStream {
         });
     }
 }
-
-export default FileStream;

@@ -1,8 +1,8 @@
-import DocumentRepositoryUseCase from './UseCase.js';
 import Operation from '../entities/Operation.js';
+import DocumentRepositoryUseCase from './UseCase.js';
 import { isObject, must } from './imports.js';
 
-class InstantiateCollection extends DocumentRepositoryUseCase {
+export default class InstantiateCollection extends DocumentRepositoryUseCase {
     constructor(repo, logTaskDispatcher) {
         super(repo, logTaskDispatcher);
     }
@@ -25,5 +25,3 @@ class InstantiateCollection extends DocumentRepositoryUseCase {
         return response;
     }
 }
-
-export default InstantiateCollection;

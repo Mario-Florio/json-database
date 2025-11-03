@@ -1,4 +1,4 @@
-function implementsInterface(instance, InterfaceClass) {
+export default function implementsInterface(instance, InterfaceClass) {
     if (!instance || typeof instance !== 'object') {
         return false;
     }
@@ -40,5 +40,3 @@ function implementsInterface(instance, InterfaceClass) {
 
     return true;
 }
-
-export default implementsInterface;

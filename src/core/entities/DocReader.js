@@ -1,6 +1,6 @@
 import { isGenerator, must } from './imports.js';
 
-class DocReader {
+export default class DocReader {
     #gen;
     #transform;
     constructor(generator, transformFn = (doc) => doc) {
@@ -22,5 +22,3 @@ class DocReader {
         }
     }
 }
-
-export default DocReader;

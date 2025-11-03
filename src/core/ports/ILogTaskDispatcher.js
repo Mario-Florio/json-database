@@ -1,4 +1,4 @@
-class ILogTaskDispatcher {
+export default class ILogTaskDispatcher {
     static #logTasks = {};
     static get logTasks() {
         return ILogTaskDispatcher.#logTasks;
@@ -8,5 +8,3 @@ class ILogTaskDispatcher {
     }
     dispatch(logTask, operation, ...args) {}
 }
-
-export default ILogTaskDispatcher;

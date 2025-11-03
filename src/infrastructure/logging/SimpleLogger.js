@@ -1,6 +1,6 @@
 import prettyPrint from './__utils__/prettyPrint.js';
 
-class SimpleLogger {
+export default class SimpleLogger {
     #out;
     #pretty_print = true;
 
@@ -49,5 +49,3 @@ class LogEntry {
         }
     }
 }
-
-export default SimpleLogger;
