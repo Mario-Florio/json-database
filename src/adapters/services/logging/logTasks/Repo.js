@@ -1,7 +1,7 @@
 import LogTask from './LogTask.js';
 import { Operation } from '../imports.js';
 
-class Repo extends LogTask {
+export default class Repo extends LogTask {
     log(operation) {
         this.logger.info(this.#getMsg(operation), {
             operationId: operation.id,
@@ -28,5 +28,3 @@ class Repo extends LogTask {
         }
     }
 }
-
-export default Repo;

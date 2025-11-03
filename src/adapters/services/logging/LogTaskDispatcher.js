@@ -31,7 +31,7 @@ const filterPolicies = {
     test: [(logTask, operation) => true], // Don't log anything in test environment (return true for all events/operations)
 };
 
-class LogTaskDispatcher {
+export default class LogTaskDispatcher {
     static #logTasks = logTasks;
 
     static get logTasks() {
@@ -54,5 +54,3 @@ class LogTaskDispatcher {
         new logTask(logger).log(operation, ...args);
     }
 }
-
-export default LogTaskDispatcher;

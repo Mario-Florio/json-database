@@ -1,4 +1,4 @@
-class AbstractLogger {
+export default class AbstractLogger {
     #logger;
 
     constructor(logger) {
@@ -17,5 +17,3 @@ class AbstractLogger {
         this.#logger.error(message, meta);
     }
 }
-
-export default AbstractLogger;

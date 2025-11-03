@@ -9,7 +9,7 @@ const DB_HITS = {
     DELETE_DOCUMENT: 0,
 };
 
-class DbHits extends LogTask {
+export default class DbHits extends LogTask {
     log(operation) {
         const count = this.#incrementDbHit(operation);
         if (count !== null) {
@@ -58,5 +58,3 @@ class DbHits extends LogTask {
         }
     }
 }
-
-export default DbHits;

@@ -1,7 +1,7 @@
 import AbstractLogger from '../AbstractLogger.js';
 import { config, must } from '../imports.js';
 
-class LogTask {
+export default class LogTask {
     #logger = new AbstractLogger(config.LOGGER || console);
 
     get logger() {
@@ -16,5 +16,3 @@ class LogTask {
         this.#logger = logger || new AbstractLogger(config.LOGGER || console);
     }
 }
-
-export default LogTask;

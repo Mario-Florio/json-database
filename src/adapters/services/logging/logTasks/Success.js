@@ -1,7 +1,7 @@
 import LogTask from './LogTask.js';
 import { Operation } from '../imports.js';
 
-class Success extends LogTask {
+export default class Success extends LogTask {
     log(operation) {
         this.logger.info(this.#getMsg(operation), {
             operationId: operation.id,
@@ -29,5 +29,3 @@ class Success extends LogTask {
         }
     }
 }
-
-export default Success;

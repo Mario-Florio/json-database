@@ -1,7 +1,7 @@
 import LogTask from './LogTask.js';
 import { Operation } from '../imports.js';
 
-class Failure extends LogTask {
+export default class Failure extends LogTask {
     log(operation) {
         this.logger.warn(this.#getMsg(operation), {
             operationId: operation.id,
@@ -29,5 +29,3 @@ class Failure extends LogTask {
         }
     }
 }
-
-export default Failure;

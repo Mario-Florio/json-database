@@ -1,6 +1,6 @@
 import LogTask from './LogTask.js';
 
-class Err extends LogTask {
+export default class Err extends LogTask {
     log(operation, err) {
         this.logger.error(err.message, {
             operationType: operation.type,
@@ -10,5 +10,3 @@ class Err extends LogTask {
         });
     }
 }
-
-export default Err;

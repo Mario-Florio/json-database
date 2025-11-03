@@ -6,7 +6,7 @@ import { uphold } from '../../shared/contracts/contracts.js';
 
 const { REPO, DB_HITS } = LogTaskDispatcher.logTasks;
 
-class DocumentRepository {
+export default class DocumentRepository {
     #db;
 
     constructor(collectionName) {
@@ -73,5 +73,3 @@ class DocumentRepository {
         return result;
     }
 }
-
-export default DocumentRepository;
