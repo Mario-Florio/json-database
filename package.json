@@ -14,6 +14,7 @@
     "scripts": {
         "test": "jest",
         "test:watch": "jest --watch",
+        "test:coverage": "jest --coverage",
         "test:unit": "jest --testPathPatterns=__tests__/unit",
         "test:unit:setconfig": "jest --testPathPatterns=__tests__/unit/main/setConfig.test.js",
         "test:unit:doc": "jest --testPathPatterns=__tests__/unit/entities/Document.test.js",
