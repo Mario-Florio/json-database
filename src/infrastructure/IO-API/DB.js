@@ -1,6 +1,7 @@
-import IO_SERVICE from './IO-Service.js';
+import path from 'node:path';
+import DocReader from '../../core/entities/DocReader.js';
 import Result from '../../core/entities/Result.js';
-import config from '../../config.js';
+import IO_SERVICE from './IO-Service.js';
 import {
     DB_ALREADY_EXISTS,
     INSTANTIATION_SUCCESSFUL,
@@ -12,16 +13,14 @@ import {
     NO_ID,
     ITEM_NOT_FOUND,
 } from './response-tokens.js';
-import DocReader from '../../core/entities/DocReader.js';
+import config from '../../config.js';
 
-const dbPath = config.DBPATH;
-
-class DB {
+export default class DB {
     #dbFile;
     #IO_SERVICE;
 
     constructor(collectionName) {
-        this.#dbFile = dbPath + collectionName + '.ndjson';
+        this.#dbFile = path.join(config.DBPATH, collectionName + '.ndjson');
         this.#IO_SERVICE = IO_SERVICE;
     }
     async instantiate() {
@@ -103,5 +102,3 @@ class DB {
         this.#IO_SERVICE = stubIOService;
     }
 }
-
-export default DB;

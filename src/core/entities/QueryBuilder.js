@@ -1,4 +1,4 @@
-import { isObject, deepEqual } from './imports.js';
+import { deepEqual, isObject } from './imports.js';
 
 const operatorRegistry = {
     $eq: (a, b) => deepEqual(a, b),
@@ -6,7 +6,7 @@ const operatorRegistry = {
     $lt: (a, b) => a < b,
 };
 
-class QueryBuilder {
+export default class QueryBuilder {
     constructor(filter = {}) {
         this.filter = filter;
     }
@@ -36,5 +36,3 @@ function applyFilter(op, a, b) {
     if (!fn) throw new Error(`Unknown operator ${op}`);
     return fn(a, b);
 }
-
-export default QueryBuilder;

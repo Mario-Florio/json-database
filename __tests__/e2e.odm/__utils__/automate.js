@@ -1,9 +1,10 @@
-import { ODM, config, uid } from '../imports.js';
-import fs from 'fs';
+import fs from 'node:fs';
+import path from 'node:path';
+import { ODM, uid, config } from '../imports.js';
 
 const dbPath = config.DBPATH;
 const collectionName = 'db-test' + uid();
-const collectionDbPath = `${dbPath}${collectionName}.ndjson`;
+const collectionDbPath = path.join(dbPath, collectionName + '.ndjson');
 
 function setupSchema() {
     const Schema = ODM.Schema;

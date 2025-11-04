@@ -1,17 +1,10 @@
-import fs from 'fs';
-import {
-    Document,
-    Schema,
-    Result,
-    IO_SERVICE,
-    config,
-    deepEqual,
-    uid,
-} from '../import.js';
+import fs from 'node:fs';
+import path from 'node:path';
+import { Document, Result, Schema, deepEqual, uid, config } from '../import.js';
 
 const dbPath = config.DBPATH;
 const collectionName = 'e2e-test' + uid();
-const collectionDbPath = `${dbPath}${collectionName}.ndjson`;
+const collectionDbPath = path.join(dbPath, collectionName + '.ndjson');
 
 const types = [
     undefined,
@@ -94,6 +87,7 @@ function cleanDatabase() {
     }
 }
 
+// UTILS
 function parseNDJSON(json) {
     return json
         .split('\n')

@@ -7,5 +7,10 @@ module.exports = {
   moduleFileExtensions: ['js'],     // Only .js files
   verbose: true,                    // Show each test result
   bail: false,                      // Continue running all tests even if some fail
+  coveragePathIgnorePatterns: [
+    "/node_modules/",
+    "/__tests__/",
+    "/logging/",
+    "/contracts/"
+  ]
 };
-

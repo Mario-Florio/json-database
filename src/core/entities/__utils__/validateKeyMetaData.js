@@ -1,5 +1,5 @@
-import { isObject } from '../imports.js';
 import typeCheckMap from './typeCheckMap.js';
+import { isObject } from '../imports.js';
 
 const rules = {
     type: {
@@ -12,7 +12,7 @@ const rules = {
     },
 };
 
-function validateKeyMetaData(keyMetaData) {
+export default function validateKeyMetaData(keyMetaData) {
     validateShape(keyMetaData);
     for (const [key, metaData] of Object.entries(keyMetaData)) {
         validateMetaData(metaData);
@@ -47,5 +47,3 @@ function validateRequired(key, metaData) {
             throw new Error(`Missing required prop ${k} in field ${key}`);
     }
 }
-
-export default validateKeyMetaData;

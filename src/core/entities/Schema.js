@@ -1,10 +1,10 @@
-import validateKeyMetaData from './__utils__/validateKeyMetaData.js';
+import Document from './Document.js';
 import constKeys from './__utils__/constKeys.js';
 import typeCheckMap from './__utils__/typeCheckMap.js';
-import Document from './Document.js';
+import validateKeyMetaData from './__utils__/validateKeyMetaData.js';
 import { guarantee } from './imports.js';
 
-class Schema {
+export default class Schema {
     #virtuals;
     constructor(keyMetaData) {
         validateKeyMetaData(keyMetaData);
@@ -77,5 +77,3 @@ class Virtual {
         return this;
     }
 }
-
-export default Schema;

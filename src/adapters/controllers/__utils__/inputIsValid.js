@@ -2,7 +2,6 @@ import Schema from '../../../core/entities/Schema.js';
 import isObject from '../../../shared/__utils__/isObject.js';
 
 const strategyMap = {
-    collectionId: (val) => typeof val === 'string',
     _id: (val) => typeof val === 'string',
     schema: (val) => val instanceof Schema,
     data: (val) => isObject(val),

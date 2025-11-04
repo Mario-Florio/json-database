@@ -2,39 +2,40 @@
 
 - [Use Cases](#use-cases)
   - [`class DocumentRepoUseCase`](#class-documentrepousecase)
-    - [`new DocumentRepoUseCase(documentRepository)`](#new-documentrepousecasedocumentrepository)
+    - [`new DocumentRepoUseCase(documentRepository, logTaskDispatcher)`](#new-documentrepousecasedocumentrepository-logtaskdispatcher)
     - [`implementsInterface(instance, InterfaceClass)`](#implementsinterfaceinstance-interfaceclass)
   - [`class FindOneDocument extends DocumentRepoUseCase`](#class-findonedocument-extends-documentrepousecase)
-    - [`this.execute(paramObj)`](#thisexecuteparamobj)
+    - [`this.execute(operationObj)`](#thisexecuteoperationobj)
   - [`class FindDocuments extends DocumentRepoUseCase`](#class-finddocuments-extends-documentrepousecase)
-    - [`this.execute(paramObj)`](#thisexecuteparamobj-1)
+    - [`this.execute(operationObj)`](#thisexecuteoperationobj-1)
   - [`class SaveDocument extends DocumentRepoUseCase`](#class-savedocument-extends-documentrepousecase)
-    - [`this.execute(paramObj)`](#thisexecuteparamobj-2)
+    - [`this.execute(operationObj)`](#thisexecuteoperationobj-2)
   - [`class UpdateDocument extends DocumentRepoUseCase`](#class-updatedocument-extends-documentrepousecase)
-    - [`this.execute(paramObj)`](#thisexecuteparamobj-3)
+    - [`this.execute(operationObj)`](#thisexecuteoperationobj-3)
 
 ----
 
 ## `class DocumentRepoUseCase`
 
-### `new DocumentRepoUseCase(documentRepository)`
+### `new DocumentRepoUseCase(documentRepository, logTaskDispatcher)`
 
 **Description:**
 Base class for document repository use cases.
 
 **Inputs (Constraints / Preconditions):**
 
-- Implements `IDocumentRepository` interface
+- `documentRepository` implements `IDocumentRepository` interface
+- `logTaskDispatcher` implements `ILogTaskDispatcher` interface
 
 **Output (Postconditions):**
 
-- `this.#repo` is assigned to the provided `documentRepository` instance
-- `documentRepository` implements the `IDocumentRepository` interface
+- `this.#repo` is assigned the provided `documentRepository` instance
+- `this.#repo` implements the `IDocumentRepository` interface
+- `this.#logTaskDispatcher` is assigned the provided `logTaskDispatcher` instance
+- `this.#logTaskDispatcher` implements the `ILogTaskDispatcher` interface
 
 **Invariants (Maintained System Properties):**
-
-- `this.#repo` always implements `IDocumentRepository` interface
-- `this.#repo.read` always returns array of `Document`s
+None are explicitly maintained by this constructor.
 
 **Edge Cases:**
 None are determined.
@@ -69,14 +70,15 @@ None are explicitly maintained by this function.
 
 ## `class FindOneDocument extends DocumentRepoUseCase`
 
-### `this.execute(paramObj)`
+### `this.execute(operationObj)`
 
 **Description:**
 Filters out single `Document` from `DocumentRepository`.
 
 **Inputs (Constraints / Preconditions):**
-- `paramObj` is non-array object
-- `paramObj` contains props:
+- `operationObj` is instance of `Operation`
+- `operationObj.type` is `Operation.TYPES.GET_ONE_DOCUMENT`
+- `operationObj.payload` contains props:
     - `keys` — is non-array object
 - Input is trusted to have gone through basic validation at *controller*
 
@@ -96,14 +98,15 @@ None are determined.
 
 ## `class FindDocuments extends DocumentRepoUseCase`
 
-### `this.execute(paramObj)`
+### `this.execute(operationObj)`
 
 **Description:**
 Filters many `Document`s from `DocumentRepository`.
 
 **Inputs (Constraints / Preconditions):**
-- `paramObj` is non-array object
-- `paramObj` contains props:
+- `operationObj` is instance of `Operation`
+- `operationObj.type` is `Operation.TYPES.GET_ONE_DOCUMENT`
+- `operationObj.payload` contains props:
     - `keys` — is non-array object
 - Input is trusted to have gone through basic validation at *controller*
 
@@ -123,14 +126,15 @@ None are determined.
 
 ## `class SaveDocument extends DocumentRepoUseCase`
 
-### `this.execute(paramObj)`
+### `this.execute(operationObj)`
 
 **Description:**
 Determines that `Document` is a valid representation of `Schema` prior to saving.
 
 **Inputs (Constraints / Preconditions):**
-- `paramObj` is non-array object
-- `paramObj` contains props:
+- `operationObj` is instance of `Operation`
+- `operationObj.type` is `Operation.TYPES.GET_ONE_DOCUMENT`
+- `operationObj.payload` contains props:
     - `schema` — is instance of `Schema`
     - `data` — is non-array object
 - Input is trusted to have gone through basic validation at *controller*
@@ -150,15 +154,16 @@ None are determined.
 
 ## `class UpdateDocument extends DocumentRepoUseCase`
 
-### `this.execute(paramObj)`
+### `this.execute(operationObj)`
 
 **Description:**
 - Merges `updatedKeys` with `Document`
 - Determines that `Document` is a valid representation of `Schema` prior to updating.
 
 **Inputs (Constraints / Preconditions):**
-- `paramObj` is non-array object
-- `paramObj` contains props:
+- `operationObj` is instance of `Operation`
+- `operationObj.type` is `Operation.TYPES.GET_ONE_DOCUMENT`
+- `operationObj.payload` contains props:
     - `schema` — is instance of `Schema`
     - `_id` — is type string
     - `data` — is non-array object

@@ -1,16 +1,18 @@
+import path from 'node:path';
+import fs from 'node:fs';
 import {
-    DocumentRepository,
     Document,
+    Operation,
     Result,
-    config,
+    DocumentRepository,
     deepEqual,
     uid,
+    config,
 } from '../imports.js';
-import fs from 'fs';
 
 const dbPath = config.DBPATH;
 const collectionName = 'docrepo-db-test' + uid();
-const collectionDbPath = `${dbPath}${collectionName}.ndjson`;
+const collectionDbPath = path.join(dbPath, collectionName + '.ndjson');
 
 function getDocRepo() {
     const docRepo = new DocumentRepository(collectionName);
@@ -21,11 +23,20 @@ function getDoc(data) {
     return new Document(data);
 }
 
+function getOperationObj(type, payload = {}) {
+    return new Operation({
+        type,
+        collectionId: collectionName,
+        payload,
+    });
+}
+
 async function getTargetDoc(
     docRepo,
     options = { index: { isTrue: false, value: new Number() } },
 ) {
-    const response = await docRepo.read();
+    const operationObj = getOperationObj(Operation.types.GET_DOCUMENTS);
+    const response = await docRepo.read(operationObj);
 
     const documents = [];
     for await (const doc of response.gen) documents.push(doc);
@@ -49,16 +60,25 @@ async function getTargetDoc(
 async function getAndSetupDocRepo(
     options = { fill: { isTrue: false, amount: 10 } },
 ) {
+    const operationObj = getOperationObj(
+        Operation.types.INSTANTIATE_COLLECTION,
+        {},
+    );
     const docRepo = getDocRepo();
-    await docRepo.instantiate();
+    await docRepo.instantiate(operationObj);
     if (options.fill.isTrue) await fillDocRepo(docRepo, options.fill.amount);
     return docRepo;
 }
 
 async function fillDocRepo(docRepo, amount = 10) {
     for (let i = 0; i < amount; i++) {
-        const doc = getDoc({ prop: `item ${i + 1}` });
-        await docRepo.create(doc);
+        const document = getDoc({ prop: `item ${i + 1}` });
+
+        const operationObj = getOperationObj(Operation.types.CREATE_DOCUMENT, {
+            document,
+        });
+
+        await docRepo.create(operationObj);
     }
 }
 
@@ -104,6 +124,7 @@ function parseNDJSON(json) {
 export {
     getDocRepo,
     getDoc,
+    getOperationObj,
     getTargetDoc,
     getAndSetupDocRepo,
     fillDocRepo,

@@ -1,6 +1,6 @@
-import { uphold, isGenerator } from './imports.js';
+import { isGenerator, uphold } from './imports.js';
 
-class Result {
+export default class Result {
     constructor(paramObj) {
         this.message = paramObj.message;
         this.success = paramObj.success;
@@ -26,5 +26,3 @@ class Result {
         return this;
     }
 }
-
-export default Result;
